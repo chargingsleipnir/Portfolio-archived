@@ -5,9 +5,13 @@
  * Time: 5:50 PM
  */
 
+// Define all cross-page variable
+session_start();
+
+include 'resourcePaths.php';
+
+session_write_close();
+
 $title = "OvD";
-$content = "Now I've almost got it...";
-
-include 'template.php';
-
+include 'page_Landing.php';
 ?>

@@ -3,41 +3,28 @@
  * Created by Odin
  * Date: 2015-02-26
  * Time: 10:59 PM
+ * Purpose: A template for most common pages, so they can by dynamically generated
  */
+
+session_start();
 ?>
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title><?php echo $title; ?></title>
-    <link rel="stylesheet" type="text/css" href="styleSheets/styles.css" />
-</head>
+<?php include 'header.php'; ?>
 <body>
-    <div class="wrapper">
-        <div class="banner">
-            <button class="homeLogo"><img src="images/logo.png"></button>
-        </div>
+    <?php include 'titleBanner.php'; ?>
+    <?php include 'navigation.php'; ?>
 
-        <div class="navbarHorizontal">
-            <ul class="list">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Page2</a></li>
-                <li><a href="#">Page3</a></li>
-                <li><a href="#">Page4</a></li>
-            </ul>
-        </div>
-
-        <div class="content">
-            <?php echo $content; ?>
-            <button>Play Tornadoom</button>
-        </div>
-
-        <div class="sidebar">
-
-        </div>
+    <div class="content">
+        <?php echo $content; ?>
+        <button>Play Tornadoom</button>
     </div>
+
 </body>
-<footer>
-    <p>Odin von Doom</p>
-</footer>
+<?php include 'footer.php'; ?>
 </html>
+
+<?php
+session_write_close();
+?>
