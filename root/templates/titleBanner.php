@@ -7,7 +7,7 @@
 ?>
 
 <div id="titleBanner">
-    <img src="<?php echo $_SESSION['images']['logo']; ?>">
+    <?php echo $navLinks['landing']; ?>
     <br>
     Odin von Doom
 </div>
