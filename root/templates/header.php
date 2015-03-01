@@ -11,5 +11,7 @@
     <?php
     echo $gblStylesheet;
     echo $templateStylesheet;
+    if($pgStyleSheet)
+        echo $pgStyleSheet;
     ?>
 </head>

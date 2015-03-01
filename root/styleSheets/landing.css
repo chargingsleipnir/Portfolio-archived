@@ -3,14 +3,7 @@ nav {
     display: inline-block;
     width: 400px;
 }
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-nav li {
 
-}
 nav a:link, nav a:active, nav a:visited {
     display: inline-block;
     width: 100px;

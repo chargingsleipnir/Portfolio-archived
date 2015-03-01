@@ -8,7 +8,6 @@
  */
 
 $title = "Contact OvD";
-$content = "Keep in touch";
 
 require '../globals.php';
 require '../templates/templateData.php';
@@ -24,7 +23,11 @@ require '../templates/navigation.php';
 ?>
 
 <div class="content">
-    <?php echo $content; ?>
+    <h3>Reach out anytime!</h3>
+    <ul>
+        <li>Phone: 647-459-9094</li>
+        <li>Email: devinodin@gmail.com</li>
+    </ul>
 </div>
 
 </body>

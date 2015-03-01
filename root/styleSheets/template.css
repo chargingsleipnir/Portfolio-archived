@@ -1,16 +1,8 @@
-﻿/* NAVIGATION  */
+﻿/* NAVIGATION */
 nav {
     float: left;
     position: fixed;
     /*border: solid 2px #ffffff;*/
-}
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-nav li {
-
 }
 nav a:link, nav a:active, nav a:visited {
     display: inline-block;
@@ -31,14 +23,39 @@ nav a:hover {
 }
 /*-----------------*/
 
+/* CONTENT PANE */
 .content {
     display: inline-block;
+    text-align: left;
     background-color: #666666;
+    color: aliceblue;
     width: 1000px;
     height: 1000px;
     margin: 0 auto 50px auto;
     padding: 10px;
+    font-size: 20px;
 }
+
+.standoutLink:link, .standoutLink:active, .standoutLink:visited {
+    color: white;
+    border: 4px double darkorange;
+    padding: 10px;
+    text-decoration: none;
+    text-shadow: 0.1em 0.1em #333;
+}
+.standoutLink:hover {
+    color: darkorange;
+    border-color: #ffffff;
+}
+
+.inlineLink:link, .inlineLink:active, .inlineLink:visited {
+    color: wheat;
+    text-shadow: 0.1em 0.1em #333;
+}
+.inlineLink:hover {
+    color: darkorange;
+}
+/*-----------------*/
 
 footer {
     background-color: #666666;
@@ -51,8 +68,4 @@ footer {
     /*background-image: url(../images/image.png);
     background-repeat: no-repeat;
     background-size: cover;*/
-}
-
-.homeLogo {
-    margin: 0 auto;
 }

@@ -5,6 +5,12 @@ body {
     font-family: lucida grande, tahoma, verdana, arial, sans-serif;
 }
 
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
 #titleBanner {
     width: auto;
     margin-bottom: 50px;

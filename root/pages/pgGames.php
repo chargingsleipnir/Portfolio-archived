@@ -8,7 +8,7 @@
  */
 
 $title = "Games made by OvD";
-$content = "Check'em out";
+$pgStyleSheet = '<link rel="stylesheet" type="text/css" href="../styleSheets/pgGames.css">';
 
 require '../globals.php';
 require '../templates/templateData.php';
@@ -22,9 +22,19 @@ require '../templates/templateData.php';
 require '../templates/titleBanner.php';
 require '../templates/navigation.php';
 ?>
-
 <div class="content">
-    <?php echo $content; ?>
+    <h3>Tornadoom (Coming Soon!!)</h3>
+    Click to load game
+    <canvas id="canvasWebGL" onmousedown="CanvasMouseDown()" onmouseup="CanvasMouseUp()" width="800" height="800"></canvas>
+    <script>
+        var canvas = document.getElementById("canvasWebGL");
+        function CanvasMouseDown() {
+            canvas.style.backgroundColor = "wheat";
+        }
+        function CanvasMouseUp() {
+            canvas.style.backgroundColor = "white";
+        }
+    </script>
 </div>
 
 </body>
