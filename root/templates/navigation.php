@@ -4,12 +4,17 @@
  * Date: 2015-02-28
  * Time: 12:43 PM
  */
+
+
 ?>
 
 <nav>
     <ul>
-        <li><?php echo $navLinks['about']; ?></li>
-        <li><?php echo $navLinks['games']; ?></li>
-        <li><?php echo $navLinks['contact']; ?></li>
+        <?php foreach ($pages as $pageId): ?>
+        <li>
+            <a <?=(($_GET['pg'] == $pageId) ? 'class="current"' : '')?>
+                href="?pg=<?=$pageId?>"><?=$pageId?></a>
+        </li>
+        <?php endforeach;?>
     </ul>
 </nav>

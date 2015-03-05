@@ -8,23 +8,23 @@
  */
 
 $title = "About OvD";
-$pgStyleSheet = '<link rel="stylesheet" type="text/css" href="../styleSheets/pgAbout.css">';
+$pgStyleSheet = '<link rel="stylesheet" type="text/css" href="styleSheets/pgAbout.css">';
 
-require '../globals.php';
-require '../templates/templateData.php';
+require 'globals.php';
+require 'templates/templateData.php';
 ?>
 
 <!DOCTYPE html>
 <html>
-<?php require '../templates/header.php'; ?>
+<?php require 'templates/header.php'; ?>
 <body>
 <?php
-require '../templates/titleBanner.php';
-require '../templates/navigation.php';
+require 'templates/titleBanner.php';
+require 'templates/navigation.php';
 ?>
 
 <div class="content">
-    <a class="standoutLink" id="resumeDownload" href="../downloads/GeneralResume.pdf">Resume</a>
+    <a class="standoutLink" id="resumeDownload" href="downloads/GeneralResume.pdf">Resume</a>
     <h3>My career history in a nutshell:</h3>
 
     <p>Emergency Service worker => Game Developer.</p>
@@ -45,5 +45,5 @@ require '../templates/navigation.php';
 </div>
 
 </body>
-<?php require '../templates/footer.php'; ?>
+<?php require 'templates/footer.php'; ?>
 </html>

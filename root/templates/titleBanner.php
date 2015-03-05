@@ -7,7 +7,7 @@
 ?>
 
 <div id="titleBanner">
-    <?php echo $navLinks['landing']; ?>
+    <a href="?pg=Landing"><img src="images/logo.png"></a>
     <br>
     Odin von Doom
 </div>

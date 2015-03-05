@@ -17,7 +17,7 @@ nav a:link, nav a:active, nav a:visited {
     text-shadow: 0.1em 0.1em #333;
     font-size: 16px;
 }
-nav a:hover {
+nav a:hover, nav a.current {
     color: darkorange;
     border-color: white;
 }
@@ -30,10 +30,15 @@ nav a:hover {
     background-color: #666666;
     color: aliceblue;
     width: 1000px;
-    height: 1000px;
+    min-height: 1000px;
     margin: 0 auto 50px auto;
     padding: 10px;
     font-size: 20px;
+}
+.content ul {
+    list-style: square;
+    padding-left: 35px;
+    font-size: 15px;
 }
 
 .standoutLink:link, .standoutLink:active, .standoutLink:visited {

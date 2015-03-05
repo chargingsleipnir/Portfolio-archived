@@ -5,13 +5,8 @@
  * Time: 9:42 AM
  */
 
-$gblStylesheet = '<link rel="stylesheet" type="text/css" href="../styleSheets/global.css">';
+$gblStylesheet = '<link rel="stylesheet" type="text/css" href="styleSheets/global.css">';
 
-$navLinks = array(
-    'landing' => '<a href="pgLanding.php"><img src="../images/logo.png"></a>',
-    'about' => '<a href="pgAbout.php">About</a>',
-    'games' => '<a href="pgGames.php">Games</a>',
-    'contact' => '<a href="pgContact.php">Contact</a>'
-);
-
+// These must be the exact names of the .php pages
+$pages = array('About', 'Games', 'Contact');
 ?>
