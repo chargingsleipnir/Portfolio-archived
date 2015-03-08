@@ -19,7 +19,10 @@ require 'globals.php';
     <link rel="stylesheet" type="text/css" href="styleSheets/landing.css"/>
 </head>
 <body>
-    <?php require 'templates/titleBanner.php'; ?>
+    <div id="logoBlock">
+        <a href="<?=$pageLanding?>"><img width="128px" height="128px" src="<?=$images['logo']?>"></a>
+        <br> Odin von Doom
+    </div>
     <nav>
         <ul>
             <?php for($i = 0; $i < sizeof($pages); $i+=2 ) {?>

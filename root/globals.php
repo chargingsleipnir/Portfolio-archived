@@ -8,5 +8,11 @@
 $gblStylesheet = '<link rel="stylesheet" type="text/css" href="styleSheets/global.css">';
 
 // These must be the exact names of the .php pages
-$pages = array('About', 'Games', 'Contact');
+$pages = ['About', 'Games', 'Contact'];
+$pageLanding = '?pg=Landing';
+
+$images = [
+    'logo' => 'images/logo.png',
+    'landingBG' => 'images/valknut3.png'
+];
 ?>

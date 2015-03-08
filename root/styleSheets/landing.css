@@ -1,3 +1,15 @@
+body {
+    background-image: url("../images/valknut3.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#logoBlock {
+    color: #ffffff;
+    display: block;
+    margin: 50px 0;
+}
+
 /* NAVIGATION  */
 nav {
     display: inline-block;

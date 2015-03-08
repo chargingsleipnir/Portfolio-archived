@@ -7,7 +7,11 @@
 ?>
 
 <div id="titleBanner">
-    <a href="?pg=Landing"><img src="images/logo.png"></a>
-    <br>
-    Odin von Doom
+    <div class="widthControl">
+        <div id="logoBlock">
+            <a href="<?=$pageLanding?>"><img width="50px" height="50px" src="<?=$images['logo']?>"></a>
+        <br> Odin von Doom
+        </div>
+        <?php require 'templates/navigation.php'; ?>
+    </div>
 </div>

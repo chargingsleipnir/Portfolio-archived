@@ -17,17 +17,12 @@ require 'templates/templateData.php';
 <html>
 <?php require 'templates/header.php'; ?>
 <body>
-<?php
-require 'templates/titleBanner.php';
-require 'templates/navigation.php';
-?>
-
-<div class="content">
-    <h3>Reach out anytime!</h3>
-    Phone: 647-459-9094<br>
-    Email: devinodin@gmail.com
-</div>
-
+    <?php require 'templates/titleBanner.php'; ?>
+    <div class="content widthControl">
+        <h3>Reach out anytime!</h3>
+        Phone: 647-459-9094<br>
+        Email: devinodin@gmail.com
+    </div>
 </body>
 <?php require 'templates/footer.php'; ?>
 </html>

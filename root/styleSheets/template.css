@@ -1,21 +1,43 @@
-﻿/* NAVIGATION */
-nav {
+﻿.widthControl {
+    max-width: 1000px;
+    margin: 0 auto;
+    overflow: auto;
+}
+#titleBanner {
+    width: auto;
+    margin-bottom: 50px;
+    padding: 10px 0;
+    background-color: black;
+    color: white;
+    text-shadow: 0.1em 0.1em #333;
+}
+#titleBanner #logoBlock {
     float: left;
-    position: fixed;
-    /*border: solid 2px #ffffff;*/
+}
+#titleBanner img {
+    margin: 0 auto;
+}
+
+/* NAVIGATION */
+nav {
+    height: 100%;
+}
+nav ul li {
+    float: left;
 }
 nav a:link, nav a:active, nav a:visited {
+
     display: inline-block;
-    width: 70px;
-    height: 70px;
-    margin: 20px;
+    width: 60px;
+    height: 60px;
+    margin-left: 20px;
     color: white;
     border-radius: 66px;
     border: 4px double darkorange;
-    line-height: 70px;
+    line-height: 60px;
     text-decoration: none;
     text-shadow: 0.1em 0.1em #333;
-    font-size: 16px;
+    font-size: 14px;
 }
 nav a:hover, nav a.current {
     color: darkorange;
@@ -26,10 +48,10 @@ nav a:hover, nav a.current {
 /* CONTENT PANE */
 .content {
     display: inline-block;
-    text-align: left;
     background-color: #666666;
+    text-align: left;
     color: aliceblue;
-    width: 1000px;
+    width: 100%;
     min-height: 1000px;
     margin: 0 auto 50px auto;
     padding: 10px;
@@ -67,6 +89,7 @@ footer {
     width: auto;
     height: 40px;
     padding: 15px;
+    margin-top: 15px;
     font-size: 14pt;
     color: #fff;
     text-shadow: 0.1em 0.1em #333;
