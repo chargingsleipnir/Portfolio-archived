@@ -16,26 +16,26 @@ require 'templates/templateData.php';
 
 <!DOCTYPE html>
 <html>
-<?php require 'templates/header.php'; ?>
+<head>
+    <title><?php echo $title; ?></title>
+    <?php
+    echo $gblStylesheet;
+    echo $templateStylesheet;
+    if(isset($pgStyleSheet))
+        echo $pgStyleSheet;
+    require 'games/engineIncludes.php';
+    require 'games/tornadoomIncludes.php';
+    ?>
+</head>
 <body>
     <?php require 'templates/titleBanner.php'; ?>
     <div id="gameChangeLinks">
-
     </div>
     <div class="content widthControl">
         <div id="gamePlaySpace">
-            <h3>Tornadoom (Coming Soon!!)</h3>
-            Click to load game
-            <canvas id="canvasWebGL" onmousedown="CanvasMouseDown()" onmouseup="CanvasMouseUp()" width="800" height="800"></canvas>
-            <script>
-                var canvas = document.getElementById("canvasWebGL");
-                function CanvasMouseDown() {
-                    canvas.style.backgroundColor = "wheat";
-                }
-                function CanvasMouseUp() {
-                    canvas.style.backgroundColor = "white";
-                }
-            </script>
+            <h3>Tornadoom</h3>
+            Click to load game (will take several seconds)
+            <canvas id="canvasWebGL" onmouseup="EL.PreLoad(Initialize)" width="800" height="800"></canvas>
         </div>
         <p>
             <strong>About the Engine:</strong><br>

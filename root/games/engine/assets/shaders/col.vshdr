@@ -1,0 +1,13 @@
+attribute vec3 a_Pos;
+attribute vec3 a_Col;
+
+uniform mat4 u_MtxMVP;
+
+varying vec3 v_Col;
+
+void main()
+{
+	gl_PointSize = 4.0;
+	gl_Position = u_MtxMVP * vec4(a_Pos, 1.0);
+	v_Col = a_Col;
+}
