@@ -70,6 +70,8 @@ function BuildLvl02(scene, player, barn, cows, haybales, hud, nextBtn, lvlCompMs
                     hud.guiTextObjs["rescueInfo"].UpdateMsg("" + GameUtils.GetCowsSaved());
                 }
         }
+        else if(collider.gameObj.name == "probe") {
+        }
         else {
             if(collider.suppShapeList[0].obj.IntersectsSphere(barn.obj.collider.collSphere)) {
                 collider.rigidBody.velF = collider.trfm.pos.GetSubtract(barn.obj.trfmGlobal.pos);
