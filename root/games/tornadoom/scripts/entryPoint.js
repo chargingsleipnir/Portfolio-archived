@@ -6,7 +6,7 @@
  * This function must be called by
  * the body's onload function within
  * EL.PreLoad(). */
-function Initialize() {
+function Initialize(Callback) {
 
     var textureNamesFilepaths = [
         ['title', 'games/tornadoom/assets/images/title.png'],
@@ -65,5 +65,5 @@ function Initialize() {
 
     // Initialize the Game Manager, passing the canvas to do much of the startup
     GameMngr.Initialize(document.getElementById('canvasWebGL'));
-    GameMngr.LoadExternal(textureNamesFilepaths, modelNamesFilepaths, audioNamesFilepaths, BuildGame);
+    GameMngr.LoadExternal(textureNamesFilepaths, modelNamesFilepaths, audioNamesFilepaths, Callback);
 }

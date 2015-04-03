@@ -34,8 +34,37 @@ require 'templates/templateData.php';
     <div class="content widthControl">
         <div id="gamePlaySpace">
             <h3>Tornadoom</h3>
-            Click to load game (will take several seconds)
-            <canvas id="canvasWebGL" onmouseup="EL.PreLoad(Initialize)" width="800" height="800"></canvas>
+            <div id="canvasContainer">
+                <img id="tornadoomTitlePreloaded" src="<?=$images['tornadoomPreload']?>" width="800" height="800">
+                <canvas id="canvas2D" width="800" height="800"></canvas>
+                <canvas id="canvasWebGL" onmouseup="RunLoadScreen()" width="800" height="800"></canvas>
+                <script>
+                    var ctx2D = document.getElementById('canvas2D').getContext("2d");
+                    function ShowTornadoomTitle() {
+                        ctx2D.font = "40px Arial";
+                        ctx2D.fillStyle = "#FFFFFF";
+                        ctx2D.fillText("Click to load", 500, 650);
+                    }
+                    function StartGame() {
+                        ctx2D.fillRect(0, 0, 800, 800);
+                        BuildGame();
+                    }
+                    function NextLoading() {
+                        // Game Initialization in entryPoint.js
+                        Initialize(StartGame);
+                    }
+                    // Show loading animation components
+                    function RunLoadScreen() {
+                        document.getElementById('canvasWebGL').removeAttribute("onmouseup");
+                        ctx2D.clearRect(0, 0, 800, 800);
+                        ctx2D.fillText("Loading...", 500, 650);
+
+                        EL.PreLoad(NextLoading);
+                    }
+
+                    ShowTornadoomTitle();
+                </script>
+            </div>
         </div>
         <p>
             <strong>About the Engine:</strong><br>
@@ -45,7 +74,7 @@ require 'templates/templateData.php';
         <ul>
             <li>JSON model imports (Python export script made for Blender)</li>
             <li>GUI system (built-in, not HTML overlay)</li>
-            <li>Paritcles</li>
+            <li>Particles</li>
             <li>Various lighting options</li>
             <li>Flexible key & mouse input system</li>
             <li>Scene management</li>

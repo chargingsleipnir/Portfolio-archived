@@ -8,15 +8,12 @@ var EL = {
     },
     PreLoad: function (Callback) {
         console.log("ENGINE STARTUP");
-        document.getElementById('canvasWebGL').removeAttribute("onmouseup");
 
         /********* Load other components *********/
-
         function InitEngineComponents() {
 
             // The font map is not dynamic - very specific to spritesheet I made.
             FontMap.Initialize();
-
             Callback();
         }
 

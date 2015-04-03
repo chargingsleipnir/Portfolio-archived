@@ -13,6 +13,7 @@ $pageLanding = '?pg=Landing';
 
 $images = [
     'logo' => 'images/logo.png',
-    'landingBG' => 'images/valknut3.png'
+    'landingBG' => 'images/valknut3.png',
+    'tornadoomPreload' => 'images/tornadoomTitlePreloaded.png'
 ];
 ?>

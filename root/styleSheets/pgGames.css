@@ -1,9 +1,25 @@
 
-canvas {
+h3 {
+    text-align: center;
+}
+
+#canvasContainer {
     display: block;
     margin: 0 auto;
     margin-top: 50px;
+    width: 800px;
+    height: 800px;
     border: 1px solid black;
-    background-color: white;
-    z-index: -1;
 }
+    #tornadoomTitlePreloaded {
+        position: absolute;
+        z-index: 0;
+    }
+    #canvas2D {
+        position: absolute;
+        z-index: 1;
+    }
+    #canvasWebGL {
+        position: absolute;
+        z-index: 2;
+    }
