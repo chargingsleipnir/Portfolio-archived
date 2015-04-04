@@ -12,7 +12,12 @@ function Initialize(Callback) {
         ['title', 'games/tornadoom/assets/images/title.png'],
         ['endWin', 'games/tornadoom/assets/images/barn6Sized.png'],
         ['endLose', 'games/tornadoom/assets/images/ufo5Sized.png'],
-        ['skyTex', 'games/tornadoom/assets/images/sky.jpg'],
+        ['skyTexXPos', 'games/tornadoom/assets/images/skyTexXPosInv.png'],
+        ['skyTexXNeg', 'games/tornadoom/assets/images/skyTexXNegInv.png'],
+        ['skyTexYPos', 'games/tornadoom/assets/images/skyTexYPos.png'],
+        ['skyTexYNeg', 'games/tornadoom/assets/images/skyTexYNeg.png'],
+        ['skyTexZPos', 'games/tornadoom/assets/images/skyTexZPosInv.png'],
+        ['skyTexZNeg', 'games/tornadoom/assets/images/skyTexZNegInv.png'],
         ['funnelTex', 'games/tornadoom/assets/images/tornadoFunnel.jpg'],
         ['dustPtcl', 'games/tornadoom/assets/images/smokeParticle2.png'],
         ['starPtcl', 'games/tornadoom/assets/images/star.png'],
@@ -29,14 +34,7 @@ function Initialize(Callback) {
         ['crosshair', 'games/tornadoom/assets/images/crosshair.png'],
         ['switchUnlit', 'games/tornadoom/assets/images/buttonUnlit64.png'],
         ['switchLit', 'games/tornadoom/assets/images/buttonLit64.png'],
-        ['cowBorderEnter', 'games/tornadoom/assets/images/cowBorderEnter.png'],
-
-        ['redFace', 'games/tornadoom/assets/images/red.jpg'],
-        ['orangeFace', 'games/tornadoom/assets/images/orange.jpg'],
-        ['yellowFace', 'games/tornadoom/assets/images/yellow.jpg'],
-        ['greenFace', 'games/tornadoom/assets/images/green.jpg'],
-        ['blueFace', 'games/tornadoom/assets/images/blue.jpg'],
-        ['purpleFace', 'games/tornadoom/assets/images/purple.jpg']
+        ['cowBorderEnter', 'games/tornadoom/assets/images/cowBorderEnter.png']
     ];
     var modelNamesFilepaths = [
         ['playerTornado', 'games/tornadoom/assets/models/GameObjects_Funnel01.json'],

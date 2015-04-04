@@ -214,9 +214,10 @@
 
         //this.ctx.bindTexture(this.ctx.TEXTURE_CUBE_MAP, texCubeID);
         this.ctx.pixelStorei(this.ctx.UNPACK_FLIP_Y_WEBGL, true);
-        for(var i = 0; i < 6; i++)
+        for(var i = 0; i < 6; i++) {
             //this.ctx.texImage2D(faces[i], 0, this.ctx.RGBA, this.ctx.RGBA, this.ctx.UNSIGNED_BYTE, null);
             this.ctx.texImage2D(faces[i], 0, this.ctx.RGBA, this.ctx.RGBA, this.ctx.UNSIGNED_BYTE, faceTextures[i]);
+        }
 
         this.ctx.bindTexture(this.ctx.TEXTURE_CUBE_MAP, null);
         return texCubeID;
@@ -365,7 +366,6 @@
                         this.ctx.uniform1f(shdr.u_PntBright, light.pnt.bright);
                         this.ctx.uniform3fv(shdr.u_PntPos, light.pnt.pos.GetData());
                         this.ctx.uniform3fv(shdr.u_CamPos, ViewMngr.activeCam.posGbl.GetData());
-
 
                         /* If there's lighting, than the model and view-proj matrices
                          * are sent up independently. The lighting calculations require

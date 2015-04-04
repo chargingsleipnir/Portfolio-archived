@@ -45,6 +45,10 @@ ModelHandler.prototype = {
     SetTexture: function(texture, texFilter) {
         this.bufferData.texID = GL.CreateTextureObject(texture, texFilter);
     },
+    SetCubeTextures: function(cubeTextures) {
+        this.bufferData.texCubeID = GL.CreateTextureCube(cubeTextures);
+    },
+    /*
     SetReflectionCams: function(cams) {
         this.reflCamsMatrices = [];
         for(var i = 0; i < 6; i++) {
@@ -65,6 +69,7 @@ ModelHandler.prototype = {
         ];
         this.bufferData.texCubeID = GL.CreateTextureCube(cubeTextures);
     },
+    */
     MakeWireFrame: function() {
         // Change draw type
         this.drawMethod = GL.GetDrawMethod(DrawMethods.lines);

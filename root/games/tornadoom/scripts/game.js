@@ -91,10 +91,21 @@ function BuildGame() {
     ground.SetModel(GameMngr.assets.models['ground']);
     ground.mdlHdlr.SetTexture(GameMngr.assets.textures['groundTex'], TextureFilters.mipmap);
 
-    var skyBox = new GameObject('skybox', Labels.none);
-    skyBox.SetModel(new Primitives.IcoSphere(2, 1));
-    skyBox.mdlHdlr.SetTexture(GameMngr.assets.textures['skyTex'], TextureFilters.nearest);
+    var skyBoxTextures = [
+        GameMngr.assets.textures['skyTexXPos'],
+        GameMngr.assets.textures['skyTexXNeg'],
+        GameMngr.assets.textures['skyTexYPos'],
+        GameMngr.assets.textures['skyTexYNeg'],
+        GameMngr.assets.textures['skyTexZPos'],
+        GameMngr.assets.textures['skyTexZNeg']
+    ];
+    var skyBox = new GameObject('skyBox', Labels.none);
+    var skyBoxModel = new Primitives.Cube(new Vector3(1.0, 1.0, 1.0), false);
+    skyBoxModel.SetForCubeTexturing();
+    skyBox.SetModel(skyBoxModel);
+    skyBox.mdlHdlr.SetCubeTextures(skyBoxTextures);
     skyBox.trfmBase.SetScaleAxes(150.0, 150.0, 150.0);
+
 
     var cows = [];
     var MAX_COWS = 10;
@@ -188,8 +199,6 @@ function BuildGame() {
 
     /********************************** Game Functions **********************************/
 
-    var angle = 0.00;
-
     function GameUpdate() {
         if (SceneMngr.GetActiveScene().type == SceneTypes.gameplay) {
 
@@ -197,11 +206,6 @@ function BuildGame() {
             if (menuBtn.pressed) {
                 inGameMenu.ToggleActive();
                 menuBtn.Release();
-            }
-
-            if (!GameMngr.paused) {
-                angle += 0.01;
-                skyBox.trfmBase.SetUpdatedRot(VEC3_FWD, angle);
             }
         }
     }

@@ -929,7 +929,34 @@ var Primitives = {
                     normAxes: []
                 }
             },
-            drawMethod: DrawMethods.triangles
+            drawMethod: DrawMethods.triangles,
+            SetForCubeTexturing: function() {
+                this.materials = [
+                    {
+                        name: "generic",
+                        alpha: 1.0,
+                        darkness: 1.0,
+                        shading: {
+                            ambient: 0.0,
+                            emit: 0.0,
+                            translucency: 0.0
+                        },
+                        mirr: {
+                            refl: 1.0,
+                            dist: 1.0,
+                            col: [0.0, 0.0, 0.0]
+                        },
+                        diff: {
+                            colWeight: [1.0, 1.0, 1.0]
+                        },
+                        spec: {
+                            int: 0.0,
+                            hard: 0.0,
+                            col: [0.0, 0.0, 0.0]
+                        }
+                    }
+                ];
+            }
         };
     },
     WireCube: function (radii) {
@@ -1152,6 +1179,34 @@ var Primitives = {
                     texCoords: [],
                     normAxes: []
                 }
+            },
+            SetForCubeTexturing: function() {
+                this.materials = [
+                    {
+                        name: "generic",
+                        alpha: 1.0,
+                        darkness: 1.0,
+                        shading: {
+                            ambient: 0.0,
+                            emit: 0.0,
+                            translucency: 0.0
+                        },
+                        mirr: {
+                            refl: 1.0,
+                            dist: 1.0,
+                            col: [0.0, 0.0, 0.0]
+                        },
+                        diff: {
+                            colWeight: [1.0, 1.0, 1.0]
+                        },
+                        spec: {
+                            int: 0.0,
+                            hard: 0.0,
+                            col: [0.0, 0.0, 0.0]
+                        }
+                    }
+                ];
+                this.vertices.byMesh.texCoords = [];
             }
         };
     },

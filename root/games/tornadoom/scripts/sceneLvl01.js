@@ -6,7 +6,7 @@ function BuildLvl01(scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
 
     scene.light.amb.bright = 0.5;
     scene.light.dir.bright = 0.25;
-    scene.light.dir.dir.SetValues(1.0, -1.0, -1.0);
+    scene.light.dir.dir.SetValues(-1.0, -1.0, 1.0);
     scene.light.pnt.bright = 0.0;
     scene.light.pnt.pos.SetValues(0.0, 0.0, 0.0);
 

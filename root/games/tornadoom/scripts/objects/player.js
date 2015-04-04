@@ -40,7 +40,7 @@ function Player() {
     var windspeed = 10.0;
     var massDensity = 4.82;    // 1.205; Normal for air?
 
-    var contactScale = 2.5;
+    var contactScale = 2.0;
     var drawScale = 1.05;
     var maxForceMagSqr = 750.0 * 750.0;
     this.captureRadius = 0.75;
