@@ -41,6 +41,7 @@ function BuildGame() {
     // Player ------------------------------------------------------------------
     var player = new Player();
     GameUtils.RaiseToGroundLevel(player.obj);
+
     function PlayerCollCallback(collider) {
         if (collider.gameObj.label == Labels.ammo) {
             var objToEyeVec = new Vector2(player.obj.trfmGlobal.pos.x - collider.trfm.pos.x, player.obj.trfmGlobal.pos.z - collider.trfm.pos.z);
@@ -57,7 +58,9 @@ function BuildGame() {
                         player.Capture(GameUtils.ammoTypes.hayBale, collider.gameObj);
                 }
                 else {
-                    player.Twister(collider.rigidBody, objToEyeVec, objToEyeDistSqr);
+                    //player.Twister(collider.rigidBody, objToEyeVec, objToEyeDistSqr);
+                    // Needs to be on collision enter and take off from there.
+                    player.Absord(collider.gameObj, objToEyeVec, objToEyeDistSqr);
                 }
             }
         }

@@ -15,20 +15,21 @@ function Probe(posArray, speed) {
     var pos = this.obj.trfmGlobal.pos;
     this.obj.SetModel(GameMngr.assets.models['probe']);
 
-    var playerObj,
+    var player,
         activeCows,
         activeHaybales;
 
     // This is some of the worst code I have...
     this.obj.AddComponent(Components.collisionSystem);
     function ProbeCollCallback(collider) {
-        if (collider.gameObj == playerObj) {
+        if (collider.gameObj == player.obj) {
             if(collider.suppShapeList[0].obj.IntersectsSphere(that.obj.collider.collSphere))
                 SceneMngr.SetActive("End Screen Lose");
         }
         else if (collider.gameObj.name == "cow") {
             for (var i = 0; i < activeCows.length; i++)
                 if (activeCows[i].obj == collider.gameObj) {
+                    player.RemoveFromTwister(collider.gameObj);
                     activeCows[i].SetVisible(false);
                     activeCows.splice(activeCows.indexOf(activeCows[i]), 1);
                     GameUtils.CowsAbductedIncr();
@@ -38,6 +39,7 @@ function Probe(posArray, speed) {
         else if (collider.gameObj.name == "hay bale") {
             for (var i = 0; i < activeHaybales.length; i++)
                 if (activeHaybales[i].obj == collider.gameObj) {
+                    player.RemoveFromTwister(collider.gameObj);
                     activeHaybales[i].SetVisible(false);
                     activeHaybales.splice(activeHaybales.indexOf(activeHaybales[i]), 1);
                 }
@@ -47,8 +49,8 @@ function Probe(posArray, speed) {
     }
     this.obj.collider.SetSphereCall(ProbeCollCallback);
 
-    this.SetCollidables = function($playerObj, $activeCows, $activeHaybales) {
-        playerObj = $playerObj;
+    this.SetCollidables = function($player, $activeCows, $activeHaybales) {
+        player = $player;
         activeCows = $activeCows;
         activeHaybales = $activeHaybales;
     };

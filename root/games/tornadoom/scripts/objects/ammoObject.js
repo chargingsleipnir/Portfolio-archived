@@ -33,13 +33,15 @@ function AmmoObject(name, model, texture, mass) {
 
     var coefOfRest = 0.5;
     function ImpulseDeflection(collider) {
-        var collisionDist = that.obj.trfmGlobal.pos.GetSubtract(collider.trfm.pos);
-        var netVel = that.obj.rigidBody.GetNetVelocity(collider.rigidBody);
-        if (netVel.GetDot(collisionDist) < 0) {
-            if (collider.gameObj.label == Labels.ammo) {
-                collisionDist = that.capsuleCollider.IntersectsCapsule(collider.suppShapeList[0].obj);
-                if (collisionDist && netVel.GetDot(collisionDist) < 0) {
-                    that.obj.rigidBody.CalculateImpulse(collider.rigidBody, collisionDist, coefOfRest);
+        if(!collider.gameObj.name == "player") {
+            var collisionDist = that.obj.trfmGlobal.pos.GetSubtract(collider.trfm.pos);
+            var netVel = that.obj.rigidBody.GetNetVelocity(collider.rigidBody);
+            if (netVel.GetDot(collisionDist) < 0) {
+                if (collider.gameObj.label == Labels.ammo) {
+                    collisionDist = that.capsuleCollider.IntersectsCapsule(collider.suppShapeList[0].obj);
+                    if (collisionDist && netVel.GetDot(collisionDist) < 0) {
+                        that.obj.rigidBody.CalculateImpulse(collider.rigidBody, collisionDist, coefOfRest);
+                    }
                 }
             }
         }

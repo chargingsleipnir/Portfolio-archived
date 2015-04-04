@@ -64,6 +64,7 @@ function BuildLvl02(scene, player, barn, cows, haybales, hud, nextBtn, lvlCompMs
             // Loop needed to compare GameObjects before using cow's GameObject wrapper
             for (var i = 0; i < activeCows.length; i++)
                 if (activeCows[i].obj == collider.gameObj) {
+                    player.RemoveFromTwister(collider.gameObj);
                     activeCows[i].SetVisible(false);
                     activeCows.splice(activeCows.indexOf(activeCows[i]), 1);
                     GameUtils.CowsSavedIncr();
@@ -127,7 +128,7 @@ function BuildLvl02(scene, player, barn, cows, haybales, hud, nextBtn, lvlCompMs
             allProbes[i].SetVisible(true);
             allProbes[i].obj.trfmBase.SetPosByAxes(probePos[i][0], probePos[i][1], probePos[i][2]);
             GameUtils.RaiseToGroundLevel(allProbes[i].obj);
-            allProbes[i].SetCollidables(player.obj, activeCows, activeHaybales);
+            allProbes[i].SetCollidables(player, activeCows, activeHaybales);
         }
         activeProbes = allProbes.slice();
 

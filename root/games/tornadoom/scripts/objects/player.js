@@ -2,6 +2,37 @@
  * Created by Devin on 2015-01-16.
  */
 
+// Extra object to help absorb objects
+function CaughtObj(centrePos, gameObj, angleRad, r, rotAngleIncr, rotAngleAccIncr, hypDecr, yIncr) {
+    this.centrePos = centrePos;
+    this.gameObj = gameObj;
+    this.angle = angleRad;
+    this.r = r;
+
+    this.rotAngleIncr = rotAngleIncr;
+    this.rotAngleAccIncr = rotAngleAccIncr;
+    this.hypDecr = hypDecr;
+    // asin will be in error if -1 > value > 1
+    this.yAngle = Math.asin(MathUtils.Clamp(this.gameObj.trfmBase.pos.y - centrePos.y, -1.0, 1.0));
+    this.yScale = (1.0 - gameObj.shapeData.radii.y);
+    this.yIncr = yIncr;
+}
+CaughtObj.prototype = {
+    Update: function() {
+        // Increment rotation angle and radius to draw in object
+        this.rotAngleIncr += this.rotAngleAccIncr;
+        this.angle += this.rotAngleIncr;
+
+        this.r -= this.hypDecr;
+        this.yAngle += this.yIncr;
+
+        var newX = this.centrePos.x + (this.r * Math.sin(this.angle));
+        var newY = this.centrePos.y + (Math.sin(this.yAngle) * this.yScale);
+        var newZ = this.centrePos.z + (this.r * Math.cos(this.angle));
+        this.gameObj.trfmBase.SetPosByAxes( newX, newY,  newZ);
+    }
+};
+
 function Player() {
 
     // Player characteristics -------------------------------------------------
@@ -13,6 +44,13 @@ function Player() {
     var drawScale = 1.05;
     var maxForceMagSqr = 750.0 * 750.0;
     this.captureRadius = 0.75;
+
+    // Hard capture details
+    var twistList = [];
+    var rotAngleIncr = 0.01,
+        rotAngleAccIncr = 0.001,
+        hypDecr = 0.01,
+        yIncr = 0.03;
 
     //var springConstant = 3.0;
     //var restLength = contactScale / 4.0;
@@ -58,6 +96,7 @@ function Player() {
     this.obj.AddComponent(Components.rigidBody);
     this.obj.rigidBody.SetMass(100.0);
     this.obj.rigidBody.dampening = 0.2;
+    var playerVel = this.obj.rigidBody.velF;
 
     // Tornado collisions -------------------------------------------------
 
@@ -266,6 +305,8 @@ function Player() {
     this.ClearAmmo = function() {
         for(var i = 0; i < ammoCont.length; i++)
             ammoCont[i].splice(0, ammoCont[i].length);
+
+        twistList.splice(0, twistList.length);
     };
     this.SetControlActive = function(isActive) {
         controlActive = isActive;
@@ -280,6 +321,33 @@ function Player() {
         // Perfect lift right away, slowing once obj's gravity is re-applied.
         rigidBody.ApplyGravity(VEC3_GRAVITY.GetNegative());
     };
+    this.Absord = function(gameObj, objToEyeVec, objToEyeDistSqr) {
+        for(var i = 0; i < twistList.length; i++)
+            if(gameObj == twistList[i].gameObj)
+                return;
+
+        // Get the current angle and hypotenuse
+        var rotX = -objToEyeVec.x,
+            rotZ = -objToEyeVec.y;
+
+        twistList.push(
+            new CaughtObj(
+                playerPos,
+                gameObj,
+                Math.atan2(rotX, rotZ),
+                Math.sqrt(objToEyeDistSqr),
+                rotAngleIncr,
+                rotAngleAccIncr,
+                hypDecr,
+                yIncr ));
+    };
+    this.RemoveFromTwister = function(gameObj) {
+        for(var i = 0; i < twistList.length; i++) {
+            if(twistList[i].gameObj  == gameObj) {
+                twistList.splice(twistList.indexOf(twistList[i]), 1);
+            }
+        }
+    };
     this.ResetMotion = function() {
         this.obj.trfmBase.SetDefault();
         GameUtils.RaiseToGroundLevel(this.obj);
@@ -287,7 +355,8 @@ function Player() {
         ctrl.Reset();
     };
     this.ResetAll = function() {
-        ammoCont = [];
+        ammoCont.splice(0, ammoCont.length);
+        twistList.splice(0, twistList.length);
         ammoIdx = 0;
         ammoTypeCount = 0;
         AmmoSelectionCallback(ammoIdx);
@@ -300,6 +369,15 @@ function Player() {
 
         modelObj.trfmBase.SetUpdatedRot(VEC3_UP, angle * 7.5);
         this.obj.trfmBase.SetPosY(this.height * 0.5);
+
+        // Update rotating objects
+        for(var i = 0; i < twistList.length; i++) {
+            twistList[i].Update();
+
+            if(twistList[i].r < this.captureRadius * 0.75) {
+                twistList.splice(twistList.indexOf(twistList[i]), 1);
+            }
+        }
 
         if(controlActive) {
             ctrl.Update();

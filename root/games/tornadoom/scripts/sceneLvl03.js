@@ -54,6 +54,7 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
             // Loop needed to compare GameObjects before using cow's GameObject wrapper
             for (var i = 0; i < activeCows.length; i++)
                 if (activeCows[i].obj == collider.gameObj) {
+                    player.RemoveFromTwister(collider.gameObj);
                     activeCows[i].SetVisible(false);
                     activeCows.splice(activeCows.indexOf(activeCows[i]), 1);
                     GameUtils.CowsSavedIncr();

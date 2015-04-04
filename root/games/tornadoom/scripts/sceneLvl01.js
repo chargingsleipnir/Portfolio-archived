@@ -36,6 +36,7 @@ function BuildLvl01(scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
             // Loop needed to compare GameObjects before using cow's GameObject wrapper
             for (var i = 0; i < activeCows.length; i++)
                 if (activeCows[i].obj == collider.gameObj) {
+                    player.RemoveFromTwister(collider.gameObj);
                     activeCows[i].SetVisible(false);
                     activeCows.splice(activeCows.indexOf(activeCows[i]), 1);
                     GameUtils.CowsSavedIncr();
@@ -67,7 +68,7 @@ function BuildLvl01(scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
     InGameMsgr.AddMsgSequence("level01", msgs);
     var msgLimit,
         lvlPhases,
-        MAX_TIME = 60.0,
+        MAX_TIME = 30.0,
         counter;
 
     // Level Repeat functions ==========================================================================================
@@ -139,11 +140,22 @@ function BuildLvl01(scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
     function GameplayUpdate() {
         CommonUpdate();
 
+        if(!hud.guiTextObjs["caughtCowInfo"].active) {
+            if(player.GetAmmoCount(GameUtils.ammoTypes.cow) >= 1) {
+                hud.guiTextObjs["caughtCowInfo"].SetActive(true);
+                hud.guiTextObjs["caughtCowInfo"].UpdateMsg("" + player.GetAmmoCount(GameUtils.ammoTypes.cow));
+            }
+        }
+        if(!hud.guiTextObjs["rescueInfo"].active) {
+            if(GameUtils.GetCowsSaved() >= 1) {
+                hud.guiTextObjs["rescueInfo"].SetActive(true);
+                hud.guiTextObjs["rescueInfo"].UpdateMsg("" + GameUtils.GetCowsSaved());
+            }
+        }
+
         switch(lvlPhases) {
             case 0:
-                if(player.GetAmmoCount(GameUtils.ammoTypes.cow) == 1) {
-                    hud.guiTextObjs["caughtCowInfo"].SetActive(true);
-                    hud.guiTextObjs["caughtCowInfo"].UpdateMsg("" + player.GetAmmoCount(GameUtils.ammoTypes.cow));
+                if(player.GetAmmoCount(GameUtils.ammoTypes.cow) >= 1 || GameUtils.GetCowsSaved() >= 1) {
                     msgLimit = 8;
                     lvlPhases++;
                     scene.SetLoopCallback(MsgUpdate);
@@ -152,8 +164,6 @@ function BuildLvl01(scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
                 break;
             case 1:
                 if (GameUtils.GetCowsSaved() == 2) {
-                    hud.guiTextObjs["rescueInfo"].SetActive(true);
-                    hud.guiTextObjs["rescueInfo"].UpdateMsg("" + GameUtils.GetCowsSaved());
                     msgLimit = 11;
                     lvlPhases++;
                     scene.SetLoopCallback(MsgUpdate);
