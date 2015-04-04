@@ -31,6 +31,7 @@ var GameMngr = {
         for(var i = 0; i < audioNamesFilepaths.length; i++) {
             this.assets.sounds[audioNamesFilepaths[i][0]] = new Audio(audioNamesFilepaths[i][1]);
         }
+        console.log("Loading Audio Complete");
 
         FileUtils.LoadTextures(textureNamesFilepaths, this.assets.textures, LoadModels);
     },

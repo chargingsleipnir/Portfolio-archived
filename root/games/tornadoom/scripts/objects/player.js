@@ -297,7 +297,7 @@ function Player() {
     this.ReleaseAmmoAbove = function(ammoContIdx, ammoIdx) {
         var gameObj = (ammoCont[ammoContIdx].splice(ammoIdx, 1)).pop();
         if(gameObj) {
-            gameObj.trfmBase.SetPosByVec(playerPos.GetAdd(VEC3_UP.GetScaleByNum(this.height / 2.0)));
+            gameObj.trfmBase.SetPosByVec(playerPos.GetAdd(VEC3_UP.GetScaleByNum(this.height * 0.75)));
             AmmoCountChangeCallback(ammoContIdx, ammoCont[ammoContIdx].length);
             PrepAmmo(gameObj, true);
         }
@@ -312,6 +312,9 @@ function Player() {
         controlActive = isActive;
         ctrl.SetActive(isActive);
         Input.SetActive(playerMouseCtrlName, isActive);
+    };
+    this.CheckControlActive = function() {
+        return ctrl.CheckActive();
     };
     this.Twister = function(rigidBody, objToEyeVec, objToEyeDistSqr) {
         // Have objs keep relative velocity with tornado.

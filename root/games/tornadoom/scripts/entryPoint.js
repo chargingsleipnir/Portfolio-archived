@@ -42,15 +42,14 @@ function Initialize(Callback) {
         ['hayBale', 'games/tornadoom/assets/models/GameObjects_HayBale.json'],
         ['ufoSaucer', 'games/tornadoom/assets/models/GameObjects_UFOSaucer.json'],
         ['ufoCore', 'games/tornadoom/assets/models/GameObjects_UFOCore.json'],
-        ['ufoBeam', 'games/tornadoom/assets/models/GameObjects_UFOTractorBeam.json'],
         ['probe', 'games/tornadoom/assets/models/GameObjects_Probe.json'],
         ['crosshair', 'games/tornadoom/assets/models/GameObjects_CrossHair.json'],
         ['wagon', 'games/tornadoom/assets/models/LevelCommon_Wagon.json'],
         ['barn', 'games/tornadoom/assets/models/LevelCommon_Barn.json'],
         ['ground', 'games/tornadoom/assets/models/LevelCommon_Ground.json'],
-        ['lvl01Fence', 'games/tornadoom/assets/models/Level01_FenceSquare.json'],
-        ['lvl02Fence', 'games/tornadoom/assets/models/Level02_FenceSquare.002.json'],
-        ['lvl03Fence', 'games/tornadoom/assets/models/Level03_FenceSquare.003.json']
+        ['lvl01Fence', 'games/tornadoom/assets/models/Environment_fenceLvl1.json'],
+        ['lvl02Fence', 'games/tornadoom/assets/models/Environment_fenceLvl2.json'],
+        ['lvl03Fence', 'games/tornadoom/assets/models/Environment_fenceLvl3.json']
     ];
     var audioNamesFilepaths = [
         ['tick', "games/tornadoom/assets/sounds/Tick.ogg"],

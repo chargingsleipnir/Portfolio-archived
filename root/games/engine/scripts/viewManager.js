@@ -9,6 +9,7 @@ var ViewMngr = {
     offsetTop: 0,
     mtxProj: new Matrix4(),
     activeCam: null,
+    usingWorldCam: true,
     frustum: null,
     farCullDist: 300.0,
     lightProps: {
@@ -40,10 +41,12 @@ var ViewMngr = {
     SetActiveCamera: function(camera) {
         this.activeCam.active = false;
         if(camera) {
+            this.usingWorldCam = false;
             camera.active = true;
             this.activeCam = camera;
         }
         else {
+            this.usingWorldCam = true;
             this.camera.active = true;
             this.activeCam = this.camera;
         }

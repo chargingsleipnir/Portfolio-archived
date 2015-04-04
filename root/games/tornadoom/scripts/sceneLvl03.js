@@ -14,7 +14,7 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
 
     var fence = new GameObject('fence', Labels.none);
     fence.SetModel(GameMngr.assets.models['lvl03Fence']);
-    fence.mdlHdlr.SetTexture(GameMngr.assets.textures['fenceTex'], TextureFilters.mipmap);
+    fence.mdlHdlr.SetTintRGB(0.3, 0.225, 0.0);
     GameUtils.RaiseToGroundLevel(fence);
 
     var abductee = null,
@@ -135,7 +135,8 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
         }
         else {
             scene.SetLoopCallback(GameplayUpdate);
-            player.SetControlActive(true);
+            if(!ViewMngr.usingWorldCam)
+                player.SetControlActive(true);
         }
     }
     function GameplayUpdate() {

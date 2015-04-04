@@ -22,6 +22,9 @@ function TopDownController(obj, ctrlName) {
         active = isActive;
         Input.SetActive(keyName, isActive);
     };
+    this.CheckActive = function() {
+        return Input.CheckKeysActive(keyName);
+    };
 
     this.Reset = function() {
         yawAngle = 0.0;

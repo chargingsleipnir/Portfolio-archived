@@ -14,7 +14,7 @@ function BuildLvl01(scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
 
     var fence = new GameObject('fence', Labels.none);
     fence.SetModel(GameMngr.assets.models['lvl01Fence']);
-    fence.mdlHdlr.SetTexture(GameMngr.assets.textures['fenceTex'], TextureFilters.mipmap);
+    fence.mdlHdlr.SetTintRGB(0.3, 0.225, 0.0);
     GameUtils.RaiseToGroundLevel(fence);
 
     var NUM_COWS_PHASE_1 = 2,
@@ -106,6 +106,7 @@ function BuildLvl01(scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
         counter = MAX_TIME;
 
         hud.guiProgObjs["countdownBar"].UpdateValue(0.5);
+        hud.guiTextObjs["menuAccessMsg"].SetActive(true);
 
         /////////////// TEMP
         //hud.guiTextObjs["caughtCowInfo"].SetActive(true);
@@ -134,7 +135,8 @@ function BuildLvl01(scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
         }
         else {
             scene.SetLoopCallback(GameplayUpdate);
-            player.SetControlActive(true);
+            if(!ViewMngr.usingWorldCam)
+                player.SetControlActive(true);
         }
     }
     function GameplayUpdate() {

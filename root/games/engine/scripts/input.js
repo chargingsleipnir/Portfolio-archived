@@ -127,7 +127,7 @@ var Input = (function() {
             else if (name in inactiveKeyRegistry) delete inactiveKeyRegistry[name];
             else if (name in activeMouseRegistry) delete activeMouseRegistry[name];
             else if (name in inactiveMouseRegistry) delete inactiveMouseRegistry[name];
-            else throw ("No object by that name to unregister");
+            else console.log("No object by that name to unregister");
         },
         SetActive: function(name, beActive)
         {
@@ -155,7 +155,7 @@ var Input = (function() {
                 SwapRegistries(inactiveMouseRegistry, activeMouseRegistry, name);
             }
             else
-                throw ("Object is already where you want it");
+                console.log("Object is already where you want it");
         },
         ListInputObjects: function()
         {
@@ -179,6 +179,12 @@ var Input = (function() {
                 return InputTypes.mouse;
             else
                 return -1;
+        },
+        CheckKeysActive: function(name) {
+            return name in activeKeyRegistry;
+        },
+        CheckMouseActive: function(name) {
+            return name in activeMouseRegistry;
         },
         CreateInputController: function(name, keyMapping) {
             /// <signature>
@@ -213,7 +219,7 @@ var Input = (function() {
                     };
                 }
                 else
-                    throw ("No object by that name to add boolean reference");
+                    console.log("No object by that name to add boolean reference");
 
                 return keyController;
             }
@@ -242,7 +248,7 @@ var Input = (function() {
                 inactiveMouseRegistry[name] = mouseController;
             }
             else
-                throw ("No object by that name to add boolean reference");
+                console.log("No object by that name to add boolean reference");
 
             return mouseController;
         },
@@ -259,7 +265,7 @@ var Input = (function() {
             else if (name in inactiveKeyRegistry)
                 delete inactiveKeyRegistry[name][input];
             else
-                throw ("No object by that name to remove callback");
+                console.log("No object by that name to remove callback");
         },
         GetCanvas: function(canvas) {
             canvas.addEventListener('mousemove', onmousemove, false);
