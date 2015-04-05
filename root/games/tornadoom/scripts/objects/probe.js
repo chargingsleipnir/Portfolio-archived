@@ -87,6 +87,7 @@ function Probe(posArray, speed) {
         if(hp <= 0) {
             this.obj.ptclSys.RunField(0);
             this.SetVisible(false);
+            GameMngr.assets.sounds['probeExplosion'].play();
         }
     };
     this.SetVisible = function(isVisible) {

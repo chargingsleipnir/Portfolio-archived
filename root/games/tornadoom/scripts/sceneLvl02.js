@@ -143,8 +143,8 @@ function BuildLvl02(scene, player, barn, cows, haybales, hud, nextBtn, lvlCompMs
 
 
         /////////////// TEMP
-        player.SetControlActive(true);
-        SceneMngr.SetActive("Level 03");
+        //player.SetControlActive(true);
+        //SceneMngr.SetActive("Level 03");
         /////////////// TEMP
     }
 

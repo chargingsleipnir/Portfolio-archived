@@ -54,7 +54,8 @@ function Initialize(Callback) {
     ];
     var audioNamesFilepaths = [
         ['tick', "games/tornadoom/assets/sounds/Tick.ogg"],
-        ['select', "games/tornadoom/assets/sounds/Select.ogg"],
+        ['moo', "games/tornadoom/assets/sounds/cowMoo.ogg"],
+        ['probeExplosion', "games/tornadoom/assets/sounds/probeExplosion.ogg"],
         ['bgMusicLight', "games/tornadoom/assets/sounds/songLightCold.ogg"]
     ];
 
