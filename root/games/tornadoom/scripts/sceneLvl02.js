@@ -63,7 +63,7 @@ function BuildLvl02(scene, player, barn, cows, haybales, hud, nextBtn, lvlCompMs
         if(collider.gameObj.name == "cow") {
             // Loop needed to compare GameObjects before using cow's GameObject wrapper
             for (var i = 0; i < activeCows.length; i++)
-                if (activeCows[i].obj == collider.gameObj) {
+                if (activeCows[i] == collider.gameObj) {
                     player.RemoveFromTwister(collider.gameObj);
                     barn.RunChimneyBurst();
                     activeCows[i].SetVisible(false);
@@ -113,15 +113,15 @@ function BuildLvl02(scene, player, barn, cows, haybales, hud, nextBtn, lvlCompMs
 
         for(var i = 0; i < cows.length; i++ ) {
             cows[i].SetVisible(true);
-            cows[i].obj.trfmBase.SetPosByAxes(cowPos[i][0], cowPos[i][1], cowPos[i][2]);
-            GameUtils.RaiseToGroundLevel(cows[i].obj);
+            cows[i].trfmBase.SetPosByAxes(cowPos[i][0], cowPos[i][1], cowPos[i][2]);
+            GameUtils.RaiseToGroundLevel(cows[i]);
         }
         activeCows = cows.slice();
         GameUtils.CowsEncounteredAdd(activeCows.length);
 
         for(var i = 0; i < haybales.length; i++ ) {
-            haybales[i].obj.trfmBase.SetPosByAxes(balePos[i][0], balePos[i][1], balePos[i][2]);
-            GameUtils.RaiseToGroundLevel(haybales[i].obj);
+            haybales[i].trfmBase.SetPosByAxes(balePos[i][0], balePos[i][1], balePos[i][2]);
+            GameUtils.RaiseToGroundLevel(haybales[i]);
         }
         activeHaybales = haybales.slice();
 
@@ -141,6 +141,8 @@ function BuildLvl02(scene, player, barn, cows, haybales, hud, nextBtn, lvlCompMs
 
         hud.guiTextObjs["caughtBaleInfo"].SetActive(true);
 
+        GameMngr.assets.sounds['windSoft'].play();
+        GameMngr.assets.sounds['windSoft'].loop = true;
 
         /////////////// TEMP
         //player.SetControlActive(true);
@@ -156,12 +158,10 @@ function BuildLvl02(scene, player, barn, cows, haybales, hud, nextBtn, lvlCompMs
             activeProbes[i].Update();
         }
         for (var i = 0; i < activeCows.length; i++) {
-            activeCows[i].Update();
-            GameUtils.ContainInLevelBoundsUpdate(activeCows[i].obj);
+            GameUtils.ContainInLevelBoundsUpdate(activeCows[i]);
         }
         for (var i = 0; i < activeHaybales.length; i++) {
-            activeHaybales[i].Update();
-            GameUtils.ContainInLevelBoundsUpdate(activeHaybales[i].obj);
+            GameUtils.ContainInLevelBoundsUpdate(activeHaybales[i]);
         }
     }
     function MsgUpdate() {
@@ -229,14 +229,17 @@ function BuildLvl02(scene, player, barn, cows, haybales, hud, nextBtn, lvlCompMs
         hud.guiTextObjs["rescueInfo"].UpdateMsg("0");
         hud.guiTextObjs["caughtCowInfo"].UpdateMsg('0');
         hud.guiTextObjs["caughtBaleInfo"].UpdateMsg('0');
+
+        GameMngr.assets.sounds['windSoft'].pause();
+        GameMngr.assets.sounds['windSoft'].currentTime = 0;
     }
 
     for(var i = 0; i < MAX_PROBES; i++)
         scene.Add(allProbes[i].obj);
     for(var i = 0; i < cows.length; i++ )
-        scene.Add(cows[i].obj);
+        scene.Add(cows[i]);
     for(var i = 0; i < haybales.length; i++ )
-        scene.Add(haybales[i].obj);
+        scene.Add(haybales[i]);
     scene.Add(fence);
     scene.SetCallbacks(Start, GameplayUpdate, End);
 }

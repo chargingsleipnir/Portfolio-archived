@@ -53,7 +53,7 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
         if(collider.gameObj.name == "cow") {
             // Loop needed to compare GameObjects before using cow's GameObject wrapper
             for (var i = 0; i < activeCows.length; i++)
-                if (activeCows[i].obj == collider.gameObj) {
+                if (activeCows[i] == collider.gameObj) {
                     player.RemoveFromTwister(collider.gameObj);
                     barn.RunChimneyBurst();
                     activeCows[i].SetVisible(false);
@@ -74,8 +74,8 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
     var ReleaseCowCallback = function() {
         if(cowSoughtFromPlayerIdx != -1) {
             player.ReleaseAmmoAbove(GameUtils.ammoTypes.cow, cowSoughtFromPlayerIdx);
-            cows[cowSceneListIdx].SetGravBlock(true);
-            cows[cowSceneListIdx].gravForce.active = false;
+            activeCows[cowSceneListIdx].SetGravBlock(true);
+            activeCows[cowSceneListIdx].gravForce.active = false;
         }
     };
 
@@ -104,15 +104,15 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
 
         for(var i = 0; i < cows.length; i++ ) {
             cows[i].SetVisible(true);
-            cows[i].obj.trfmBase.SetPosByAxes(cowPos[i][0], cowPos[i][1], cowPos[i][2]);
-            GameUtils.RaiseToGroundLevel(cows[i].obj);
+            cows[i].trfmBase.SetPosByAxes(cowPos[i][0], cowPos[i][1], cowPos[i][2]);
+            GameUtils.RaiseToGroundLevel(cows[i]);
         }
         activeCows = cows.slice();
         GameUtils.CowsEncounteredAdd(activeCows.length);
 
         for(var i = 0; i < haybales.length; i++ ) {
-            haybales[i].obj.trfmBase.SetPosByAxes(balePos[i][0], balePos[i][1], balePos[i][2]);
-            GameUtils.RaiseToGroundLevel(haybales[i].obj);
+            haybales[i].trfmBase.SetPosByAxes(balePos[i][0], balePos[i][1], balePos[i][2]);
+            GameUtils.RaiseToGroundLevel(haybales[i]);
         }
 
         InGameMsgr.ChangeMsgSequence("level03");
@@ -122,6 +122,9 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
         lvlPhases = 0;
 
         hud.guiTextObjs["abductionInfo"].SetActive(true);
+
+        GameMngr.assets.sounds['windSoft'].play();
+        GameMngr.assets.sounds['windSoft'].loop = true;
     }
 
     function MsgUpdate() {
@@ -152,13 +155,12 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
                 if (activeCows.length > 0) {
                     ufoToCowDistSqr = 999999;
                     for (var i = 0; i < activeCows.length; i++) {
-                        activeCows[i].Update();
-                        GameUtils.ContainInLevelBoundsUpdate(activeCows[i].obj);
+                        GameUtils.ContainInLevelBoundsUpdate(activeCows[i]);
 
                         // Which cow to go after
                         tempDirVec.SetValues(
-                            activeCows[i].obj.trfmGlobal.pos.x - ufo.obj.trfmGlobal.pos.x,
-                            activeCows[i].obj.trfmGlobal.pos.z - ufo.obj.trfmGlobal.pos.z);
+                            activeCows[i].trfmGlobal.pos.x - ufo.obj.trfmGlobal.pos.x,
+                            activeCows[i].trfmGlobal.pos.z - ufo.obj.trfmGlobal.pos.z);
                         var tempDistSqr = tempDirVec.GetMagSqr();
                         if (tempDistSqr < ufoToCowDistSqr) {
                             ufoToCowDistSqr = tempDistSqr;
@@ -169,7 +171,7 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
                     }
                     if (!ufo.tractoring) {
                         // If abductee is in the tornado, remove from tornado's ammo
-                        cowSoughtFromPlayerIdx = player.GetAmmoIdx(GameUtils.ammoTypes.cow, abductee.obj);
+                        cowSoughtFromPlayerIdx = player.GetAmmoIdx(GameUtils.ammoTypes.cow, abductee);
                         cowSceneListIdx = (cowSoughtFromPlayerIdx != -1) ? activeCows.indexOf(abductee) : -1;
                     }
 
@@ -191,8 +193,7 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
                 }
 
                 for (var i = 0; i < haybales.length; i++) {
-                    haybales[i].Update();
-                    GameUtils.ContainInLevelBoundsUpdate(haybales[i].obj);
+                    GameUtils.ContainInLevelBoundsUpdate(haybales[i]);
                 }
 
                 if (player.GetAimToggleHeld()) {
@@ -228,12 +229,15 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
         hud.guiTextObjs["abductionInfo"].UpdateMsg('0');
         hud.guiTextObjs["caughtCowInfo"].UpdateMsg('0');
         hud.guiTextObjs["caughtBaleInfo"].UpdateMsg('0');
+
+        GameMngr.assets.sounds['windSoft'].pause();
+        GameMngr.assets.sounds['windSoft'].currentTime = 0;
     }
 
     for(var i = 0; i < cows.length; i++ )
-        scene.Add(cows[i].obj);
+        scene.Add(cows[i]);
     for(var i = 0; i < haybales.length; i++ )
-        scene.Add(haybales[i].obj);
+        scene.Add(haybales[i]);
     scene.Add(fence);
     scene.SetCallbacks(Start, GameplayUpdate, End);
 }

@@ -54,9 +54,16 @@ function Initialize(Callback) {
     ];
     var audioNamesFilepaths = [
         ['tick', "games/tornadoom/assets/sounds/Tick.ogg"],
-        ['moo', "games/tornadoom/assets/sounds/cowMoo.ogg"],
+        ['cowMoo', "games/tornadoom/assets/sounds/cowMoo.ogg"],
+        ['cowCry', "games/tornadoom/assets/sounds/cowCry.ogg"],
+        ['cattleMoo', "games/tornadoom/assets/sounds/cattleMoo.ogg"],
         ['probeExplosion', "games/tornadoom/assets/sounds/probeExplosion.ogg"],
-        ['bgMusicLight', "games/tornadoom/assets/sounds/songLightCold.ogg"]
+        ['thud', "games/tornadoom/assets/sounds/thud.ogg"],
+        ['wind', "games/tornadoom/assets/sounds/wind.ogg"],
+        ['windSoft', "games/tornadoom/assets/sounds/windSoft.ogg"],
+        ['abduction', "games/tornadoom/assets/sounds/alienAbduction2.ogg"],
+        ['fail', "games/tornadoom/assets/sounds/fail.ogg"],
+        ['bgMusic', "games/tornadoom/assets/sounds/cowboyTheme.ogg"]
     ];
 
     DebugMngr.active = true;

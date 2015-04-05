@@ -1,9 +1,4 @@
 ﻿
-// NEW TEST MATERIAL
-
-
-
-
 function GameObject(name, label) {
     this.name = name;
     this.label = label;

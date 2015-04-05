@@ -61,8 +61,6 @@ function BuildGame() {
                     //player.Twister(collider.rigidBody, objToEyeVec, objToEyeDistSqr);
                     // Needs to be on collision enter and take off from there.
                     player.Absord(collider.gameObj, objToEyeVec, objToEyeDistSqr);
-                    //if (collider.gameObj.name == "cow")
-                        //GameMngr.assets.sounds['moo'].play();
                 }
             }
         }
@@ -223,6 +221,5 @@ function BuildGame() {
     }
 
     GameMngr.UserUpdate = GameUpdate;
-    GameMngr.assets.sounds['bgMusicLight'].play();
     GameMngr.BeginLoop();
 }

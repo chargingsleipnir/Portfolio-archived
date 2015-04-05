@@ -108,7 +108,7 @@ function UFO() {
     var coefOfRest = 0.1;
     function CoreCollision(collider) {
         // Don't assess collisions on the one being tractored in
-        if(!that.tractoring || !(currAbductee.obj == collider.gameObj)) {
+        if(!that.tractoring || !(currAbductee == collider.gameObj)) {
             var collisionDist = coreObj.trfmGlobal.pos.GetSubtract(collider.trfm.pos);
             var netVel = coreObj.collider.rigidBody.GetNetVelocity(collider.rigidBody);
             if (netVel.GetDot(collisionDist) < 0) {
@@ -125,7 +125,7 @@ function UFO() {
     coreObj.collider.SetSphereCall(CoreCollision);
     function SaucerCollision(collider) {
         // Don't assess collisions on the one being tractored in
-        if(!that.tractoring || !(currAbductee.obj == collider.gameObj)) {
+        if(!that.tractoring || !(currAbductee == collider.gameObj)) {
             var collisionDist = saucerObj.trfmGlobal.pos.GetSubtract(collider.trfm.pos);
             var netVel = saucerObj.collider.rigidBody.GetNetVelocity(collider.rigidBody);
             if (netVel.GetDot(collisionDist) < 0) {
@@ -159,20 +159,25 @@ function UFO() {
     }
     function StartTractoring() {
         that.tractoring = true;
+        GameMngr.assets.sounds['abduction'].play();
+        GameMngr.assets.sounds['abduction'].loop = true;
         tractorBeamVisual.Run();
         starVisual.Run();
     }
     function Lift(abductee) {
         // Without physics
         abductee.SetGravBlock(true);
-        abductee.obj.trfmBase.TranslateUp(TRACTOR_PULL_SPEED);
+        abductee.trfmBase.TranslateUp(TRACTOR_PULL_SPEED);
     }
     function StopTractoring() {
         that.tractoring = false;
+        GameMngr.assets.sounds['abduction'].pause();
+        GameMngr.assets.sounds['abduction'].currentTime = 0;
         tractorBeamVisual.Stop();
         starVisual.Stop();
     }
     function BecomeStunned() {
+        GameMngr.assets.sounds['thud'].play();
         stunCounter = STUN_TIME_MAX;
         currState = ufoStates.stunned;
         StopTractoring();
@@ -199,7 +204,7 @@ function UFO() {
                         currAbductee = abductee;
                     }
                     StartTractoring();
-                    var dY = this.obj.trfmGlobal.pos.y - abductee.obj.trfmGlobal.pos.y;
+                    var dY = this.obj.trfmGlobal.pos.y - abductee.trfmGlobal.pos.y;
                     if(dY > VERY_SMALL)
                         Lift(abductee);
                     else {

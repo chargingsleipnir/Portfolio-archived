@@ -70,6 +70,7 @@ function BuildSceneEndBoth(sceneWin, sceneLose, nextBtn, GameResetCallback) {
         endScreen.guiTextObjs["winHeading"].SetActive(true);
         endScreen.guiTextObjs["winFinalRemark"].SetActive(true);
         endScreen.guiTextObjs["resetGameMsg"].SetActive(true);
+        GameMngr.assets.sounds['cattleMoo'].play();
         SharedStart();
     }
     function StartLose() {
@@ -77,6 +78,7 @@ function BuildSceneEndBoth(sceneWin, sceneLose, nextBtn, GameResetCallback) {
         endScreen.guiTextObjs["loseHeading"].SetActive(true);
         endScreen.guiTextObjs["loseFinalRemark"].SetActive(true);
         endScreen.guiTextObjs["resetGameMsg"].SetActive(true);
+        GameMngr.assets.sounds['fail'].play();
         SharedStart();
     }
 

@@ -52,7 +52,7 @@ function Probe(posArray, speed) {
         }
         else if (collider.gameObj.name == "cow") {
             for (var i = 0; i < activeCows.length; i++)
-                if (activeCows[i].obj == collider.gameObj) {
+                if (activeCows[i] == collider.gameObj) {
                     activeCows[i].RunImpactBurst();
                     player.RemoveFromTwister(collider.gameObj);
                     activeCows[i].SetVisible(false);
@@ -63,7 +63,7 @@ function Probe(posArray, speed) {
         }
         else if (collider.gameObj.name == "hay bale") {
             for (var i = 0; i < activeHaybales.length; i++)
-                if (activeHaybales[i].obj == collider.gameObj) {
+                if (activeHaybales[i] == collider.gameObj) {
                     activeHaybales[i].RunImpactBurst();
                     player.RemoveFromTwister(collider.gameObj);
                     activeHaybales[i].SetVisible(false);
@@ -89,6 +89,8 @@ function Probe(posArray, speed) {
             this.SetVisible(false);
             GameMngr.assets.sounds['probeExplosion'].play();
         }
+        else
+            GameMngr.assets.sounds['thud'].play();
     };
     this.SetVisible = function(isVisible) {
         this.obj.mdlHdlr.active = isVisible;

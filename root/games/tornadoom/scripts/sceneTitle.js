@@ -56,6 +56,8 @@ function BuildSceneTitle(scene, nextBtn) {
         nextSceneMsg.strHdl.SetTintAlpha(0.0);
         fadingIn = true;
         GUINetwork.SetActive(titleScreen.name, true);
+        GameMngr.assets.sounds['bgMusic'].play();
+        GameMngr.assets.sounds['bgMusic'].loop = true;
     }
 
     function Update() {
@@ -71,6 +73,8 @@ function BuildSceneTitle(scene, nextBtn) {
 
     function End() {
         GUINetwork.SetActive(titleScreen.name, false);
+        GameMngr.assets.sounds['bgMusic'].pause();
+        GameMngr.assets.sounds['bgMusic'].currentTime = 0;
     }
 
     scene.SetCallbacks(Start, Update, End);

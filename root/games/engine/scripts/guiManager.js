@@ -372,7 +372,7 @@ var GUINetwork = (function() {
             else if (sysName in inactiveSystems)
                 delete inactiveSystems[sysName];
             else
-                throw ("No system by that name to unregister");
+                console.log("No system by that name to unregister");
         },
         SetActive: function(sysName, setActive) {
             if (!(sysName in activeSystems) && !(sysName in inactiveSystems))
@@ -386,7 +386,7 @@ var GUINetwork = (function() {
                 delete inactiveSystems[sysName];
             }
             else
-                throw ("Object is already where you want it");
+                console.log("Object is already where you want it");
         },
         CheckActive: function(sysName) {
             return sysName in activeSystems;

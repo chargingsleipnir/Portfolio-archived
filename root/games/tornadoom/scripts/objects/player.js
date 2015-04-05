@@ -243,12 +243,13 @@ function Player() {
         PowerChangeCallback((launchScalar - LAUNCH_SCALAR_MIN) * launchScalarDiffMaxInv);
     };
     var Shoot = function(dir) {
-        var gameObj = ammoCont[ammoIdx].pop();
-        if(gameObj) {
-            gameObj.trfmBase.SetPosByVec(playerPos.GetAdd(dir.SetScaleByNum(contactScale + 2.0)));
+        var ammoObj = ammoCont[ammoIdx].pop();
+        if(ammoObj) {
+            ammoObj.trfmBase.SetPosByVec(playerPos.GetAdd(dir.SetScaleByNum(contactScale + 2.0)));
             AmmoCountChangeCallback(ammoIdx, ammoCont[ammoIdx].length);
-            PrepAmmo(gameObj, true);
-            gameObj.rigidBody.AddForce(dir.GetScaleByNum(windspeed * launchScalar));
+            PrepAmmo(ammoObj, true);
+            ammoObj.rigidBody.AddForce(dir.GetScaleByNum(windspeed * launchScalar));
+            ammoObj.PlayLaunchSound();
         }
         DropLaunchPower();
     };
@@ -264,8 +265,8 @@ function Player() {
         ammoCont[index] = null;
         ammoTypeCount--;
     };
-    this.GetAmmoIdx = function(ammoTypeIdx, gameObj) {
-        return ammoCont[ammoTypeIdx].indexOf(gameObj);
+    this.GetAmmoIdx = function(ammoTypeIdx, ammoObj) {
+        return ammoCont[ammoTypeIdx].indexOf(ammoObj);
     };
     this.GetAmmoCount = function(ammoTypeIdx) {
         return ammoCont[ammoTypeIdx].length;
@@ -324,19 +325,22 @@ function Player() {
         // Perfect lift right away, slowing once obj's gravity is re-applied.
         rigidBody.ApplyGravity(VEC3_GRAVITY.GetNegative());
     };
-    this.Absord = function(gameObj, objToEyeVec, objToEyeDistSqr) {
+    this.Absord = function(ammoObj, objToEyeVec, objToEyeDistSqr) {
         for(var i = 0; i < twistList.length; i++)
-            if(gameObj == twistList[i].gameObj)
+            if(ammoObj == twistList[i].gameObj)
                 return;
 
         // Get the current angle and hypotenuse
         var rotX = -objToEyeVec.x,
             rotZ = -objToEyeVec.y;
 
+        ammoObj.PlayCaptureSound();
+        GameMngr.assets.sounds['wind'].play();
+
         twistList.push(
             new CaughtObj(
                 playerPos,
-                gameObj,
+                ammoObj,
                 Math.atan2(rotX, rotZ),
                 Math.sqrt(objToEyeDistSqr),
                 rotAngleIncr,
