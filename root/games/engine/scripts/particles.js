@@ -591,6 +591,10 @@ ParticleSystem.prototype = {
             this.fields.splice(index, 1);
         }
     },
+    RunField: function(index) {
+        if(this.fields[index])
+            this.fields[index].active = true;
+    },
     RunTail: function(index) {
         if(this.tails[index])
             this.tails[index].active = true;
@@ -602,13 +606,18 @@ ParticleSystem.prototype = {
         return this.tails;
     },
     SetActive: function(boolActive) {
+        /*
         this.active = boolActive;
-        for (var i = this.fields.length - 1; i >= 0; i--) {
-            this.fields[i].active = boolActive;
+
+        if(!boolActive) {
+            for (var i = this.fields.length - 1; i >= 0; i--) {
+                this.fields[i].active = boolActive;
+            }
+            for (var i = this.tails.length - 1; i >= 0; i--) {
+                this.tails[i].active = boolActive;
+            }
         }
-        for (var i = this.tails.length - 1; i >= 0; i--) {
-            this.tails[i].active = boolActive;
-        }
+        */
     },
     Update: function() {
         if(this.active) {

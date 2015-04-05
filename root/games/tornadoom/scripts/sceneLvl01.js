@@ -37,6 +37,7 @@ function BuildLvl01(scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
             for (var i = 0; i < activeCows.length; i++)
                 if (activeCows[i].obj == collider.gameObj) {
                     player.RemoveFromTwister(collider.gameObj);
+                    barn.RunChimneyBurst();
                     activeCows[i].SetVisible(false);
                     activeCows.splice(activeCows.indexOf(activeCows[i]), 1);
                     GameUtils.CowsSavedIncr();
@@ -109,10 +110,10 @@ function BuildLvl01(scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
         hud.guiTextObjs["menuAccessMsg"].SetActive(true);
 
         /////////////// TEMP
-        //hud.guiTextObjs["caughtCowInfo"].SetActive(true);
-        //hud.guiTextObjs["rescueInfo"].SetActive(true);
-        //player.SetControlActive(true);
-        //SceneMngr.SetActive("Level 02");
+        hud.guiTextObjs["caughtCowInfo"].SetActive(true);
+        hud.guiTextObjs["rescueInfo"].SetActive(true);
+        player.SetControlActive(true);
+        SceneMngr.SetActive("Level 02");
         /////////////// TEMP
     }
 

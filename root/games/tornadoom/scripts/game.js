@@ -90,7 +90,7 @@ function BuildGame() {
     var ground = new GameObject('ground', Labels.none);
     ground.SetModel(GameMngr.assets.models['ground']);
     ground.mdlHdlr.SetTexture(GameMngr.assets.textures['groundTex'], TextureFilters.mipmap);
-    ground.trfmBase.TranslateByAxes(0.0, -0.001, 0.0);
+    ground.trfmBase.TranslateByAxes(0.0, -0.01, 0.0);
 
     var skyBoxTextures = [
         GameMngr.assets.textures['skyTexXPos'],
@@ -112,7 +112,7 @@ function BuildGame() {
     hillyHorizon.SetModel(GameMngr.assets.models['horizon']);
     hillyHorizon.mdlHdlr.SetTexture(GameMngr.assets.textures['groundTex'], TextureFilters.mipmap);
     GameUtils.RaiseToGroundLevel(hillyHorizon);
-    hillyHorizon.trfmBase.TranslateByAxes(0.0, -0.001, 0.0);
+    hillyHorizon.trfmBase.TranslateByAxes(0.0, -0.5, 0.0);
 
     var cows = [];
     var MAX_COWS = 10;

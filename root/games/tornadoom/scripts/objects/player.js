@@ -50,7 +50,7 @@ function Player() {
     var rotAngleIncr = 0.01,
         rotAngleAccIncr = 0.001,
         hypDecr = 0.01,
-        yIncr = 0.03;
+        yIncr = 0.035;
 
     //var springConstant = 3.0;
     //var restLength = contactScale / 4.0;

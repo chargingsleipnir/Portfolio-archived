@@ -33,7 +33,7 @@ function AmmoObject(name, model, texture, mass) {
 
     var coefOfRest = 0.5;
     function ImpulseDeflection(collider) {
-        if(!collider.gameObj.name == "player") {
+        if(collider.gameObj.name != "Player") {
             var collisionDist = that.obj.trfmGlobal.pos.GetSubtract(collider.trfm.pos);
             var netVel = that.obj.rigidBody.GetNetVelocity(collider.rigidBody);
             if (netVel.GetDot(collisionDist) < 0) {
@@ -77,13 +77,57 @@ AmmoObject.prototype = {
 
 
 function HayBale() {
-    AmmoObject.call(this, 'hay bale', GameMngr.assets.models['hayBale'], GameMngr.assets.textures['hayBaleTex'], 30.0);
+    AmmoObject.call(this, 'hay bale', GameMngr.assets.models['hayBale'], GameMngr.assets.textures['hayBaleTex'], 25.0);
+
+    this.obj.AddComponent(Components.particleSystem);
+    var effects = new PtclPhysicsEffects();
+    effects.travelTime = 0.5;
+    effects.startDist = 0.0;
+    effects.dir.SetValues(0.0, 1.0, 0.0);
+    effects.range = 180.0;
+    effects.speed = 3.5;
+    effects.acc.SetValues(0.0, -1.0, 0.0);
+    effects.dampening = 0.75;
+    effects.colourBtm.SetValues(0.4, 0.4, 0.0);
+    effects.colourTop.SetValues(0.8, 0.8, 0.0);
+    effects.lineLength = 0.15;
+    effects.alphaStart = 1.0;
+    effects.fadePoint = 0.5;
+    effects.alphaEnd = 0.0;
+    effects.size = 0.0;
+
+    this.obj.ptclSys.AddAutoField(new ParticleFieldAutomated(50, false, 0.15, effects));
 }
 HayBale.prototype = AmmoObject.prototype;
+HayBale.prototype.RunImpactBurst = function() {
+    this.obj.ptclSys.RunField(0);
+};
 
 
 
 function Cow() {
     AmmoObject.call(this, 'cow', GameMngr.assets.models['cow'], GameMngr.assets.textures['cowTex'], 20.0);
+
+    this.obj.AddComponent(Components.particleSystem);
+    var effects = new PtclPhysicsEffects();
+    effects.travelTime = 0.5;
+    effects.startDist = 0.0;
+    effects.dir.SetValues(0.0, 1.0, 0.0);
+    effects.range = 180.0;
+    effects.speed = 3.5;
+    effects.acc.SetValues(0.0, -2.0, 0.0);
+    effects.dampening = 0.5;
+    effects.colourBtm.SetValues(0.0, 0.0, 0.0);
+    effects.colourTop.SetValues(1.0, 0.0, 0.0);
+    effects.lineLength = 0.0;
+    effects.alphaStart = 1.0;
+    effects.fadePoint = 0.5;
+    effects.alphaEnd = 0.0;
+    effects.size = 5.0;
+
+    this.obj.ptclSys.AddAutoField(new ParticleFieldAutomated(50, false, 0.15, effects));
 }
 Cow.prototype = AmmoObject.prototype;
+Cow.prototype.RunImpactBurst = function() {
+    this.obj.ptclSys.RunField(0);
+};

@@ -213,8 +213,15 @@ function UFO() {
                 break;
             case ufoStates.stunned:
                 stunCounter -= Time.deltaMilli;
-                if(stunCounter <= 0.0)
+
+                // Showing stunned state visually
+                var colourFactor = stunCounter*10;
+                saucerObj.mdlHdlr.SetTintRGB(Math.sin(colourFactor), Math.cos(colourFactor), Math.sin(colourFactor));
+
+                if(stunCounter <= 0.0) {
+                    saucerObj.mdlHdlr.SetTintRGB(0, 0, 0);
                     currState = ufoStates.abducting;
+                }
                 break;
             case ufoStates.dormant:
                 break;
