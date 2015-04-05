@@ -11,7 +11,7 @@ var ViewMngr = {
     activeCam: null,
     usingWorldCam: true,
     frustum: null,
-    farCullDist: 300.0,
+    farCullDist: 400.0,
     lightProps: {
         useFragLighting: false,
         model: LightModels.phong

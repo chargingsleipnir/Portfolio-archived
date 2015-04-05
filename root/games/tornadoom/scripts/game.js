@@ -90,6 +90,7 @@ function BuildGame() {
     var ground = new GameObject('ground', Labels.none);
     ground.SetModel(GameMngr.assets.models['ground']);
     ground.mdlHdlr.SetTexture(GameMngr.assets.textures['groundTex'], TextureFilters.mipmap);
+    ground.trfmBase.TranslateByAxes(0.0, -0.001, 0.0);
 
     var skyBoxTextures = [
         GameMngr.assets.textures['skyTexXPos'],
@@ -104,8 +105,14 @@ function BuildGame() {
     skyBoxModel.SetForCubeTexturing();
     skyBox.SetModel(skyBoxModel);
     skyBox.mdlHdlr.SetCubeTextures(skyBoxTextures);
-    skyBox.trfmBase.SetScaleAxes(150.0, 150.0, 150.0);
+    skyBox.trfmBase.SetScaleAxes(200.0, 200.0, 200.0);
+    skyBox.trfmBase.TranslateByAxes(0.0, 50.0, 0.0);
 
+    var hillyHorizon = new GameObject('horizon', Labels.none);
+    hillyHorizon.SetModel(GameMngr.assets.models['horizon']);
+    hillyHorizon.mdlHdlr.SetTexture(GameMngr.assets.textures['groundTex'], TextureFilters.mipmap);
+    GameUtils.RaiseToGroundLevel(hillyHorizon);
+    hillyHorizon.trfmBase.TranslateByAxes(0.0, -0.001, 0.0);
 
     var cows = [];
     var MAX_COWS = 10;
@@ -166,6 +173,7 @@ function BuildGame() {
     lvl01.Add(barn.obj);
     lvl01.Add(skyBox);
     lvl01.Add(ground);
+    lvl01.Add(hillyHorizon);
     BuildLvl01(lvl01, player, barn, cows.slice(0, 3), hud, nextBtn, lvlCompMsg);
     SceneMngr.AddScene(lvl01, false);
 
@@ -176,6 +184,7 @@ function BuildGame() {
     lvl02.Add(barn.obj);
     lvl02.Add(skyBox);
     lvl02.Add(ground);
+    lvl02.Add(hillyHorizon);
     BuildLvl02(lvl02, player, barn, cows.slice(0, 6), haybales.slice(0, 4), hud, nextBtn, lvlCompMsg);
     SceneMngr.AddScene(lvl02, false);
 
@@ -186,6 +195,7 @@ function BuildGame() {
     lvl03.Add(barn.obj);
     lvl03.Add(skyBox);
     lvl03.Add(ground);
+    lvl03.Add(hillyHorizon);
     lvl03.Add(ufo.obj);
     BuildLvl03(lvl03, player, barn, cows.slice(), haybales.slice(), ufo, hud, nextBtn, lvlCompMsg);
     SceneMngr.AddScene(lvl03, false);
