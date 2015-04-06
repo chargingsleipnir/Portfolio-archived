@@ -147,13 +147,13 @@ function UFO() {
     var TRACTOR_PULL_SPEED = 0.020;
     var ufoStates = {dormant: 0, abducting: 1, stunned: 2};
     var currState = ufoStates.dormant;
-    var moveSpeed = 0.05;
+    var MOVE_SPEED = 4.0;
 
     var stunCounter = 0.0;
     var STUN_TIME_MAX = 5.0;
 
-    function SeekAcrossXZ(dir, speed) {
-        var velocity = dir.GetScaleByNum(speed);
+    function SeekAcrossXZ(dir) {
+        var velocity = dir.GetScaleByNum(MOVE_SPEED * Time.deltaMilli);
         // 2D movement for object in 3D world;
         that.obj.trfmBase.TranslateByAxes(velocity.x, 0.0, velocity.y);
     }
@@ -190,12 +190,13 @@ function UFO() {
     };
 
 
-    this.Abduct = function(abductee, distSqr2D, dirVec) {
+    this.Abduct = function(abductee, dirVec2D) {
         switch(currState) {
             case ufoStates.abducting:
+                var distSqr2D = dirVec2D.GetMagSqr();
                 // Don't stop travelling the second it starts tractoring. Keep trying to be right on top of it.
                 if(distSqr2D > VERY_SMALL)
-                    SeekAcrossXZ(dirVec.SetScaleByNum(1.0 / Math.sqrt(distSqr2D)), moveSpeed);
+                    SeekAcrossXZ(dirVec2D.SetScaleByNum(1.0 / Math.sqrt(distSqr2D)));
                 // Start tractoring from a larger radius though
                 if(distSqr2D < TRACTOR_RANGE) {
                     // Used to avoid collision with just this one.

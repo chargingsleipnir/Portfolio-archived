@@ -3,7 +3,7 @@ function TopDownController(obj, ctrlName) {
     var active = false;
 
     var ctrl = new ControlScheme();
-    var moveSpeed = 1250;
+    var moveForceScalar = 3750;
     var yawAngle = 0.0;
 
     // Control object
@@ -35,19 +35,19 @@ function TopDownController(obj, ctrlName) {
         if(active) {
             if (ctrl.moveLeft.pressed) {
                 dir = obj.trfmGlobal.GetRight();
-                obj.rigidBody.AddForce(dir.SetScaleByNum(-moveSpeed));
+                obj.rigidBody.AddForce(dir.SetScaleByNum(-moveForceScalar));
             }
             else if (ctrl.moveRight.pressed) {
                 dir = obj.trfmGlobal.GetRight();
-                obj.rigidBody.AddForce(dir.SetScaleByNum(moveSpeed));
+                obj.rigidBody.AddForce(dir.SetScaleByNum(moveForceScalar));
             }
             if (ctrl.moveForth.pressed) {
                 dir = obj.trfmGlobal.GetFwd();
-                obj.rigidBody.AddForce(dir.SetScaleByNum(moveSpeed));
+                obj.rigidBody.AddForce(dir.SetScaleByNum(moveForceScalar));
             }
             else if (ctrl.moveBack.pressed) {
                 dir = obj.trfmGlobal.GetFwd();
-                obj.rigidBody.AddForce(dir.SetScaleByNum(-moveSpeed));
+                obj.rigidBody.AddForce(dir.SetScaleByNum(-moveForceScalar));
             }
             if(ctrl.yawLeft.pressed) {
                 yawAngle++;

@@ -64,8 +64,8 @@ function Player() {
     var launchScalarDiffMaxInv = 1.0 / (LAUNCH_SCALAR_MAX - LAUNCH_SCALAR_MIN);
     var launchScalar = LAUNCH_SCALAR_MIN;
 
-    var massMax = 200;
-    var massHeld = 0.0;
+    var MASS_EMPTY = 300.0;
+    var massAccum = 0.0;
 
     var ammoCont = [];
     var ammoIdx = 0;
@@ -98,7 +98,7 @@ function Player() {
     this.height = modelObj.shapeData.radii.y * modelObj.trfmBase.scale.y * 2;
 
     this.obj.AddComponent(Components.rigidBody);
-    this.obj.rigidBody.SetMass(100.0);
+    this.obj.rigidBody.SetMass(MASS_EMPTY);
     this.obj.rigidBody.dampening = 0.2;
     var playerVel = this.obj.rigidBody.velF;
 
@@ -250,12 +250,20 @@ function Player() {
         var ammoObj = ammoCont[ammoIdx].pop();
         if(ammoObj) {
             ammoObj.trfmBase.SetPosByVec(playerPos.GetAdd(dir.SetScaleByNum(contactScale + 2.0)));
+            AdjustMass(-ammoObj.rigidBody.GetMass());
             AmmoCountChangeCallback(ammoIdx, ammoCont[ammoIdx].length);
             PrepAmmo(ammoObj, true);
             ammoObj.rigidBody.AddForce(dir.GetScaleByNum(windspeed * launchScalar));
             ammoObj.PlayLaunchSound();
         }
         DropLaunchPower();
+    };
+
+    var AdjustMass = function(mass) {
+        // Adjusting player's mass will determine its movement speed,
+        // So it can't just collect everything
+        massAccum += mass;
+        that.obj.rigidBody.SetMass(MASS_EMPTY + massAccum);
     };
 
     // PLAYER METHODS -------------------------------------------------
@@ -300,17 +308,19 @@ function Player() {
         PrepAmmo(gameObj, false);
     };
     this.ReleaseAmmoAbove = function(ammoContIdx, ammoIdx) {
-        var gameObj = (ammoCont[ammoContIdx].splice(ammoIdx, 1)).pop();
-        if(gameObj) {
-            gameObj.trfmBase.SetPosByVec(playerPos.GetAdd(VEC3_UP.GetScaleByNum(this.height * 0.75)));
+        var ammoObj = (ammoCont[ammoContIdx].splice(ammoIdx, 1)).pop();
+        if(ammoObj) {
+            ammoObj.trfmBase.SetPosByVec(playerPos.GetAdd(VEC3_UP.GetScaleByNum(this.height * 0.75)));
+            AdjustMass(-ammoObj.rigidBody.GetMass());
             AmmoCountChangeCallback(ammoContIdx, ammoCont[ammoContIdx].length);
-            PrepAmmo(gameObj, true);
+            PrepAmmo(ammoObj, true);
         }
     };
     this.ClearAmmo = function() {
         for(var i = 0; i < ammoCont.length; i++)
             ammoCont[i].splice(0, ammoCont[i].length);
 
+        AdjustMass(-massAccum);
         twistList.splice(0, twistList.length);
     };
     this.SetControlActive = function(isActive) {
@@ -339,6 +349,7 @@ function Player() {
         ammoObj.PlayCaptureSound();
         GameMngr.assets.sounds['wind'].play();
 
+        AdjustMass(ammoObj.rigidBody.GetMass());
         twistList.push(new CaughtObj(playerPos, ammoObj, ammoType, rotAngleIncr, rotAngleAccIncr, hypDecr, yIncr));
     };
     this.RemoveFromTwister = function(gameObj) {
@@ -359,6 +370,7 @@ function Player() {
         twistList.splice(0, twistList.length);
         ammoIdx = 0;
         ammoTypeCount = 0;
+        AdjustMass(-massAccum);
         AmmoSelectionCallback(ammoIdx);
         this.ResetMotion();
     };
@@ -416,12 +428,11 @@ function Player() {
             }
         }
 
-        // Keep all ammo positioned on player
+        // Keep all ammo positioned on player;
         for (var i = 0; i < ammoCont.length; i++) {
             for (var j = 0; j < ammoCont[i].length; j++) {
                 ammoCont[i][j].trfmBase.SetPosByAxes(playerPos.x, playerPos.y, playerPos.z);
             }
         }
-
     }
 }

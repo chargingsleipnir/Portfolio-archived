@@ -18,9 +18,8 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
     GameUtils.RaiseToGroundLevel(fence);
 
     var abductee = null,
-        ufoToCowDistSqr = 0.0,
-        ufoToCowDirVec = new Vector2(),
-        tempDirVec = new Vector2();
+        ufoToCowDirVec2D = new Vector2(),
+        tempDirVec = new Vector3();
 
     var cowPos = [
         [33.0, 0.0, -12.0],
@@ -82,7 +81,7 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
     // Level Phases ==========================================================================================
 
     var msgs = [
-        "Uh-oh, here she comes, the Mother Ship... Don't let her take my babies!!",
+        "Uh-oh, here she comes, the Mother Ship... Don't let it take my babies!!",
         "Check the top-right to see how many cows have been abducted."
     ];
     InGameMsgr.AddMsgSequence("level03", msgs);
@@ -104,6 +103,8 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
 
         for(var i = 0; i < cows.length; i++ ) {
             cows[i].SetVisible(true);
+            var random = Math.random();
+            cows[i].trfmBase.SetUpdatedRot(VEC3_UP, random * 360.0);
             cows[i].trfmBase.SetPosByAxes(cowPos[i][0], cowPos[i][1], cowPos[i][2]);
             GameUtils.RaiseToGroundLevel(cows[i]);
         }
@@ -153,18 +154,18 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
         switch(lvlPhases) {
             case 0:
                 if (activeCows.length > 0) {
-                    ufoToCowDistSqr = 999999;
+                    var ufoToCowDistSqr3D = 999999;
                     for (var i = 0; i < activeCows.length; i++) {
                         GameUtils.ContainInLevelBoundsUpdate(activeCows[i]);
 
-                        // Which cow to go after
-                        tempDirVec.SetValues(
-                            activeCows[i].trfmGlobal.pos.x - ufo.obj.trfmGlobal.pos.x,
-                            activeCows[i].trfmGlobal.pos.z - ufo.obj.trfmGlobal.pos.z);
+                        // Which cow to go after in 3D space (to account for height, as well as x & z dimensions)
+                        tempDirVec.SetCopy(activeCows[i].trfmGlobal.pos);
+                        tempDirVec.SetSubtract(ufo.obj.trfmGlobal.pos);
                         var tempDistSqr = tempDirVec.GetMagSqr();
-                        if (tempDistSqr < ufoToCowDistSqr) {
-                            ufoToCowDistSqr = tempDistSqr;
-                            ufoToCowDirVec.SetCopy(tempDirVec);
+                        if (tempDistSqr < ufoToCowDistSqr3D) {
+                            ufoToCowDistSqr3D = tempDistSqr;
+                            // Convert 3D to 2D
+                            ufoToCowDirVec2D.SetValues(tempDirVec.x, tempDirVec.z);
                             if (!ufo.tractoring)
                                 abductee = activeCows[i];
                         }
@@ -175,7 +176,7 @@ function BuildLvl03(scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlC
                         cowSceneListIdx = (cowSoughtFromPlayerIdx != -1) ? activeCows.indexOf(abductee) : -1;
                     }
 
-                    if (ufo.Abduct(abductee, ufoToCowDistSqr, ufoToCowDirVec)) {
+                    if (ufo.Abduct(abductee, ufoToCowDirVec2D)) {
                         GameUtils.CowsAbductedIncr();
                         hud.guiTextObjs["abductionInfo"].UpdateMsg("" + GameUtils.GetCowsAbducted());
                         activeCows.splice(activeCows.indexOf(abductee), 1);

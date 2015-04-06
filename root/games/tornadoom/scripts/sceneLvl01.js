@@ -90,6 +90,8 @@ function BuildLvl01(scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
 
         for(var i = 0; i < cows.length; i++ ) {
             cows[i].SetVisible(false);
+            var random = Math.random();
+            cows[i].trfmBase.SetUpdatedRot(VEC3_UP, random * 360.0);
         }
         for(var i = 0; i < NUM_COWS_PHASE_1; i++ ) {
             cows[i].SetVisible(true);

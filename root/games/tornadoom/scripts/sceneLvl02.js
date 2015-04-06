@@ -88,8 +88,9 @@ function BuildLvl02(scene, player, barn, cows, haybales, hud, nextBtn, lvlCompMs
         "I knew I felt somethin' a comin'... what are these crazy things?",
         "They can't seem to get into my barn, but more of my cattle are exposed. Can you get them in here?",
         "Make sure ya don't touch one; They're movin' pretty darn fast, and I don't think that airy funnel of yours can take the impact!",
-        "Don't let one of my babies hit those things either, or it'll be a goner for sure. The hay bales I'm not so worried about.",
-        "If you capture any hay bales, press the { and } keys to switch what you want to shoot.",
+        "Don't let one of my babies hit those things either, or it'll be a goner for sure.",
+        "The hay bales I'm not so worried about. Heck, maybe they can damage those things?!",
+        "Press the { and } keys to switch what you want to shoot.",
         // Part 2
         "Not sure how to get them over this far? You'll have to put some extra power behind it.",
         "Hold Ctrl to get ready for a power-shot!",
@@ -113,6 +114,8 @@ function BuildLvl02(scene, player, barn, cows, haybales, hud, nextBtn, lvlCompMs
 
         for(var i = 0; i < cows.length; i++ ) {
             cows[i].SetVisible(true);
+            var random = Math.random();
+            cows[i].trfmBase.SetUpdatedRot(VEC3_UP, random * 360.0);
             cows[i].trfmBase.SetPosByAxes(cowPos[i][0], cowPos[i][1], cowPos[i][2]);
             GameUtils.RaiseToGroundLevel(cows[i]);
         }
@@ -136,7 +139,7 @@ function BuildLvl02(scene, player, barn, cows, haybales, hud, nextBtn, lvlCompMs
         InGameMsgr.ChangeMsgSequence("level02");
         scene.SetLoopCallback(MsgUpdate);
         player.SetControlActive(false);
-        msgLimit = 5;
+        msgLimit = 6;
         lvlPhases = 0;
 
         hud.guiTextObjs["caughtBaleInfo"].SetActive(true);
@@ -192,7 +195,7 @@ function BuildLvl02(scene, player, barn, cows, haybales, hud, nextBtn, lvlCompMs
         switch(lvlPhases) {
             case 0:
                 if(player.GetAmmoCount(GameUtils.ammoTypes.cow) == 1) {
-                    msgLimit = 8;
+                    msgLimit = 9;
                     lvlPhases++;
                     scene.SetLoopCallback(MsgUpdate);
                     player.SetControlActive(false);
