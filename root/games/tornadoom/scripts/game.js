@@ -44,25 +44,8 @@ function BuildGame() {
 
     function PlayerCollCallback(collider) {
         if (collider.gameObj.label == Labels.ammo) {
-            var objToEyeVec = new Vector2(player.obj.trfmGlobal.pos.x - collider.trfm.pos.x, player.obj.trfmGlobal.pos.z - collider.trfm.pos.z);
-            var objToEyeDistSqr = objToEyeVec.GetMagSqr();
-
-            // This format allows not only for objects to only be captured if they are within the given radius,
-            // but ensures that their velocities don't explode at heights above the tornado:
-            // No force is applied if they're directly above the funnel.
-            if (collider.trfm.pos.y < player.height) {
-                if (objToEyeDistSqr < player.captureRadius * player.captureRadius) {
-                    if (collider.gameObj.name == "cow")
-                        player.Capture(GameUtils.ammoTypes.cow, collider.gameObj);
-                    else if (collider.gameObj.name == "hay bale")
-                        player.Capture(GameUtils.ammoTypes.hayBale, collider.gameObj);
-                }
-                else {
-                    //player.Twister(collider.rigidBody, objToEyeVec, objToEyeDistSqr);
-                    // Needs to be on collision enter and take off from there.
-                    player.Absord(collider.gameObj, objToEyeVec, objToEyeDistSqr);
-                }
-            }
+            if (collider.trfm.pos.y < player.height)
+                player.Absord(collider.gameObj, GameUtils.GetAmmoType(collider.gameObj.name));
         }
     }
 

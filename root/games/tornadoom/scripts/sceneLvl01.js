@@ -56,7 +56,7 @@ function BuildLvl01(scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
     var msgs = [
         "Howdy! I'm having a bit of a problem. Do you think you could help me out?",
         "My cattle have all been scared straight, and they just won't budge anymore!",
-        "Think you can help my rustle them up into my barn? Be careful using those powerful winds of yours!",
+        "Think you can help me rustle them up into my barn? Be careful using those powerful winds of yours!",
         "Use W, S, A, D to move around the field",
         "Use the left and right arrow keys to rotate yourself around.",
         "Alright, you got one! Be a pal, and bring it into the barn for me?",

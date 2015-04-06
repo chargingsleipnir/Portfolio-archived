@@ -123,7 +123,7 @@ function Cow() {
     effects.speed = 3.5;
     effects.acc.SetValues(0.0, -2.0, 0.0);
     effects.dampening = 0.5;
-    effects.colourBtm.SetValues(0.0, 0.0, 0.0);
+    effects.colourBtm.SetValues(0.25, 0.0, 0.0);
     effects.colourTop.SetValues(1.0, 0.0, 0.0);
     effects.lineLength = 0.0;
     effects.alphaStart = 1.0;

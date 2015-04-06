@@ -2,19 +2,23 @@
  * Created by Devin on 2015-01-16.
  */
 
-// Extra object to help absorb objects
-function CaughtObj(centrePos, gameObj, angleRad, r, rotAngleIncr, rotAngleAccIncr, hypDecr, yIncr) {
+// Extra object to help absorb ammo objects
+function CaughtObj(centrePos, ammoObj, ammoType, rotAngleIncr, rotAngleAccIncr, hypDecr, yIncr) {
+
+    var objToEyeVec = new Vector2(centrePos.x - ammoObj.trfmGlobal.pos.x, centrePos.z - ammoObj.trfmGlobal.pos.z);
+
     this.centrePos = centrePos;
-    this.gameObj = gameObj;
-    this.angle = angleRad;
-    this.r = r;
+    this.ammoObj = ammoObj;
+    this.ammoType = ammoType;
+    this.angle = Math.atan2(-objToEyeVec.x, -objToEyeVec.y);
+    this.r = objToEyeVec.GetMag();
 
     this.rotAngleIncr = rotAngleIncr;
     this.rotAngleAccIncr = rotAngleAccIncr;
     this.hypDecr = hypDecr;
     // asin will be in error if -1 > value > 1
-    this.yAngle = Math.asin(MathUtils.Clamp(this.gameObj.trfmBase.pos.y - centrePos.y, -1.0, 1.0));
-    this.yScale = (1.0 - gameObj.shapeData.radii.y);
+    this.yAngle = Math.asin(MathUtils.Clamp(this.ammoObj.trfmBase.pos.y - centrePos.y, -1.0, 1.0));
+    this.yScale = (1.0 - ammoObj.shapeData.radii.y);
     this.yIncr = yIncr;
 }
 CaughtObj.prototype = {
@@ -29,7 +33,7 @@ CaughtObj.prototype = {
         var newX = this.centrePos.x + (this.r * Math.sin(this.angle));
         var newY = this.centrePos.y + (Math.sin(this.yAngle) * this.yScale);
         var newZ = this.centrePos.z + (this.r * Math.cos(this.angle));
-        this.gameObj.trfmBase.SetPosByAxes( newX, newY,  newZ);
+        this.ammoObj.trfmBase.SetPosByAxes( newX, newY,  newZ);
     }
 };
 
@@ -325,28 +329,17 @@ function Player() {
         // Perfect lift right away, slowing once obj's gravity is re-applied.
         rigidBody.ApplyGravity(VEC3_GRAVITY.GetNegative());
     };
-    this.Absord = function(ammoObj, objToEyeVec, objToEyeDistSqr) {
+    this.Absord = function(ammoObj, ammoType) {
         for(var i = 0; i < twistList.length; i++)
-            if(ammoObj == twistList[i].gameObj)
+            if(ammoObj == twistList[i].ammoObj)
                 return;
 
-        // Get the current angle and hypotenuse
-        var rotX = -objToEyeVec.x,
-            rotZ = -objToEyeVec.y;
-
+        // Collider no longer needed while object is being absorbed
+        ammoObj.collider.SetActive(false);
         ammoObj.PlayCaptureSound();
         GameMngr.assets.sounds['wind'].play();
 
-        twistList.push(
-            new CaughtObj(
-                playerPos,
-                ammoObj,
-                Math.atan2(rotX, rotZ),
-                Math.sqrt(objToEyeDistSqr),
-                rotAngleIncr,
-                rotAngleAccIncr,
-                hypDecr,
-                yIncr ));
+        twistList.push(new CaughtObj(playerPos, ammoObj, ammoType, rotAngleIncr, rotAngleAccIncr, hypDecr, yIncr));
     };
     this.RemoveFromTwister = function(gameObj) {
         for(var i = 0; i < twistList.length; i++) {
@@ -381,7 +374,8 @@ function Player() {
         for(var i = 0; i < twistList.length; i++) {
             twistList[i].Update();
 
-            if(twistList[i].r < this.captureRadius * 0.75) {
+            if(twistList[i].r < this.captureRadius) {
+                this.Capture(twistList[i].ammoType, twistList[i].ammoObj);
                 twistList.splice(twistList.indexOf(twistList[i]), 1);
             }
         }

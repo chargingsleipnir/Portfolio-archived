@@ -74,6 +74,13 @@ var GameUtils = (function() {
             cow: 0,
             hayBale: 1
         },
+        GetAmmoType: function(name) {
+            switch(name) {
+                case "cow": return this.ammoTypes.cow;
+                case "hay bale": return this.ammoTypes.hayBale;
+                default: return -1;
+            }
+        },
         Reset: function() {
             cowsEncountered =
             cowsSavedByLevel =
