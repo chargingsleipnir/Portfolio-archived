@@ -32,8 +32,6 @@ var Input = (function() {
     function SetMousePos(mouse, event) {
         activeMouseRegistry[mouse].pos.x = event.pageX - ViewMngr.offsetLeft;
         activeMouseRegistry[mouse].pos.y = event.pageY - ViewMngr.offsetTop;
-
-        console.log("pageX: " + event.pageX + ", offsetLeft" + ViewMngr.offsetLeft);
     }
 
     function onmousemove(e) {
