@@ -28,6 +28,7 @@ var DebugMngr = {
             var grid = new GameObject('grid', Labels.productionEnvironment);
             grid.parent = new GameObject("Grid Parent", Labels.none);
             grid.trfmBase.SetScaleAxes(10.0, 0.0, 10.0);
+            grid.trfmBase.TranslateByAxes(0.0, 0.05, 0.0);
             grid.SetModel(Primitives.grid);
             grid.Update();
             this.grid = grid.mdlHdlr;
