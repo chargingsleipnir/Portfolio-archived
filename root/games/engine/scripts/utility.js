@@ -4,6 +4,10 @@ window.onerror = function(msg, url, lineno) {
     console.log(url + '\n(' + lineno + '): ' + msg);
 };
 
+window.onresize = function(event) {
+    ViewMngr.Resize(event);
+};
+
 var FileUtils = {
     // Load external assets
     LoadFile: function(file, Callback, noCache, isJSON) {

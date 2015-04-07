@@ -1,5 +1,6 @@
 ﻿
 var GameMngr = {
+    canvasWebGL: null,
     assets: {
         textures: {},
         models: {},
@@ -15,6 +16,7 @@ var GameMngr = {
         console.log("GAME STARTUP");
 
         // get webGL context
+        this.canvasWebGL = canvasWebGL;
         GL.Initialize(canvasWebGL.getContext('webgl'));
         ViewMngr.Initialize(canvasWebGL);
         Input.GetCanvas(canvasWebGL);

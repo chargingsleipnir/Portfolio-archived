@@ -38,6 +38,10 @@ var ViewMngr = {
 
         GL.ReshapeWindow(this.wndWidth, this.wndHeight);
     },
+    Resize: function(event) {
+        this.offsetLeft = GameMngr.canvasWebGL.offsetLeft;
+        this.offsetTop = GameMngr.canvasWebGL.offsetTop;
+    },
     SetActiveCamera: function(camera) {
         this.activeCam.active = false;
         if(camera) {
