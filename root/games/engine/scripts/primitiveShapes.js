@@ -1408,5 +1408,80 @@ var Primitives = {
             },
             drawMethod: DrawMethods.lines
         };
+    },
+    AlienBarrier: function(radius, rows, cols) {
+
+        var incrAng = DEG_TO_RAD * 60.0;
+        var rowOffsetH = radius * Math.sin(incrAng),
+            colOffsetW = radius * Math.cos(incrAng),
+            shapeH = rowOffsetH * 2,
+            idxIncr = 0,
+            VERTS_PER_HEX = 6;
+
+        var posCoords = [];
+        var indices = [];
+
+        function BuildHexagons(row, col) {
+            var colAdjust = (col % 2 == 0) ? rowOffsetH : 0;
+
+            posCoords = posCoords.concat([
+                (radius * Math.cos(0)) + (col * (radius + colOffsetW)),
+                (radius * Math.sin(0)) + (row * shapeH) + colAdjust,
+                0.0
+            ]);
+            var firstIdx = idxIncr++;
+            indices.push(firstIdx);
+            for (var k = 1; k < 6; k++) {
+                posCoords = posCoords.concat([
+                    (radius * Math.cos(k * incrAng)) + (col * (radius + colOffsetW)),
+                    (radius * Math.sin(k * incrAng)) + (row * shapeH) + colAdjust,
+                    0.0
+                ]);
+                // Get each point twice to create lines
+                indices.push(idxIncr);
+                indices.push(idxIncr++);
+            }
+            // end with same point as start
+            indices.push(firstIdx);
+        }
+
+        for(var i = 0; i < cols; i++) {
+            for(var j = 0; j < rows; j++) {
+                BuildHexagons(j, i);
+            }
+        }
+
+
+        return {
+            name: "Alien Barrier",
+            numTris: 0,
+            materials: [],
+            vertices: {
+                byMesh: {
+                    // Not relevant because of using indices?
+                    count: 0,
+                    posCoords: posCoords,
+                    colElems: (function () {
+                        var colors = [];
+                        for (var i = 0; i < posCoords.length / 3; i++) {
+                            //colors = colors.concat([Math.sin(i), Math.cos(i), Math.tan(i), 1.0]);
+                            colors = colors.concat([1.0, 1.0, 0.0, 1.0]);
+                        }
+                        return colors;
+                    })(),
+                    texCoords: [],
+                    normAxes: [],
+                    indices: indices
+                },
+                byFaces: {
+                    count: 0,
+                    posCoords: [],
+                    colElems: [],
+                    texCoords: [],
+                    normAxes: []
+                }
+            },
+            drawMethod: DrawMethods.lines
+        }
     }
 };

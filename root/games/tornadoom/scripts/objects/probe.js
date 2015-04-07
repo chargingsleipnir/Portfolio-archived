@@ -2,7 +2,7 @@
  * Created by Devin on 2015-04-01.
  */
 
-function Probe(posArray, speed) {
+function Probe(posArray, speed, CowKillCallback) {
 
     var that = this;
     var active = true;
@@ -57,7 +57,7 @@ function Probe(posArray, speed) {
                     player.RemoveFromTwister(collider.gameObj);
                     activeCows[i].SetVisible(false);
                     activeCows.splice(activeCows.indexOf(activeCows[i]), 1);
-                    GameUtils.CowsAbductedIncr();
+                    CowKillCallback();
                 }
             that.GetHit();
         }

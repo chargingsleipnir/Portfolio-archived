@@ -5,11 +5,23 @@
 function BuildGame() {
     /*====================================== GLOBAL GAME SETUP ======================================*/
 
+    /********************************** Fields **********************************/
 
+    var that = this;
+
+    var cowsEncountered = 0,
+        cowsSavedByLevel = 0,
+        cowsSavedTotal = 0,
+        cowsAbductedByLevel = 0,
+        cowsAbductedTotal = 0;
+
+    var fadeRate = -0.025;
+
+    this.AmmoTypes = { cow: 0, hayBale: 1 };
 
     /********************************** Environment Init **********************************/
 
-        // This is temporary, just to view the world and build scenes easier.
+    // This is temporary, just to view the world and build scenes easier.
     ViewMngr.camera.trfmAxes.SetPosAxes(0.0, 5.0, 0.0);
     ViewMngr.camera.trfmAxes.RotateLocalViewX(-10);
     ViewMngr.camera.FreeControlUpdate();
@@ -40,15 +52,13 @@ function BuildGame() {
 
     // Player ------------------------------------------------------------------
     var player = new Player();
-    GameUtils.RaiseToGroundLevel(player.obj);
 
     function PlayerCollCallback(collider) {
         if (collider.gameObj.label == Labels.ammo) {
             if (collider.trfm.pos.y < player.height)
-                player.Absord(collider.gameObj, GameUtils.GetAmmoType(collider.gameObj.name));
+                player.Absord(collider.gameObj, that.GetAmmoType(collider.gameObj.name));
         }
     }
-
     var UpdateHUDAmmoSelection = function (ammoIdx) {
         for (var i = 0; i < hudAmmoMsgs.length; i++) {
             hudAmmoMsgs[i].SetObjectFade(0.66);
@@ -88,14 +98,18 @@ function BuildGame() {
     skyBoxModel.SetForCubeTexturing();
     skyBox.SetModel(skyBoxModel);
     skyBox.mdlHdlr.SetCubeTextures(skyBoxTextures);
-    skyBox.trfmBase.SetScaleAxes(200.0, 200.0, 200.0);
+    skyBox.trfmBase.SetScaleAxes(150.0, 150.0, 150.0);
     skyBox.trfmBase.TranslateByAxes(0.0, 25.0, 0.0);
 
     var hillyHorizon = new GameObject('horizon', Labels.none);
     hillyHorizon.SetModel(GameMngr.assets.models['horizon']);
     hillyHorizon.mdlHdlr.SetTexture(GameMngr.assets.textures['groundTex'], TextureFilters.mipmap);
-    GameUtils.RaiseToGroundLevel(hillyHorizon);
     hillyHorizon.trfmBase.TranslateByAxes(0.0, -0.5, 0.0);
+
+    var alienBarrier = new GameObject('alien barrier', Labels.none);
+    alienBarrier.SetModel(new Primitives.AlienBarrier(0.15, 8, 8));
+    alienBarrier.trfmBase.TranslateByAxes(0.0, 999.0, 0.0);
+    alienBarrier.mdlHdlr.SetTintAlpha(0.0);
 
     var cows = [];
     var MAX_COWS = 10;
@@ -107,16 +121,35 @@ function BuildGame() {
     for (var i = 0; i < MAX_BALES; i++)
         haybales[i] = new HayBale();
 
-    /********************************** In-Game GUI Systems **********************************/
+    /********************************** Helper functions **********************************/
 
-    // Level complete message -----------------------------------------------------
-    var lvlCompMsg = new LevelCompleteMessage();
+    function GameUpdate() {
+        if (SceneMngr.GetActiveScene().type == SceneTypes.gameplay) {
 
-    // Menu ------------------------------------------------------------------
+            inGameMenu.Update();
+            if (menuBtn.pressed) {
+                inGameMenu.ToggleActive();
+                menuBtn.Release();
+            }
+
+            if(!GameMngr.paused) {
+                if(alienBarrier.trfmGlobal.pos.y < 999.0)
+                    if(alienBarrier.mdlHdlr.FadeTintAlpha(fadeRate) < INFINITESIMAL)
+                        alienBarrier.trfmBase.TranslateByAxes(0.0, 999.0, 0.0);
+            }
+        }
+    }
     function ResetGame() {
-        GameUtils.Reset();
         player.ResetAll();
+        that.RaiseToGroundLevel(player.obj);
+        that.RaiseToGroundLevel(hillyHorizon);
         Time.counter = 0.0;
+
+        cowsEncountered =
+        cowsSavedByLevel =
+        cowsSavedTotal =
+        cowsAbductedByLevel =
+        cowsAbductedTotal = 0;
 
         hud.guiTextObjs["caughtCowInfo"].UpdateMsg('0');
         hud.guiTextObjs["caughtBaleInfo"].UpdateMsg('0');
@@ -137,6 +170,101 @@ function BuildGame() {
         SceneMngr.SetActive("Title Screen");
     }
 
+    /********************************** Game Functions **********************************/
+
+    this.RaiseToGroundLevel = function (gameObj) {
+        if(gameObj.trfmGlobal.pos.y < INFINITESIMAL && gameObj.trfmGlobal.pos.y > -INFINITESIMAL)
+            gameObj.trfmBase.TranslateByAxes(0.0, gameObj.shapeData.radii.y * gameObj.trfmBase.scale.y, 0.0);
+    };
+
+    // Level Boundaries
+    var leftWall, rightWall, backWall, frontWall;
+    this.SetLevelBounds = function(gameObj) {
+        leftWall = gameObj.shapeData.min.x;
+        rightWall = gameObj.shapeData.max.x;
+        backWall = gameObj.shapeData.max.z;
+        frontWall = gameObj.shapeData.min.z;
+    };
+    this.ContainInLevelBoundsUpdate = function(gameObj) {
+        if(gameObj.trfmGlobal.pos.x < leftWall + gameObj.shapeData.radii.x && gameObj.rigidBody.velF.x < 0) {
+            gameObj.rigidBody.velF.x = -gameObj.rigidBody.velF.x;
+            alienBarrier.trfmBase.SetPosByAxes(leftWall, gameObj.trfmGlobal.pos.y, gameObj.trfmGlobal.pos.z);
+            alienBarrier.trfmBase.SetUpdatedRot(VEC3_UP, 90);
+            alienBarrier.mdlHdlr.SetTintAlpha(1.0);
+        }
+        else if(gameObj.trfmGlobal.pos.x > rightWall - gameObj.shapeData.radii.x && gameObj.rigidBody.velF.x > 0) {
+            gameObj.rigidBody.velF.x = -gameObj.rigidBody.velF.x;
+            alienBarrier.trfmBase.SetPosByAxes(rightWall, gameObj.trfmGlobal.pos.y, gameObj.trfmGlobal.pos.z);
+            alienBarrier.trfmBase.SetUpdatedRot(VEC3_UP, 90);
+            alienBarrier.mdlHdlr.SetTintAlpha(1.0);
+        }
+        if(gameObj.trfmGlobal.pos.z < frontWall + gameObj.shapeData.radii.z && gameObj.rigidBody.velF.z < 0) {
+            gameObj.rigidBody.velF.z = -gameObj.rigidBody.velF.z;
+            alienBarrier.trfmBase.SetPosByAxes(gameObj.trfmGlobal.pos.x, gameObj.trfmGlobal.pos.y, frontWall);
+            alienBarrier.trfmBase.SetUpdatedRot(VEC3_UP, 0);
+            alienBarrier.mdlHdlr.SetTintAlpha(1.0);
+        }
+        else if(gameObj.trfmGlobal.pos.z > backWall - gameObj.shapeData.radii.z && gameObj.rigidBody.velF.z > 0) {
+            gameObj.rigidBody.velF.z = -gameObj.rigidBody.velF.z;
+            alienBarrier.trfmBase.SetPosByAxes(gameObj.trfmGlobal.pos.x, gameObj.trfmGlobal.pos.y, backWall);
+            alienBarrier.trfmBase.SetUpdatedRot(VEC3_UP, 0);
+            alienBarrier.mdlHdlr.SetTintAlpha(1.0);
+        }
+    };
+
+    this.GetCowsEncountered = function() {
+        return cowsEncountered;
+    };
+    this.CowsEncounteredAdd = function(numCows) {
+        cowsEncountered += numCows;
+    };
+    this.GetCowsSavedByLevel = function() {
+        return cowsSavedByLevel;
+    };
+    this.GetCowsSavedTotal = function() {
+        return cowsSavedTotal;
+    };
+    this.CowsSavedIncr = function() {
+        cowsSavedByLevel++;
+        cowsSavedTotal++;
+    };
+    this.CowsSavedByLevelZero = function() {
+        cowsSavedByLevel = 0;
+    };
+    this.GetCowsAbductedByLevel = function() {
+        return cowsAbductedByLevel;
+    };
+    this.GetCowsAbductedTotal = function() {
+        return cowsAbductedTotal;
+    };
+    this.CowsAbductedIncr = function() {
+        cowsAbductedByLevel++;
+        cowsAbductedTotal++;
+    };
+    this.CowsAbductedAdd = function(numCows) {
+        cowsAbductedByLevel += numCows;
+        cowsAbductedTotal += numCows;
+    };
+    this.CowsAbductedByLevelZero = function() {
+        cowsAbductedByLevel = 0;
+    };
+    this.GetAmmoType = function(name) {
+        switch(name) {
+            case "cow": return this.AmmoTypes.cow;
+            case "hay bale": return this.AmmoTypes.hayBale;
+            default: return -1;
+        }
+    };
+    this.CheckWin = function() {
+        return cowsSavedTotal >= Math.ceil(cowsEncountered / 2);
+    };
+
+    /********************************** In-Game GUI Systems **********************************/
+
+    // Level complete message -----------------------------------------------------
+    var lvlCompMsg = new LevelCompleteMessage(this);
+
+    // Menu ------------------------------------------------------------------
     var inGameMenu = new InGameMenu(gameMouse, player, ResetGame);
 
     // Messenger ------------------------------------------------------------------
@@ -147,7 +275,11 @@ function BuildGame() {
     // Title screen just has gui elements
     var title = new Scene("Title Screen", SceneTypes.menu);
     BuildSceneTitle(title, nextBtn);
-    SceneMngr.AddScene(title, true);
+    SceneMngr.AddScene(title, false);
+
+    this.test = function() {
+        console.log("no problem");
+    };
 
     // Teach player how to pick up a cow and shoot it into the barn
     // Once they do one, place 3 others - get them in the barn before the time runs out!
@@ -157,7 +289,8 @@ function BuildGame() {
     lvl01.Add(skyBox);
     lvl01.Add(ground);
     lvl01.Add(hillyHorizon);
-    BuildLvl01(lvl01, player, barn, cows.slice(0, 3), hud, nextBtn, lvlCompMsg);
+    lvl01.Add(alienBarrier);
+    BuildLvl01(this, lvl01, player, barn, cows.slice(0, 3), hud, nextBtn, lvlCompMsg);
     SceneMngr.AddScene(lvl01, false);
 
     // Teach player how to shoot a hay bale vertically
@@ -168,7 +301,8 @@ function BuildGame() {
     lvl02.Add(skyBox);
     lvl02.Add(ground);
     lvl02.Add(hillyHorizon);
-    BuildLvl02(lvl02, player, barn, cows.slice(0, 6), haybales.slice(0, 4), hud, nextBtn, lvlCompMsg);
+    lvl02.Add(alienBarrier);
+    BuildLvl02(this, lvl02, player, barn, cows.slice(0, 6), haybales.slice(0, 4), hud, nextBtn, lvlCompMsg);
     SceneMngr.AddScene(lvl02, false);
 
     // Enter alien
@@ -176,11 +310,12 @@ function BuildGame() {
     var lvl03 = new Scene("Level 03", SceneTypes.gameplay);
     lvl03.Add(player.obj);
     lvl03.Add(barn.obj);
+    lvl03.Add(ufo.obj);
     lvl03.Add(skyBox);
     lvl03.Add(ground);
     lvl03.Add(hillyHorizon);
-    lvl03.Add(ufo.obj);
-    BuildLvl03(lvl03, player, barn, cows.slice(), haybales.slice(), ufo, hud, nextBtn, lvlCompMsg);
+    lvl03.Add(alienBarrier);
+    BuildLvl03(this, lvl03, player, barn, cows.slice(), haybales.slice(), ufo, hud, nextBtn, lvlCompMsg);
     SceneMngr.AddScene(lvl03, false);
 
     // End screens just have gui elements
@@ -190,19 +325,9 @@ function BuildGame() {
     SceneMngr.AddScene(endWin, false);
     SceneMngr.AddScene(endLose, false);
 
-    /********************************** Game Functions **********************************/
-
-    function GameUpdate() {
-        if (SceneMngr.GetActiveScene().type == SceneTypes.gameplay) {
-
-            inGameMenu.Update();
-            if (menuBtn.pressed) {
-                inGameMenu.ToggleActive();
-                menuBtn.Release();
-            }
-        }
-    }
+    /********************************** Run Game Loop **********************************/
 
     GameMngr.UserUpdate = GameUpdate;
+    ResetGame();
     GameMngr.BeginLoop();
 }

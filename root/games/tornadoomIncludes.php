@@ -7,7 +7,6 @@
 ?>
 
 <!---------- Game scripts ---------->
-
 <script type="text/javascript" src="games/tornadoom/scripts/objects/player.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/objects/ufo.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/objects/probe.js"></script>
@@ -16,7 +15,6 @@
 <script type="text/javascript" src="games/tornadoom/scripts/behaviours/ObjectControllers.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/entryPoint.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/game.js"></script>
-<script type="text/javascript" src="games/tornadoom/scripts/gameUtils.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/messageSystems/hud.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/messageSystems/inGameMenu.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/messageSystems/inGameMessaging.js"></script>

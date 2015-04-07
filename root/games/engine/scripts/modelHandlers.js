@@ -42,6 +42,10 @@ ModelHandler.prototype = {
     SetTintAlpha: function(a) {
         this.tint.SetW(a);
     },
+    FadeTintAlpha: function(incr) {
+        this.tint.w = MathUtils.Clamp(this.tint.w + incr, 0.0, 1.0);
+        return this.tint.w;
+    },
     SetTexture: function(texture, texFilter) {
         this.bufferData.texID = GL.CreateTextureObject(texture, texFilter);
     },

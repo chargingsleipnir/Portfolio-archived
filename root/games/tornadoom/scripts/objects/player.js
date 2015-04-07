@@ -361,7 +361,6 @@ function Player() {
     };
     this.ResetMotion = function() {
         this.obj.trfmBase.SetDefault();
-        GameUtils.RaiseToGroundLevel(this.obj);
         this.obj.rigidBody.Reset();
         ctrl.Reset();
     };

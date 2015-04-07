@@ -2,7 +2,7 @@
  * Created by Devin on 2015-03-30.
  */
 
-function LevelCompleteMessage() {
+function LevelCompleteMessage(game) {
 
     var msgSysName = "Level complete message";
     var msgSys = new GUISystem(new WndRect(ViewMngr.wndWidth/2 - 200, ViewMngr.wndHeight/2 - 130, 400, 260), msgSysName );
@@ -44,9 +44,9 @@ function LevelCompleteMessage() {
     msgSys.AddTextObject("Cows lost", new GUITextObject(new WndRect(20, 170, contW - 40, 35), "Cows Lost: 00", style));
 
     this.UpdateInfo = function() {
-        msgSys.guiTextObjs["Cows total"].UpdateMsg("Cows Total: " + GameUtils.GetCowsEncountered());
-        msgSys.guiTextObjs["Cows saved"].UpdateMsg("Cows Saved: " + GameUtils.GetCowsSavedTotal());
-        msgSys.guiTextObjs["Cows lost"].UpdateMsg("Cows Lost: " + GameUtils.GetCowsAbductedTotal());
+        msgSys.guiTextObjs["Cows total"].UpdateMsg("Cows Total: " + game.GetCowsEncountered());
+        msgSys.guiTextObjs["Cows saved"].UpdateMsg("Cows Saved: " + game.GetCowsSavedTotal());
+        msgSys.guiTextObjs["Cows lost"].UpdateMsg("Cows Lost: " + game.GetCowsAbductedTotal());
     };
     this.SetActive = function(beActive) {
         if(beActive) {
