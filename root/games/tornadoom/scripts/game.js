@@ -79,11 +79,8 @@ function BuildGame() {
 
     var ufo = new UFO();
     var barn = new Barn();
-
-    var ground = new GameObject('ground', Labels.none);
-    ground.SetModel(GameMngr.assets.models['ground']);
-    ground.mdlHdlr.SetTexture(GameMngr.assets.textures['groundTex'], TextureFilters.mipmap);
-    ground.trfmBase.TranslateByAxes(0.0, -0.01, 0.0);
+    barn.obj.trfmBase.SetPosByAxes(0.0, 0.0, -20.0);
+    barn.obj.trfmBase.SetUpdatedRot(VEC3_UP, -45);
 
     var skyBoxTextures = [
         GameMngr.assets.textures['skyTexXPos'],
@@ -104,7 +101,7 @@ function BuildGame() {
     var hillyHorizon = new GameObject('horizon', Labels.none);
     hillyHorizon.SetModel(GameMngr.assets.models['horizon']);
     hillyHorizon.mdlHdlr.SetTexture(GameMngr.assets.textures['groundTex'], TextureFilters.mipmap);
-    hillyHorizon.trfmBase.TranslateByAxes(0.0, -0.5, 0.0);
+
 
     var alienBarrier = new GameObject('alien barrier', Labels.none);
     alienBarrier.SetModel(new Primitives.AlienBarrier(0.15, 8, 8));
@@ -123,6 +120,11 @@ function BuildGame() {
 
     /********************************** Helper functions **********************************/
 
+    function Init() {
+        that.RaiseToGroundLevel(barn.obj);
+        that.RaiseToGroundLevel(hillyHorizon);
+        hillyHorizon.trfmBase.TranslateByAxes(0.0, -0.125, 0.0);
+    }
     function GameUpdate() {
         if (SceneMngr.GetActiveScene().type == SceneTypes.gameplay) {
 
@@ -142,9 +144,8 @@ function BuildGame() {
     function ResetGame() {
         player.ResetAll();
         that.RaiseToGroundLevel(player.obj);
-        that.RaiseToGroundLevel(hillyHorizon);
-        Time.counter = 0.0;
 
+        Time.counter =
         cowsEncountered =
         cowsSavedByLevel =
         cowsSavedTotal =
@@ -287,7 +288,6 @@ function BuildGame() {
     lvl01.Add(player.obj);
     lvl01.Add(barn.obj);
     lvl01.Add(skyBox);
-    lvl01.Add(ground);
     lvl01.Add(hillyHorizon);
     lvl01.Add(alienBarrier);
     BuildLvl01(this, lvl01, player, barn, cows.slice(0, 3), hud, nextBtn, lvlCompMsg);
@@ -299,7 +299,6 @@ function BuildGame() {
     lvl02.Add(player.obj);
     lvl02.Add(barn.obj);
     lvl02.Add(skyBox);
-    lvl02.Add(ground);
     lvl02.Add(hillyHorizon);
     lvl02.Add(alienBarrier);
     BuildLvl02(this, lvl02, player, barn, cows.slice(0, 6), haybales.slice(0, 4), hud, nextBtn, lvlCompMsg);
@@ -312,7 +311,6 @@ function BuildGame() {
     lvl03.Add(barn.obj);
     lvl03.Add(ufo.obj);
     lvl03.Add(skyBox);
-    lvl03.Add(ground);
     lvl03.Add(hillyHorizon);
     lvl03.Add(alienBarrier);
     BuildLvl03(this, lvl03, player, barn, cows.slice(), haybales.slice(), ufo, hud, nextBtn, lvlCompMsg);
@@ -327,6 +325,7 @@ function BuildGame() {
 
     /********************************** Run Game Loop **********************************/
 
+    Init();
     GameMngr.UserUpdate = GameUpdate;
     ResetGame();
     GameMngr.BeginLoop();

@@ -75,10 +75,7 @@ function BuildLvl01(game, scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
     // Level Repeat functions ==========================================================================================
 
     function Start() {
-        barn.obj.trfmBase.SetPosByAxes(0.0, 0.0, -20.0);
-        barn.obj.trfmBase.SetUpdatedRot(VEC3_UP, -45);
         barn.obj.collider.SetSphereCall(BarnCollCallback);
-        game.RaiseToGroundLevel(barn.obj);
 
         game.SetLevelBounds(fence);
         game.CowsSavedByLevelZero();
