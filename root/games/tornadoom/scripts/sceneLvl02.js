@@ -123,6 +123,7 @@ function BuildLvl02(game, scene, player, barn, cows, haybales, hud, nextBtn, lvl
         game.CowsEncounteredAdd(activeCows.length);
 
         for(var i = 0; i < haybales.length; i++ ) {
+            haybales[i].SetVisible(true);
             haybales[i].trfmBase.SetPosByAxes(balePos[i][0], balePos[i][1], balePos[i][2]);
             game.RaiseToGroundLevel(haybales[i]);
         }

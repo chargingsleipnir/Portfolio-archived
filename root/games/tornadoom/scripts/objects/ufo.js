@@ -244,6 +244,7 @@ function UFO() {
         else {
             currState = ufoStates.dormant;
             this.obj.trfmBase.SetPosByVec(defaultPos);
+            StopTractoring();
         }
     };
 

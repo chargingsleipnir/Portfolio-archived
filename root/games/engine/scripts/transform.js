@@ -45,6 +45,16 @@ Transform.prototype = {
         this.pos.z = z;
         this.active = true;
     },
+    SetPosXZ: function(x, z) {
+        ///  <summary>Set a new x and z position</summary>
+        ///  <param name="x" type="decimal"></param>
+        ///  <param name="z" type="decimal"></param>
+        ///  <returns type="void" />
+        /// </signature>
+        this.pos.x = x;
+        this.pos.z = z;
+        this.active = true;
+    },
     SetPosByAxes: function(x, y, z) {
         ///  <summary>Set a new position</summary>
         ///  <param name="x" type="decimal"></param>

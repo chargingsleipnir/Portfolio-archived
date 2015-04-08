@@ -1,6 +1,6 @@
 ﻿// Basic error messaging
 window.onerror = function(msg, url, lineno) {
-    alert(url + '\n(' + lineno + '): ' + msg);
+    //alert(url + '\n(' + lineno + '): ' + msg);
     console.log(url + '\n(' + lineno + '): ' + msg);
 };
 

@@ -102,6 +102,9 @@ function BuildGame() {
     hillyHorizon.SetModel(GameMngr.assets.models['horizon']);
     hillyHorizon.mdlHdlr.SetTexture(GameMngr.assets.textures['groundTex'], TextureFilters.mipmap);
 
+    var wagon = new GameObject('wagon', Labels.none);
+    wagon.SetModel(GameMngr.assets.models['wagon']);
+    wagon.mdlHdlr.SetTexture(GameMngr.assets.textures['wagonTex'], TextureFilters.mipmap);
 
     var alienBarrier = new GameObject('alien barrier', Labels.none);
     alienBarrier.SetModel(new Primitives.AlienBarrier(0.15, 8, 8));
@@ -124,6 +127,8 @@ function BuildGame() {
         that.RaiseToGroundLevel(barn.obj);
         that.RaiseToGroundLevel(hillyHorizon);
         hillyHorizon.trfmBase.TranslateByAxes(0.0, -0.125, 0.0);
+        that.RaiseToGroundLevel(wagon);
+        wagon.trfmBase.SetPosXZ(10.0, -10.0);
     }
     function GameUpdate() {
         if (SceneMngr.GetActiveScene().type == SceneTypes.gameplay) {
@@ -290,6 +295,7 @@ function BuildGame() {
     lvl01.Add(skyBox);
     lvl01.Add(hillyHorizon);
     lvl01.Add(alienBarrier);
+    lvl01.Add(wagon);
     BuildLvl01(this, lvl01, player, barn, cows.slice(0, 3), hud, nextBtn, lvlCompMsg);
     SceneMngr.AddScene(lvl01, false);
 
