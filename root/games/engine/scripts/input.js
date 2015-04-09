@@ -14,6 +14,13 @@ var Input = (function() {
                 activeKeyRegistry[o][e.keyCode].controller.DownCallback();
                 activeKeyRegistry[o][e.keyCode].readyLoop = false;
             }
+
+        // Disables spacebar & up arrow & down arrow
+        return !(
+            e.keyCode == KeyMap.SpaceBar ||
+            e.keyCode == KeyMap.ArrowUp ||
+            e.keyCode == KeyMap.ArrowDown
+        );
     };
 
     window.onkeyup = function(e)

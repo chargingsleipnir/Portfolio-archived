@@ -203,7 +203,7 @@ function Player() {
 
     // Allow player to hold Ctrl (spacebar drop to bottom of html page) to go into a view where they use the mouse
     // to aim within a given window around the direction they are facing.
-    var aimToggle = Input.CreateInputController(playerCtrlName, KeyMap.Z);
+    var aimToggle = Input.CreateInputController(playerCtrlName, KeyMap.SpaceBar);
     function AimTogglePressed() {
         that.obj.camera.trfmAxes.SetPosAxes(1.0, -0.25, 2.25);
         that.obj.camera.trfmAxes.RotateLocalViewX(30);
