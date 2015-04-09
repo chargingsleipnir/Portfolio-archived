@@ -7,7 +7,6 @@
 ?>
 
 <!---------- Engine scripts ---------->
-
 <script type="text/javascript" src="games/engine/scripts/math/vectors.js"></script>
 <script type="text/javascript" src="games/engine/scripts/math/quaternion.js"></script>
 <script type="text/javascript" src="games/engine/scripts/math/matrices.js"></script>

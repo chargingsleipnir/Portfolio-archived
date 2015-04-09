@@ -22,5 +22,4 @@
 <script type="text/javascript" src="games/tornadoom/scripts/sceneTitle.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/sceneLvl01.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/sceneLvl02.js"></script>
-<script type="text/javascript" src="games/tornadoom/scripts/sceneLvl03.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/sceneEndBoth.js"></script>

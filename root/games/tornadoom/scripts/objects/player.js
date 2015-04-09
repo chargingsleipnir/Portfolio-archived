@@ -192,8 +192,8 @@ function Player() {
     Input.RegisterControlScheme(playerCtrlName, true, InputTypes.keyboard);
 
     var btnShoot = Input.CreateInputController(playerCtrlName, KeyMap.Shift);
-    var btnAmmoScrollLeft = Input.CreateInputController(playerCtrlName, KeyMap.BracketOpen);
-    var btnAmmoScrollRight = Input.CreateInputController(playerCtrlName, KeyMap.BracketClose);
+    var btnAmmoScrollLeft = Input.CreateInputController(playerCtrlName, KeyMap.Q);
+    var btnAmmoScrollRight = Input.CreateInputController(playerCtrlName, KeyMap.E);
 
     // Mouse controls
     var playerMouseCtrlName = "PlayerMouse";
@@ -203,16 +203,16 @@ function Player() {
 
     // Allow player to hold Ctrl (spacebar drop to bottom of html page) to go into a view where they use the mouse
     // to aim within a given window around the direction they are facing.
-    var aimToggle = Input.CreateInputController(playerCtrlName, KeyMap.Ctrl);
+    var aimToggle = Input.CreateInputController(playerCtrlName, KeyMap.Z);
     function AimTogglePressed() {
         that.obj.camera.trfmAxes.SetPosAxes(1.0, -0.25, 2.25);
-        that.obj.camera.trfmAxes.RotateLocalViewX(25);
+        that.obj.camera.trfmAxes.RotateLocalViewX(30);
         playerMouse.SetLeftBtnCalls(null, ChargeShotReleased);
         aimDirVisual.Run();
     }
     function AimToggleReleased() {
         that.obj.camera.trfmAxes.SetPosAxes(0.0, 4.0, 8.0);
-        that.obj.camera.trfmAxes.RotateLocalViewX(-25);
+        that.obj.camera.trfmAxes.RotateLocalViewX(-30);
         playerMouse.SetLeftBtnCalls(null, function(){});
         aimDirVisual.Stop();
         DropLaunchPower();

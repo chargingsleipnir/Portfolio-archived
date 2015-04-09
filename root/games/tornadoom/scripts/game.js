@@ -140,9 +140,9 @@ function BuildGame() {
             }
 
             if(!GameMngr.paused) {
-                if(alienBarrier.trfmGlobal.pos.y < 999.0)
+                if(alienBarrier.mdlHdlr.active)
                     if(alienBarrier.mdlHdlr.FadeTintAlpha(fadeRate) < INFINITESIMAL)
-                        alienBarrier.trfmBase.TranslateByAxes(0.0, 999.0, 0.0);
+                        alienBarrier.mdlHdlr.active = false;
             }
         }
     }
@@ -197,24 +197,28 @@ function BuildGame() {
             alienBarrier.trfmBase.SetPosByAxes(leftWall, gameObj.trfmGlobal.pos.y, gameObj.trfmGlobal.pos.z);
             alienBarrier.trfmBase.SetUpdatedRot(VEC3_UP, 90);
             alienBarrier.mdlHdlr.SetTintAlpha(1.0);
+            alienBarrier.mdlHdlr.active = true;
         }
         else if(gameObj.trfmGlobal.pos.x > rightWall - gameObj.shapeData.radii.x && gameObj.rigidBody.velF.x > 0) {
             gameObj.rigidBody.velF.x = -gameObj.rigidBody.velF.x;
             alienBarrier.trfmBase.SetPosByAxes(rightWall, gameObj.trfmGlobal.pos.y, gameObj.trfmGlobal.pos.z);
             alienBarrier.trfmBase.SetUpdatedRot(VEC3_UP, 90);
             alienBarrier.mdlHdlr.SetTintAlpha(1.0);
+            alienBarrier.mdlHdlr.active = true;
         }
         if(gameObj.trfmGlobal.pos.z < frontWall + gameObj.shapeData.radii.z && gameObj.rigidBody.velF.z < 0) {
             gameObj.rigidBody.velF.z = -gameObj.rigidBody.velF.z;
             alienBarrier.trfmBase.SetPosByAxes(gameObj.trfmGlobal.pos.x, gameObj.trfmGlobal.pos.y, frontWall);
             alienBarrier.trfmBase.SetUpdatedRot(VEC3_UP, 0);
             alienBarrier.mdlHdlr.SetTintAlpha(1.0);
+            alienBarrier.mdlHdlr.active = true;
         }
         else if(gameObj.trfmGlobal.pos.z > backWall - gameObj.shapeData.radii.z && gameObj.rigidBody.velF.z > 0) {
             gameObj.rigidBody.velF.z = -gameObj.rigidBody.velF.z;
             alienBarrier.trfmBase.SetPosByAxes(gameObj.trfmGlobal.pos.x, gameObj.trfmGlobal.pos.y, backWall);
             alienBarrier.trfmBase.SetUpdatedRot(VEC3_UP, 0);
             alienBarrier.mdlHdlr.SetTintAlpha(1.0);
+            alienBarrier.mdlHdlr.active = true;
         }
     };
 
@@ -295,7 +299,7 @@ function BuildGame() {
     lvl01.Add(skyBox);
     lvl01.Add(hillyHorizon);
     lvl01.Add(alienBarrier);
-    lvl01.Add(wagon);
+    //lvl01.Add(wagon);
     BuildLvl01(this, lvl01, player, barn, cows.slice(0, 3), hud, nextBtn, lvlCompMsg);
     SceneMngr.AddScene(lvl01, false);
 
@@ -304,23 +308,12 @@ function BuildGame() {
     var lvl02 = new Scene("Level 02", SceneTypes.gameplay);
     lvl02.Add(player.obj);
     lvl02.Add(barn.obj);
+    lvl02.Add(ufo.obj);
     lvl02.Add(skyBox);
     lvl02.Add(hillyHorizon);
     lvl02.Add(alienBarrier);
-    BuildLvl02(this, lvl02, player, barn, cows.slice(0, 6), haybales.slice(0, 4), hud, nextBtn, lvlCompMsg);
+    BuildLvl02(this, lvl02, player, barn, cows.slice(0, 7), haybales.slice(0, 5), ufo, hud, nextBtn, lvlCompMsg);
     SceneMngr.AddScene(lvl02, false);
-
-    // Enter alien
-    // Player must save cows from alien abduction
-    var lvl03 = new Scene("Level 03", SceneTypes.gameplay);
-    lvl03.Add(player.obj);
-    lvl03.Add(barn.obj);
-    lvl03.Add(ufo.obj);
-    lvl03.Add(skyBox);
-    lvl03.Add(hillyHorizon);
-    lvl03.Add(alienBarrier);
-    BuildLvl03(this, lvl03, player, barn, cows.slice(), haybales.slice(), ufo, hud, nextBtn, lvlCompMsg);
-    SceneMngr.AddScene(lvl03, false);
 
     // End screens just have gui elements
     var endWin = new Scene("End Screen Win", SceneTypes.menu);

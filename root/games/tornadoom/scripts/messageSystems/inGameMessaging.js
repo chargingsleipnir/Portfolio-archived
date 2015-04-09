@@ -26,7 +26,7 @@ var InGameMsgr = (function() {
     return {
         Initialize: function() {
             msgBoard = new GUISystem(new WndRect(ViewMngr.wndWidth/2 - 200, ViewMngr.wndHeight/2 - 200, 400, 200), "Message Board");
-            GUINetwork.AddSystem(msgBoard, false);
+            GUINetwork.AddSystem(msgBoard, true);
 
             style.bgTextures = [GameMngr.assets.textures['cowBorderEnter']];
         },

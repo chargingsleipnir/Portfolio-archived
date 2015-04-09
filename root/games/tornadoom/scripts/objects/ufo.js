@@ -247,6 +247,26 @@ function UFO() {
             StopTractoring();
         }
     };
+    this.SetVisible = function(isVisible) {
+        coreObj.mdlHdlr.active = isVisible;
+        saucerObj.mdlHdlr.active = isVisible;
+        for (var i in this.obj.components)
+            this.obj.components[i].SetActive(isVisible);
+        for (var i in coreObj.components)
+            coreObj.components[i].SetActive(isVisible);
+        for (var i in saucerObj.components)
+            saucerObj.components[i].SetActive(isVisible);
+    };
+    this.SetAlpha = function(alpha) {
+        coreObj.mdlHdlr.SetTintAlpha(alpha);
+        saucerObj.mdlHdlr.SetTintAlpha(alpha);
+    };
+    this.FadeAlpha = function(incr) {
+        if(coreObj.mdlHdlr.FadeTintAlpha(incr) >= 1.0) {
+            return saucerObj.mdlHdlr.FadeTintAlpha(incr);
+        }
+        return -1;
+    };
 
     // Update -------------------------------------------------
     var angle = 0.0;

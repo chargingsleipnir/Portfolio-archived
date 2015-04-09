@@ -93,6 +93,9 @@ GameObject.prototype = {
         /// </signature>
         this.loopCalls.push(Callback);
     },
+    RemoveLoopCall: function(index) {
+        this.loopCalls.splice(index, 1);
+    },
     SetModel: function(model) {
         /// <signature>
         ///  <summary>Add model to gameobject. Required before several components can be added</summary>

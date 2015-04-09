@@ -2,7 +2,7 @@
  * Created by Devin on 2015-04-01.
  */
 
-function Probe(posArray, speed, CowKillCallback) {
+function Probe(posArray, speed, CollisionCallback) {
 
     var that = this;
     var active = true;
@@ -10,7 +10,6 @@ function Probe(posArray, speed, CowKillCallback) {
     // Use simple motion mechanics to move around the level.
     var dir = new Vector3();
     var wpIdx = 0;
-    var hp = 2;
 
     this.obj = new GameObject('probe', Labels.none);
     var pos = this.obj.trfmGlobal.pos;
@@ -39,58 +38,17 @@ function Probe(posArray, speed, CowKillCallback) {
 
     // Collisions -------------------------------------------------
 
-    var player,
-        activeCows,
-        activeHaybales;
-
-    // This is some of the worst code I have...
     this.obj.AddComponent(Components.collisionSystem);
     function ProbeCollCallback(collider) {
-        if (collider.gameObj == player.obj) {
-            if(collider.suppShapeList[0].obj.IntersectsSphere(that.obj.collider.collSphere))
-                SceneMngr.SetActive("End Screen Lose");
-        }
-        else if (collider.gameObj.name == "cow") {
-            for (var i = 0; i < activeCows.length; i++)
-                if (activeCows[i] == collider.gameObj) {
-                    activeCows[i].RunImpactBurst();
-                    player.RemoveFromTwister(collider.gameObj);
-                    activeCows[i].SetVisible(false);
-                    activeCows.splice(activeCows.indexOf(activeCows[i]), 1);
-                    CowKillCallback();
-                }
+        if(CollisionCallback(collider, that))
             that.GetHit();
-        }
-        else if (collider.gameObj.name == "hay bale") {
-            for (var i = 0; i < activeHaybales.length; i++)
-                if (activeHaybales[i] == collider.gameObj) {
-                    activeHaybales[i].RunImpactBurst();
-                    player.RemoveFromTwister(collider.gameObj);
-                    activeHaybales[i].SetVisible(false);
-                    activeHaybales.splice(activeHaybales.indexOf(activeHaybales[i]), 1);
-                }
-
-            that.GetHit();
-        }
     }
     this.obj.collider.SetSphereCall(ProbeCollCallback);
 
     // Object methods -------------------------------------------------
-    // This is some very weak tea right now, for lack of a sufficient collision system
-    this.SetCollidables = function($player, $activeCows, $activeHaybales) {
-        player = $player;
-        activeCows = $activeCows;
-        activeHaybales = $activeHaybales;
-    };
     this.GetHit = function() {
-        hp--;
-        if(hp <= 0) {
-            this.obj.ptclSys.RunField(0);
-            this.SetVisible(false);
-            GameMngr.assets.sounds['probeExplosion'].play();
-        }
-        else
-            GameMngr.assets.sounds['thud'].play();
+        this.obj.ptclSys.RunField(0);
+        GameMngr.assets.sounds['probeExplosion'].play();
     };
     this.SetVisible = function(isVisible) {
         this.obj.mdlHdlr.active = isVisible;
