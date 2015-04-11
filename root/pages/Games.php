@@ -68,22 +68,22 @@ require 'templates/templateData.php';
                         ['cowBorderClick', 'games/tornadoom/assets/images/cowBorderClick.png']
                     ];
                     var modelNamesFilepaths = [
-                        ['playerTornado', 'games/tornadoom/assets/models/GameObjects_Funnel01.json'],
-                        ['cow', 'games/tornadoom/assets/models/GameObjects_Cow.json'],
+                        ['playerTornado', 'games/tornadoom/assets/models/min_GameObjects_Funnel01.json'],
+                        ['cow', 'games/tornadoom/assets/models/min_GameObjects_Cow.json'],
                         //['chicken', 'games/tornadoom/assets/models/GameObjects_Chicken.json'],
                         //['sheep', 'games/tornadoom/assets/models/GameObjects_Sheep.json'],
-                        ['hayBale', 'games/tornadoom/assets/models/GameObjects_HayBale.json'],
-                        ['ufoSaucer', 'games/tornadoom/assets/models/GameObjects_UFOSaucer.json'],
-                        ['ufoCore', 'games/tornadoom/assets/models/GameObjects_UFOCore.json'],
-                        ['probe', 'games/tornadoom/assets/models/GameObjects_Probe.json'],
-                        ['crosshair', 'games/tornadoom/assets/models/GameObjects_CrossHair.json'],
-                        ['wagon', 'games/tornadoom/assets/models/LevelCommon_Wagon.json'],
-                        ['barn', 'games/tornadoom/assets/models/LevelCommon_Barn.json'],
-                        ['lvl01Fence', 'games/tornadoom/assets/models/Environment_fenceLvl1.json'],
-                        ['lvl02Fence', 'games/tornadoom/assets/models/Environment_fenceLvl2.json'],
-                        ['lvl03Fence', 'games/tornadoom/assets/models/Environment_fenceLvl3.json'],
-                        ['chickenPen', 'games/tornadoom/assets/models/Environment_PenSmall.json'],
-                        ['horizon', 'games/tornadoom/assets/models/Environment_Horizon.json'],
+                        ['hayBale', 'games/tornadoom/assets/models/min_GameObjects_HayBale.json'],
+                        ['ufoSaucer', 'games/tornadoom/assets/models/min_GameObjects_UFOSaucer.json'],
+                        ['ufoCore', 'games/tornadoom/assets/models/min_GameObjects_UFOCore.json'],
+                        ['probe', 'games/tornadoom/assets/models/min_GameObjects_Probe.json'],
+                        //['crosshair', 'games/tornadoom/assets/models/GameObjects_CrossHair.json'],
+                        ['wagon', 'games/tornadoom/assets/models/min_LevelCommon_Wagon.json'],
+                        ['barn', 'games/tornadoom/assets/models/min_LevelCommon_Barn.json'],
+                        ['lvl01Fence', 'games/tornadoom/assets/models/min_Environment_fenceLvl1.json'],
+                        ['lvl02Fence', 'games/tornadoom/assets/models/min_Environment_fenceLvl2.json'],
+                        //['lvl03Fence', 'games/tornadoom/assets/models/Environment_fenceLvl3.json'],
+                        ['chickenPen', 'games/tornadoom/assets/models/min_Environment_PenSmall.json'],
+                        ['horizon', 'games/tornadoom/assets/models/min_Environment_Horizon.json'],
                         //['brownShrub', 'games/tornadoom/assets/models/Environment_Shrub.json']
                     ];
                     var audioNamesFilepaths = [
