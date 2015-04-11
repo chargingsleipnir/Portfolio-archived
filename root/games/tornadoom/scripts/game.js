@@ -116,9 +116,11 @@ function BuildGame() {
     hillyHorizon.SetModel(GameMngr.assets.models['horizon']);
     hillyHorizon.mdlHdlr.SetTexture(GameMngr.assets.textures['groundTex'], TextureFilters.mipmap);
 
+    /*
     var shrub = new GameObject('shrub', Labels.none);
     shrub.SetModel(GameMngr.assets.models['brownShrub']);
     shrub.mdlHdlr.SetTexture(GameMngr.assets.textures['brownShrubTex'], TextureFilters.mipmap);
+    */
 
     var wagonPos = [
         [],
@@ -130,6 +132,7 @@ function BuildGame() {
     wagon.SetModel(GameMngr.assets.models['wagon']);
     wagon.mdlHdlr.SetTexture(GameMngr.assets.textures['wagonTex'], TextureFilters.mipmap);
 
+    /*
     var chickenPos = [
         [],
         [],
@@ -155,6 +158,7 @@ function BuildGame() {
     var sheeps = [];
     var sheep = new GameObject('sheep', Labels.none);
     sheep.SetModel(GameMngr.assets.models['sheep']);
+    */
 
     var chickenPen = new GameObject('chicken pen', Labels.none);
     chickenPen.SetModel(GameMngr.assets.models['chickenPen']);
