@@ -173,11 +173,13 @@ function BuildGame() {
         hillyHorizon.trfmBase.TranslateByAxes(0.0, -0.14, 0.0);
         that.RaiseToGroundLevel(wagon);
         wagon.trfmBase.SetPosXZ(10.0, -10.0);
+        /*
         that.RaiseToGroundLevel(chicken);
         that.RaiseToGroundLevel(sheep);
         sheep.trfmBase.SetPosXZ(1.0, -1.0);
         that.RaiseToGroundLevel(shrub);
         shrub.trfmBase.SetPosXZ(-1.0, 1.0);
+        */
         that.RaiseToGroundLevel(chickenPen);
     }
     function GameUpdate() {
