@@ -33,7 +33,7 @@ var DebugMngr = {
             grid.Update();
             this.grid = grid.mdlHdlr;
 
-            var performanceData = new GUISystem(new WndRect(ViewMngr.wndWidth - 320, ViewMngr.wndHeight - 110, 300, 120), this.dispName);
+            var performanceData = new GUISystem(new WndRect(ViewMngr.wndWidth - 370, ViewMngr.wndHeight - 140, 350, 120), this.dispName);
 
             var style = new MsgBoxStyle();
             style.fontSize = 20;
@@ -47,12 +47,14 @@ var DebugMngr = {
             style.margin = 5.0;
             style.bgAlpha = 0.5;
             style.bold = false;
-            this.gameTimer = new GUITextObject(new WndRect(0, 0, 300, 30), "GameTime: 00.00", style);
-            this.frameRateMsg = new GUITextObject(new WndRect(0, 30, 300, 30), "FrameRt", style);
-            this.mousePosMsg = new GUITextObject(new WndRect(0, 60, 300, 30), "000000000000000000000", style);
+            this.gameTimer = new GUITextObject(new WndRect(0, 0, 350, 30), "GameTime: 00.00", style);
+            this.frameRateMsg = new GUITextObject(new WndRect(0, 30, 350, 30), "FrameRt", style);
+            this.mousePosMsg = new GUITextObject(new WndRect(0, 60, 350, 30), "0000000000000000000000000", style);
+            this.mouseDirMsg = new GUITextObject(new WndRect(0, 90, 350, 30), "0000000000000000000000000", style);
             performanceData.AddTextObject("gameTimer", this.gameTimer);
             performanceData.AddTextObject("frameRateMsg", this.frameRateMsg);
             performanceData.AddTextObject("mousePosMsg", this.mousePosMsg);
+            performanceData.AddTextObject("mouseDirMsg", this.mouseDirMsg);
             GUINetwork.AddSystem(performanceData, false);
 
             Input.RegisterControlScheme("GUIMouseTracking", true, InputTypes.mouse);
@@ -72,7 +74,8 @@ var DebugMngr = {
                 }
                 this.gameTimer.UpdateMsg("Game Time: " + Time.counter);
                 this.frameRateMsg.UpdateMsg("FPS: " + this.frameRateCapture.toString());
-                this.mousePosMsg.UpdateMsg("Mouse x: " + this.mouse.pos.x + ", y: " + this.mouse.pos.y);
+                this.mousePosMsg.UpdateMsg("MousePos x: " + this.mouse.pos.x + ", y: " + this.mouse.pos.y);
+                this.mouseDirMsg.UpdateMsg("MouseDir x: " + this.mouse.dir.x + ", y: " + this.mouse.dir.y);
             }
         }
     }

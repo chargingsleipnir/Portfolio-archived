@@ -12,7 +12,7 @@ var InGameMsgr = (function() {
 
     var msgBoard = null;
     var style = new MsgBoxStyle();
-    style.fontSize = 20;
+    style.fontSize = 24;
     style.fontColour = new Vector3(0.0, 0.0, 0.0);
     style.textMaxWidth = 200;
     style.textAlignWidth = Alignment.centre;
@@ -21,14 +21,15 @@ var InGameMsgr = (function() {
     style.fontAlpha = msgFadeStart;
     style.bgColour = new Vector3(0.0, 0.0, 0.0);
     style.margin = 15.0;
-    var msgRect = new WndRect(0, 0, 400, 200);
+    style.bold = true;
+    var msgRect = new WndRect(0, 0, 500, 200);
 
     return {
         Initialize: function() {
-            msgBoard = new GUISystem(new WndRect(ViewMngr.wndWidth/2 - 200, ViewMngr.wndHeight/2 - 200, 400, 200), "Message Board");
+            msgBoard = new GUISystem(new WndRect(ViewMngr.wndWidth/2 - 250, ViewMngr.wndHeight/2 - 200, 500, 200), "Message Board");
             GUINetwork.AddSystem(msgBoard, true);
 
-            style.bgTextures = [GameMngr.assets.textures['cowBorderEnter']];
+            style.bgTextures = [GameMngr.assets.textures['cowBorderClick']];
         },
         SetActive: function(beActive) {
             GUINetwork.SetActive(msgBoard.name, beActive);

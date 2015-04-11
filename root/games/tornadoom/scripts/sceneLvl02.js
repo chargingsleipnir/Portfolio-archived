@@ -2,7 +2,7 @@
  * Created by Devin on 2015-03-27.
  */
 
-function BuildLvl02(game, scene, player, barn, cows, haybales, ufo, hud, nextBtn, lvlCompMsg) {
+function BuildLvl02(game, scene, player, barn, cows, haybales, ufo, hud, mouse, lvlCompMsg) {
 
     scene.light.amb.bright = 0.5;
     scene.light.dir.bright = 0.25;
@@ -171,7 +171,7 @@ function BuildLvl02(game, scene, player, barn, cows, haybales, ufo, hud, nextBtn
         "I'll bet those crazy lookin' probe things put that wall up. Maybe if you shoot'em down, we can get my cows in here!",
         "Press the Q or E keys to switch what you want to shoot.",
         "Not sure how to get them up that high? You'll have to put some extra power behind it!",
-        "Hold Spacebar to get ready for a power-shot.",
+        "Hold the right mouse button to get ready for a power-shot.",
         "In this view, move the mouse to aim, hold the left mouse button to build extra power, and release to fire!",
         // Part 2
         "Uh-oh, here she comes, the Mother Ship... Don't let it take my cattle!!",
@@ -274,9 +274,9 @@ function BuildLvl02(game, scene, player, barn, cows, haybales, ufo, hud, nextBtn
         ObjectsLessCowUpdate();
         CowUpdate();
         if(InGameMsgr.FadeMsgsWithinLimit(msgLimit)) {
-            if (nextBtn.pressed) {
+            if (mouse.leftPressed) {
                 InGameMsgr.NextMsg();
-                nextBtn.Release();
+                mouse.LeftRelease();
             }
         }
         else {
@@ -381,10 +381,10 @@ function BuildLvl02(game, scene, player, barn, cows, haybales, ufo, hud, nextBtn
                 }
                 break;
             case 6:
-                if (nextBtn.pressed) {
+                if (mouse.leftPressed) {
                     lvlCompMsg.SetActive(false);
                     player.SetControlActive(true);
-                    nextBtn.Release();
+                    mouse.LeftRelease();
                     if(game.CheckWin())
                         SceneMngr.SetActive("End Screen Win");
                     else

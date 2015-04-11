@@ -3,7 +3,6 @@
 var Input = (function() {
     var activeKeyRegistry = {};
     var inactiveKeyRegistry = {};
-    var canvasElem;
 
     window.onkeydown = function(e)
     {
@@ -40,10 +39,30 @@ var Input = (function() {
         activeMouseRegistry[mouse].pos.x = event.pageX - ViewMngr.offsetLeft;
         activeMouseRegistry[mouse].pos.y = event.pageY - ViewMngr.offsetTop;
     }
+    function SetMouseDir(mouse, event) {
+        /* event.webkitMovementX seems to jump about severely. moz is very smooth, but
+         * this is incredibly jumpy, making it unusable in chrome without clamping */
 
-    function onmousemove(e) {
+        if(event.webkitMovementX || event.webkitMovementY) {
+            activeMouseRegistry[mouse].dir.x = MathUtils.Clamp(event.webkitMovementX, -10.0, 10.0);
+            activeMouseRegistry[mouse].dir.y = MathUtils.Clamp(event.webkitMovementY, -10.0, 10.0);
+        }
+        else {
+            var xVal = event.movementX || event.mozMovementX || 0;
+            var yVal = event.movementY || event.mozMovementY || 0;
+            activeMouseRegistry[mouse].dir.x = MathUtils.Clamp(xVal, -10.0, 10.0);
+            activeMouseRegistry[mouse].dir.y = MathUtils.Clamp(yVal, -10.0, 10.0);
+        }
+    }
+
+    function TrackMousePos(e) {
         for (var o in activeMouseRegistry) {
             SetMousePos(o, e);
+        }
+    }
+    function TrackMouseDir(e) {
+        for (var o in activeMouseRegistry) {
+            SetMouseDir(o, e);
         }
     }
 
@@ -60,6 +79,7 @@ var Input = (function() {
                     break;
                 case 2:
                     activeMouseRegistry[o].rightPressed = true;
+                    activeMouseRegistry[o].RightDownCallback();
                     break;
             }
         }
@@ -78,8 +98,42 @@ var Input = (function() {
                     break;
                 case 2:
                     activeMouseRegistry[o].rightPressed = false;
+                    activeMouseRegistry[o].RightUpCallback();
                     break;
             }
+        }
+    }
+
+    var ReqPointerLock,
+        ExitPointerLock,
+        pointerLocked = true,
+        exitPLCalled = false;
+    function SetPL() {
+        Input.SetPointerLock(true);
+        GameMngr.canvas.removeEventListener("click", SetPL);
+    }
+    function PointerChangeCallback() {
+        pointerLocked =
+            document.pointerLockElement === GameMngr.canvas ||
+            document.mozPointerLockElement === GameMngr.canvas ||
+            document.webkitPointerLockElement === GameMngr.canvas;
+
+        if (pointerLocked) {
+            // Pointer was just locked
+            //GameMngr.canvas.removeEventListener("click", SetPL);
+            GameMngr.canvas.removeEventListener('mousemove', TrackMousePos);
+            GameMngr.canvas.addEventListener('mousemove', TrackMouseDir, false);
+            GameMngr.SetPaused(false);
+        } else {
+            // Pointer was just unlocked
+            if(!exitPLCalled) {
+                GameMngr.canvas.addEventListener("click", SetPL);
+            }
+            GameMngr.canvas.removeEventListener('mousemove', TrackMouseDir);
+            GameMngr.canvas.addEventListener('mousemove', TrackMousePos, false);
+            GameMngr.SetPaused(true);
+
+            exitPLCalled = false;
         }
     }
 
@@ -97,7 +151,6 @@ var Input = (function() {
                 to[name][o].middlePressed = false;
                 to[name][o].rightPressed = false;
             }
-
         }
     }
 
@@ -233,6 +286,7 @@ var Input = (function() {
 
             var mouseController = {
                 pos: new Vector2(0, 0),
+                dir: new Vector2(0, 0),
                 leftPressed: false,
                 middlePressed: false,
                 rightPressed: false,
@@ -245,7 +299,13 @@ var Input = (function() {
                     if(downCallback) this.LeftDownCallback = downCallback;
                     if(upCallback) this.LeftUpCallback = upCallback;
                 },
-                SetCursor: function(cursorType) { canvasElem.style.cursor = cursorType; }
+                RightDownCallback: function() {},
+                RightUpCallback: function() {},
+                SetRightBtnCalls: function(downCallback, upCallback) {
+                    if(downCallback) this.RightDownCallback = downCallback;
+                    if(upCallback) this.RightUpCallback = upCallback;
+                },
+                SetCursor: function(cursorType) { GameMngr.canvas.style.cursor = cursorType; }
             };
 
             if (name in activeMouseRegistry) {
@@ -274,11 +334,41 @@ var Input = (function() {
             else
                 console.log("No object by that name to remove callback");
         },
-        GetCanvas: function(canvas) {
-            canvas.addEventListener('mousemove', onmousemove, false);
-            canvas.addEventListener('mousedown', onmousedown, false);
-            canvas.addEventListener('mouseup', onmouseup, false);
-            canvasElem = canvas;
+        SetPointerLock: function(beLocked) {
+            pointerLocked = beLocked;
+            if(beLocked) {
+                ReqPointerLock.call(GameMngr.canvas);
+            }
+            else {
+                ExitPointerLock.call(document);
+                exitPLCalled = true;
+            }
+        },
+        CheckPointerLocked: function() {
+            return pointerLocked;
+        },
+        AddPointerLockEL: function() {
+            GameMngr.canvas.addEventListener("click", SetPL);
+        },
+        Initialize: function() {
+            ReqPointerLock =
+                GameMngr.canvas.requestPointerLock ||
+                GameMngr.canvas.webkitRequestPointerLock ||
+                GameMngr.canvas.mozRequestPointerLock;
+            ExitPointerLock =
+                document.exitPointerLock ||
+                document.mozExitPointerLock ||
+                document.webkitExitPointerLock;
+
+            GameMngr.canvas.addEventListener("click", SetPL);
+
+            GameMngr.canvas.addEventListener('mousemove', TrackMouseDir, false);
+            GameMngr.canvas.addEventListener('mousedown', onmousedown, false);
+            GameMngr.canvas.addEventListener('mouseup', onmouseup, false);
+
+            document.addEventListener('pointerlockchange', PointerChangeCallback, false);
+            document.addEventListener('mozpointerlockchange', PointerChangeCallback, false);
+            document.addEventListener('webkitpointerlockchange', PointerChangeCallback, false);
         }
     };
 })();

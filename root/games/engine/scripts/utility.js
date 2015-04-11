@@ -5,6 +5,7 @@ window.onerror = function(msg, url, lineno) {
 };
 
 window.onresize = function(event) {
+    //GL.ReshapeWindow(event.currentTarget.outerWidth, event.currentTarget.outerHeight);
     ViewMngr.Resize(event);
 };
 

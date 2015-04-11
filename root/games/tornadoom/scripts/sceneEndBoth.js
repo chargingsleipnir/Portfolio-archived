@@ -2,7 +2,7 @@
  * Created by Devin on 2015-03-30.
  */
 
-function BuildSceneEndBoth(sceneWin, sceneLose, nextBtn, GameResetCallback) {
+function BuildSceneEndBoth(sceneWin, sceneLose, mouse, GameResetCallback) {
     var endScreen = new GUISystem(new WndRect(0, 0, ViewMngr.wndWidth, ViewMngr.wndHeight), "End screen");
 
     var style = new MsgBoxStyle();
@@ -40,7 +40,7 @@ function BuildSceneEndBoth(sceneWin, sceneLose, nextBtn, GameResetCallback) {
     style.fontColour.SetValues(1.0, 1.0, 1.0);
     style.bold = false;
     var resetMsgRect = new WndRect(rectGbl.x - 25, endScreen.sysRect.h - 70, rectGbl.w + 50, 50);
-    endScreen.AddTextObject("resetGameMsg", new GUITextObject(resetMsgRect, "Press enter to play again", style));
+    endScreen.AddTextObject("resetGameMsg", new GUITextObject(resetMsgRect, "Click to play again", style));
 
     style.fontAlpha = 1.0;
     style.bgAlpha = 1.0;
@@ -83,8 +83,8 @@ function BuildSceneEndBoth(sceneWin, sceneLose, nextBtn, GameResetCallback) {
     }
 
     function Update() {
-        if(nextBtn.pressed) {
-            nextBtn.Release();
+        if(mouse.leftPressed) {
+            mouse.LeftRelease();
             GameResetCallback();
         }
         if(fadingIn)

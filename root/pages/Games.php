@@ -35,34 +35,76 @@ require 'templates/templateData.php';
         <div id="gamePlaySpace">
             <h3>Tornadoom</h3>
             <div id="canvasContainer">
-                <img id="tornadoomTitlePreloaded" src="<?=$images['tornadoomPreload']?>" width="800" height="800">
-                <canvas id="canvas2D" width="800" height="800"></canvas>
-                <canvas id="canvasWebGL" onmouseup="RunLoadScreen()" width="800" height="800"></canvas>
+                <canvas id="gameCanvas" width="800" height="800"></canvas>
                 <script>
-                    var ctx2D = document.getElementById('canvas2D').getContext("2d");
-                    function ShowTornadoomTitle() {
-                        ctx2D.font = "40px Arial";
-                        ctx2D.fillStyle = "#FFFFFF";
-                        ctx2D.fillText("Click to load", 500, 650);
-                    }
-                    function StartGame() {
-                        ctx2D.fillRect(0, 0, 800, 800);
-                        BuildGame();
-                    }
-                    function NextLoading() {
-                        // Game Initialization in entryPoint.js
-                        Initialize(StartGame);
-                    }
-                    // Show loading animation components
-                    function RunLoadScreen() {
-                        document.getElementById('canvasWebGL').removeAttribute("onmouseup");
-                        ctx2D.clearRect(0, 0, 800, 800);
-                        ctx2D.fillText("Loading...", 500, 650);
+                    var textureNamesFilepaths = [
+                        ['title', 'games/tornadoom/assets/images/title.png'],
+                        ['endWin', 'games/tornadoom/assets/images/barn6Sized.png'],
+                        ['endLose', 'games/tornadoom/assets/images/ufo5Sized.png'],
+                        ['skyTexXPos', 'games/tornadoom/assets/images/skyTexXPosInv.png'],
+                        ['skyTexXNeg', 'games/tornadoom/assets/images/skyTexXNegInv.png'],
+                        ['skyTexYPos', 'games/tornadoom/assets/images/skyTexYPos.png'],
+                        ['skyTexYNeg', 'games/tornadoom/assets/images/skyTexYNeg.png'],
+                        ['skyTexZPos', 'games/tornadoom/assets/images/skyTexZPosInv.png'],
+                        ['skyTexZNeg', 'games/tornadoom/assets/images/skyTexZNegInv.png'],
+                        ['funnelTex', 'games/tornadoom/assets/images/tornadoFunnel.jpg'],
+                        ['dustPtcl', 'games/tornadoom/assets/images/smokeParticle2.png'],
+                        ['starPtcl', 'games/tornadoom/assets/images/star.png'],
+                        ['cowTex', 'games/tornadoom/assets/images/cowTexture.jpg'],
+                        ['chickenTex', 'games/tornadoom/assets/images/chickenTexture.png'],
+                        ['hayBaleTex', 'games/tornadoom/assets/images/hayBaleTex.png'],
+                        ['fenceTex', 'games/tornadoom/assets/images/wood.png'],
+                        ['wagonTex', 'games/tornadoom/assets/images/woodVaried.png'],
+                        ['barnTex', 'games/tornadoom/assets/images/redBarnTex.png'],
+                        ['groundTex', 'games/tornadoom/assets/images/ground6Dark10.png'],
+                        ['brownShrubTex', 'games/tornadoom/assets/images/brownShrubTex.jpg'],
+                        ['cowIcon', 'games/tornadoom/assets/images/iconCow2.png'],
+                        ['baleIcon', 'games/tornadoom/assets/images/iconHayBale.png'],
+                        ['abductIcon', 'games/tornadoom/assets/images/iconAbduction2.png'],
+                        ['rescueIcon', 'games/tornadoom/assets/images/iconRescue2.png'],
+                        ['crosshair', 'games/tornadoom/assets/images/crosshair.png'],
+                        ['switchUnlit', 'games/tornadoom/assets/images/buttonUnlit64.png'],
+                        ['switchLit', 'games/tornadoom/assets/images/buttonLit64.png'],
+                        ['cowBorderClick', 'games/tornadoom/assets/images/cowBorderClick.png']
+                    ];
+                    var modelNamesFilepaths = [
+                        ['playerTornado', 'games/tornadoom/assets/models/GameObjects_Funnel01.json'],
+                        ['cow', 'games/tornadoom/assets/models/GameObjects_Cow.json'],
+                        ['chicken', 'games/tornadoom/assets/models/GameObjects_Chicken.json'],
+                        ['sheep', 'games/tornadoom/assets/models/GameObjects_Sheep.json'],
+                        ['hayBale', 'games/tornadoom/assets/models/GameObjects_HayBale.json'],
+                        ['ufoSaucer', 'games/tornadoom/assets/models/GameObjects_UFOSaucer.json'],
+                        ['ufoCore', 'games/tornadoom/assets/models/GameObjects_UFOCore.json'],
+                        ['probe', 'games/tornadoom/assets/models/GameObjects_Probe.json'],
+                        ['crosshair', 'games/tornadoom/assets/models/GameObjects_CrossHair.json'],
+                        ['wagon', 'games/tornadoom/assets/models/LevelCommon_Wagon.json'],
+                        ['barn', 'games/tornadoom/assets/models/LevelCommon_Barn.json'],
+                        ['lvl01Fence', 'games/tornadoom/assets/models/Environment_fenceLvl1.json'],
+                        ['lvl02Fence', 'games/tornadoom/assets/models/Environment_fenceLvl2.json'],
+                        ['lvl03Fence', 'games/tornadoom/assets/models/Environment_fenceLvl3.json'],
+                        ['chickenPen', 'games/tornadoom/assets/models/Environment_PenSmall.json'],
+                        ['horizon', 'games/tornadoom/assets/models/Environment_Horizon.json'],
+                        ['brownShrub', 'games/tornadoom/assets/models/Environment_Shrub.json']
+                    ];
+                    var audioNamesFilepaths = [
+                        ['tick', "games/tornadoom/assets/sounds/Tick.ogg"],
+                        ['cowMoo', "games/tornadoom/assets/sounds/cowMoo.ogg"],
+                        ['cowCry', "games/tornadoom/assets/sounds/cowCry.ogg"],
+                        ['cattleMoo', "games/tornadoom/assets/sounds/cattleMoo.ogg"],
+                        ['probeExplosion', "games/tornadoom/assets/sounds/probeExplosion.ogg"],
+                        ['thud', "games/tornadoom/assets/sounds/thud.ogg"],
+                        ['wind', "games/tornadoom/assets/sounds/wind.ogg"],
+                        ['windSoft', "games/tornadoom/assets/sounds/windSoft.ogg"],
+                        ['abduction', "games/tornadoom/assets/sounds/alienAbduction2.ogg"],
+                        ['fail', "games/tornadoom/assets/sounds/fail.ogg"],
+                        ['bgMusic', "games/tornadoom/assets/sounds/cowboyTheme.ogg"]
+                    ];
 
-                        EL.PreLoad(NextLoading);
-                    }
+                    // Optional settings
+                    DebugMngr.active = true;
+                    ViewMngr.SetLightProperties(true, LightModels.phong);
 
-                    ShowTornadoomTitle();
+                    GameMngr.Begin("gameCanvas", BuildGame, textureNamesFilepaths, modelNamesFilepaths, audioNamesFilepaths);
                 </script>
             </div>
         </div>

@@ -1,4 +1,4 @@
-function BuildSceneTitle(scene, nextBtn) {
+function BuildSceneTitle(scene, gameMouse) {
     var titleScreen = new GUISystem(new WndRect(0, 0, ViewMngr.wndWidth, ViewMngr.wndHeight), "Title screen");
 
     var style = new MsgBoxStyle();
@@ -29,8 +29,8 @@ function BuildSceneTitle(scene, nextBtn) {
     style.fontColour = new Vector3(1.0, 1.0, 1.0);
     style.bold = false;
     var nextSceneMsg = new GUITextObject(
-        new WndRect(catchPhraseRect.x - 45, catchPhraseRect.y + catchPhraseRect.h + 20, catchPhraseRect.w + 90, 60),
-        "Press enter to start!",
+        new WndRect(catchPhraseRect.x, catchPhraseRect.y + catchPhraseRect.h + 20, catchPhraseRect.w, 60),
+        "Click to start!",
         style
     );
 
@@ -61,8 +61,8 @@ function BuildSceneTitle(scene, nextBtn) {
     }
 
     function Update() {
-        if(nextBtn.pressed) {
-            nextBtn.Release();
+        if(gameMouse.leftPressed) {
+            gameMouse.LeftRelease();
             SceneMngr.SetActive("Level 01");
         }
         if(fadingIn)

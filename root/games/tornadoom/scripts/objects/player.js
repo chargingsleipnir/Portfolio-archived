@@ -78,7 +78,9 @@ function Player() {
     // The Z and scalar are values used to try to control how steep the new direction becomes
     var mouseAimX = 0;
     var mouseAimY = 0;
-    var mouseAimZ = -50;
+    var AIM_INCR = 10.0;
+    var AIM_XY_MAX = 250;
+    var mouseAimZ = -25;
     var mouseAimScalar = 0.1;
     var crosshairLength = 5.0;
 
@@ -181,17 +183,12 @@ function Player() {
 
     this.obj.AddComponent(Components.camera);
     this.obj.camera.trfmAxes.SetPosAxes(0.0, 4.0, 8.0);
-    this.obj.camera.trfmAxes.RotateLocalViewX(-15);
+    that.obj.camera.trfmAxes.SetRotatedLocalViewX(-15);
     ViewMngr.SetActiveCamera(this.obj.camera);
-
-    var ctrl = new TopDownController(this.obj, "Top-down player controls");
-    ctrl.SetActive(true);
-    var controlActive = true;
 
     var playerCtrlName = "PlayerCtrl";
     Input.RegisterControlScheme(playerCtrlName, true, InputTypes.keyboard);
 
-    var btnShoot = Input.CreateInputController(playerCtrlName, KeyMap.Shift);
     var btnAmmoScrollLeft = Input.CreateInputController(playerCtrlName, KeyMap.Q);
     var btnAmmoScrollRight = Input.CreateInputController(playerCtrlName, KeyMap.E);
 
@@ -199,31 +196,35 @@ function Player() {
     var playerMouseCtrlName = "PlayerMouse";
     Input.RegisterControlScheme(playerMouseCtrlName, true, InputTypes.mouse);
     var playerMouse = Input.CreateInputController(playerMouseCtrlName);
-    playerMouse.SetCursor(CursorTypes.none);
 
-    // Allow player to hold Ctrl (spacebar drop to bottom of html page) to go into a view where they use the mouse
+    var ctrl = new TopDownController(this.obj, "Top-down player controls", playerMouse);
+    ctrl.SetActive(true);
+    var controlActive = true;
+
+    // Allow player to hold right mouse button to go into a view where they use the mouse
     // to aim within a given window around the direction they are facing.
-    var aimToggle = Input.CreateInputController(playerCtrlName, KeyMap.SpaceBar);
     function AimTogglePressed() {
-        that.obj.camera.trfmAxes.SetPosAxes(1.0, -0.25, 2.25);
-        that.obj.camera.trfmAxes.RotateLocalViewX(30);
-        playerMouse.SetLeftBtnCalls(null, ChargeShotReleased);
+        that.obj.camera.trfmAxes.SetPosAxes(0.85, 0.75, 5.0);
+        that.obj.camera.trfmAxes.SetRotatedLocalViewX(10);
+        ctrl.SetCanRotate(false);
         aimDirVisual.Run();
     }
     function AimToggleReleased() {
         that.obj.camera.trfmAxes.SetPosAxes(0.0, 4.0, 8.0);
-        that.obj.camera.trfmAxes.RotateLocalViewX(-30);
-        playerMouse.SetLeftBtnCalls(null, function(){});
+        that.obj.camera.trfmAxes.SetRotatedLocalViewX(-15);
+        ctrl.SetCanRotate(true);
         aimDirVisual.Stop();
         DropLaunchPower();
     }
-    aimToggle.SetBtnCalls(AimTogglePressed, AimToggleReleased);
+    playerMouse.SetLeftBtnCalls(null, ShotReleased);
+    playerMouse.SetRightBtnCalls(AimTogglePressed, AimToggleReleased);
 
     // When in this mode, the left mouse button can also be held to charge up the shot.
     // Shoot when released
     var aimDir = new Vector3();
-    function ChargeShotReleased() {
-        Shoot(aimDir);
+    function ShotReleased() {
+        if(ammoCont[ammoIdx])
+            Shoot(aimDir);
     }
 
     // HELPER FUNCTIONS -------------------------------------------------
@@ -295,7 +296,7 @@ function Player() {
     };
     this.GetAimToggleHeld = function() {
         if(controlActive)
-            return aimToggle.pressed;
+            return playerMouse.rightPressed;
 
         return false;
     };
@@ -395,14 +396,17 @@ function Player() {
             ctrl.Update();
 
             // Shooting mechanics
-            if (btnShoot.pressed) {
-                Shoot(this.obj.trfmBase.GetFwd());
-                btnShoot.Release();
-            }
             // Trade-off here, more difficult control, but power can be built
-            if (aimToggle.pressed) {
+            if (playerMouse.rightPressed) {
+                if(playerMouse.dir.x < -1 || playerMouse.dir.x > 1)
+                    mouseAimX = MathUtils.Clamp(mouseAimX+playerMouse.dir.x * 2, -AIM_XY_MAX, AIM_XY_MAX);
+                if(playerMouse.dir.y < -1 || playerMouse.dir.y > 1)
+                    mouseAimY = MathUtils.Clamp(mouseAimY-playerMouse.dir.y * 2, -AIM_XY_MAX, AIM_XY_MAX);
+
+                /*
                 mouseAimX = playerMouse.pos.x - ViewMngr.wndWidth / 2.0;
                 mouseAimY = (playerMouse.pos.y - ViewMngr.wndHeight / 2.0) * -1;
+                */
 
                 aimDir.SetValues(mouseAimX * mouseAimScalar, mouseAimY * mouseAimScalar, mouseAimZ);
                 aimDir.SetNormalized();
@@ -414,6 +418,10 @@ function Player() {
                 if (playerMouse.leftPressed)
                     RaiseLaunchPower();
             }
+            else {
+                aimDir.SetCopy(this.obj.trfmBase.GetFwd());
+            }
+
             // Change ammo type
             if (btnAmmoScrollLeft.pressed) {
                 ammoIdx = (ammoIdx > 0) ? ammoIdx - 1 : ammoTypeCount - 1;

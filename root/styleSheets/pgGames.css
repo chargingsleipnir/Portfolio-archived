@@ -11,15 +11,24 @@ h3 {
     height: 800px;
     border: 1px solid black;
 }
-    #tornadoomTitlePreloaded {
-        position: absolute;
-        z-index: 0;
+    #gameCanvas {
+        background-image: url('../images/tornadoomTitlePreloaded.png');
+        background-size: cover;
+        background-repeat: no-repeat;
     }
-    #canvas2D {
-        position: absolute;
-        z-index: 1;
+    #gameCanvas:-webkit-full-screen {
+        /*
+        position: fixed;
+        width: 100%;
+        top: 0;
+        height: 100%;
+        */
     }
-    #canvasWebGL {
-        position: absolute;
-        z-index: 2;
+    #gameCanvas:-ms-fullscreen {
+        /* To go to centre, as webkit naturally does */
+        /*
+        width: auto;
+        height: auto;
+        margin: auto;
+        */
     }

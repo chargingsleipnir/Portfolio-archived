@@ -7,6 +7,7 @@ var ViewMngr = {
     wndHeight: 0,
     offsetLeft: 0,
     offsetTop: 0,
+    inFullScreen: false,
     mtxProj: new Matrix4(),
     activeCam: null,
     usingWorldCam: true,
@@ -20,13 +21,48 @@ var ViewMngr = {
         this.lightProps.useFragLighting = useFragLighting;
         this.lightProps.model = lightModel;
     },
-    Initialize: function(canvas) {
+    Initialize: function() {
         // Get and use GL canvas window sizing
-        var canvasStyles = window.getComputedStyle(canvas, null);
+        var canvasStyles = window.getComputedStyle(GameMngr.canvas, null);
         this.wndWidth = parseFloat(canvasStyles.width);
         this.wndHeight = parseFloat(canvasStyles.height);
-        this.offsetLeft = canvas.offsetLeft;
-        this.offsetTop = canvas.offsetTop;
+        this.offsetLeft = GameMngr.canvas.offsetLeft;
+        this.offsetTop = GameMngr.canvas.offsetTop;
+
+        //console.log(
+        //    "VM: wndW = " + this.wndWidth +
+        //    ", wndH = " + this.wndHeight +
+        //    ", offL = " + this.offsetLeft +
+        //    ", offT = " + this.offsetTop);
+
+        //var ReqFullscreen =
+        //    GameMngr.canvas.requestFullScreen ||
+        //    GameMngr.canvas.webkitRequestFullScreen ||
+        //    GameMngr.canvas.mozRequestFullScreen;
+        //ReqFullscreen.call(GameMngr.canvas);
+
+        //var ExitFullscreen
+
+        //GameMngr.canvas.addEventListener("click", SetFS);
+        //document.addEventListener('fullscreenchange', FullScreenChangeCallback, false);
+        //document.addEventListener('mozfullscreenchange', FullScreenChangeCallback, false);
+        //document.addEventListener('webkitfullscreenchange', FullScreenChangeCallback, false);
+
+        //function FullScreenChangeCallback() {
+        //    if (document.fullscreenElement === GameMngr.canvas ||
+        //        document.mozFullScreenElement === GameMngr.canvas ||
+        //        document.webkitFullscreenElement === GameMngr.canvas) {
+        //
+        //        inFullScreen = true;
+        //        GameMngr.SetPaused(false);
+        //        GameMngr.canvas.removeEventListener("click", SetFS);
+        //    }
+        //    else {
+        //        inFullScreen = false;
+        //        GameMngr.SetPaused(true);
+        //        GameMngr.canvas.addEventListener("click", SetFS);
+        //    }
+        //}
 
         // Instantiate frustum and projection matrix together
         this.frustum = new Frustum(this.mtxProj, 45.0, this.wndWidth / this.wndHeight, 0.1, this.farCullDist);
@@ -36,12 +72,15 @@ var ViewMngr = {
         this.activeCam = this.camera;
         this.SetActiveCamera(this.camera);
 
-        GL.ReshapeWindow(this.wndWidth, this.wndHeight);
+        //GL.ReshapeWindow(this.wndWidth, this.wndHeight);
     },
     Resize: function(event) {
-        if(GameMngr.canvasWebGL) {
-            this.offsetLeft = GameMngr.canvasWebGL.offsetLeft;
-            this.offsetTop = GameMngr.canvasWebGL.offsetTop;
+        if(GameMngr.canvas) {
+            //var canvasStyles = window.getComputedStyle(GameMngr.canvas, null);
+            //this.wndWidth = parseFloat(canvasStyles.width);
+            //this.wndHeight = parseFloat(canvasStyles.height);
+            this.offsetLeft = GameMngr.canvas.offsetLeft;
+            this.offsetTop = GameMngr.canvas.offsetTop;
         }
     },
     SetActiveCamera: function(camera) {

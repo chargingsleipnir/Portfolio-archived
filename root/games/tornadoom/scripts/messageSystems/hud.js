@@ -61,7 +61,7 @@ function CreateHUD() {
     style.bgAlpha = 0.0;
     style.fontColour.SetValues(1.0, 1.0, 1.0);
     style.textAlignWidth = Alignment.left;
-    hudSys.AddTextObject("menuAccessMsg", new GUITextObject(new WndRect(0, 0, 122, 20), "Esc: Menu", style));
+    hudSys.AddTextObject("menuAccessMsg", new GUITextObject(new WndRect(0, 0, 200, 20), "P: Pause/Menu", style));
 
     // CountDownTimer
     barRect = new WndRect( 0, 230, 50, -200);

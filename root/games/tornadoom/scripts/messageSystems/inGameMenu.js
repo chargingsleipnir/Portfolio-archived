@@ -56,12 +56,12 @@ function InGameMenu(gameMouse, player, ResetCallback) {
     // Callbacks
     function ResumeCallback() {
         gameMouse.LeftRelease();
-        that.ToggleActive();
+        that.SetActive(false);
         GameMngr.assets.sounds['tick'].play();
     }
     function QuitCallback() {
         gameMouse.LeftRelease();
-        that.ToggleActive();
+        that.SetActive(false);
         GameMngr.assets.sounds['tick'].play();
         ResetCallback();
     }
@@ -255,13 +255,28 @@ function InGameMenu(gameMouse, player, ResetCallback) {
     }
     ActivatePage(pages.main);
 
+    this.CheckActive = function() {
+        return GUINetwork.CheckActive(menuSysName);
+    };
+    this.SetActive = function(beActive) {
+        ActivatePage(pages.main);
+        GameMngr.SetPaused(beActive);
+        menuToggle = beActive;
+        if (beActive) {
+            if(!GUINetwork.CheckActive(menuSysName))
+                GUINetwork.SetActive(menuSysName, beActive);
+            Input.SetPointerLock(false);
+        }
+        else {
+            if(GUINetwork.CheckActive(menuSysName))
+                GUINetwork.SetActive(menuSysName, beActive);
+
+            Input.SetPointerLock(true);
+        }
+    };
     this.ToggleActive = function() {
         menuToggle = !menuToggle;
-        GUINetwork.SetActive(menuSysName, menuToggle);
-        ActivatePage(pages.main);
-        GameMngr.TogglePause();
-        if (menuToggle) gameMouse.SetCursor(CursorTypes.normal);
-        else gameMouse.SetCursor(CursorTypes.none);
+        this.SetActive(menuToggle);
     };
     this.Update = function() {
         if(GUINetwork.CheckActive(menuSysName))

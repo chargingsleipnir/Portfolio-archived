@@ -1,6 +1,6 @@
 ﻿
 var GameMngr = {
-    canvasWebGL: null,
+    canvas: null,
     assets: {
         textures: {},
         models: {},
@@ -8,37 +8,63 @@ var GameMngr = {
     },
     paused: false,
     UserUpdate: function() {},
-    Initialize: function(canvasWebGL, canvas2D) {
-        /// <signature>
-        ///  <summary>Start up of the game world</summary>
-        ///  <param name="canvas" type="element">the game window</param>
-        /// </signature>
-        console.log("GAME STARTUP");
-
-        // get webGL context
-        this.canvasWebGL = canvasWebGL;
-        GL.Initialize(canvasWebGL.getContext('webgl'));
-        ViewMngr.Initialize(canvasWebGL);
-        Input.GetCanvas(canvasWebGL);
-        //TwoD.Initialize(canvas2D.getContext('2d'));
-        DebugMngr.Initialize();
-    },
-    LoadExternal: function(textureNamesFilepaths, modelNamesFilepaths, audioNamesFilepaths, Callback) {
+    Begin: function(canvasID, GameCallback, textureNamesFilepaths, modelNamesFilepaths, audioNamesFilepaths) {
         var that = this;
+        var canvas = document.getElementById(canvasID);
+        this.canvas = canvas.cloneNode(true);
+        var ctx2D = canvas.getContext("2d");
+
+        function UserContentLoadComplete() {
+            ctx2D.fillRect(0, 0, 800, 800);
+
+            // Clone the canvas for webGL implementation and destroy the old one
+            canvas.parentNode.replaceChild(that.canvas, canvas);
+            that.canvas.style.backgroundImage = "none";
+            that.canvas.style.backgroundColor = "white";
+
+            console.log("GAME STARTUP");
+            GL.Initialize(that.canvas.getContext('webgl'));
+            ViewMngr.Initialize();
+            Input.Initialize();
+            DebugMngr.Initialize();
+
+            GameCallback();
+        }
+
         function LoadModels() {
-            FileUtils.LoadModels(modelNamesFilepaths, that.assets.models, Callback);
+            FileUtils.LoadModels(modelNamesFilepaths, that.assets.models, UserContentLoadComplete);
+        }
+        function EngineLoadComplete() {
+            console.log("LOADING GAME CONTENT");
+
+            // Load up audio quick and easy first
+            for(var i = 0; i < audioNamesFilepaths.length; i++) {
+                that.assets.sounds[audioNamesFilepaths[i][0]] = new Audio(audioNamesFilepaths[i][1]);
+            }
+            console.log("Loading Audio Complete");
+
+            FileUtils.LoadTextures(textureNamesFilepaths, that.assets.textures, LoadModels);
         }
 
-        // Load up audio quick and easy first
-        for(var i = 0; i < audioNamesFilepaths.length; i++) {
-            this.assets.sounds[audioNamesFilepaths[i][0]] = new Audio(audioNamesFilepaths[i][1]);
-        }
-        console.log("Loading Audio Complete");
+        // Show loading animation components
+        function RunLoadScreen() {
+            canvas.removeEventListener("click", RunLoadScreen);
+            ctx2D.clearRect(0, 0, 800, 800);
+            ctx2D.fillText("Loading...", 500, 650);
 
-        FileUtils.LoadTextures(textureNamesFilepaths, this.assets.textures, LoadModels);
+            EL.PreLoad(EngineLoadComplete);
+        }
+        function ShowTornadoomTitle() {
+            ctx2D.font = "30px Arial";
+            ctx2D.fillStyle = "#FFFFFF";
+            ctx2D.fillText("Click to load", 500, 650);
+        }
+
+        canvas.addEventListener("click", RunLoadScreen);
+        ShowTornadoomTitle();
     },
-    TogglePause: function() {
-        this.paused = !this.paused;
+    SetPaused: function(bePaused) {
+        this.paused = bePaused;
     },
     BeginLoop: function() {
         var time_LastFrame;
@@ -63,6 +89,7 @@ var GameMngr = {
                 DebugMngr.Update();
                 ViewMngr.Update();
             }
+
             that.UserUpdate();
             GL.RenderScene(ViewMngr.activeCam.mtxCam);
             GL.RenderGUI();

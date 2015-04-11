@@ -29,7 +29,7 @@ function LevelCompleteMessage(game) {
     style.bold = false;
     style.textAlignWidth = Alignment.right;
     style.textAlignHeight = Alignment.bottom;
-    msgSys.AddTextObject("nextScene", new GUITextObject(msgSys.sysRect, "Next Scene: Enter", style));
+    msgSys.AddTextObject("nextScene", new GUITextObject(msgSys.sysRect, "Next Scene: Click", style));
 
     style.fontSize = 24;
     style.fontColour.SetValues(0.0, 0.0, 0.0);

@@ -1,10 +1,12 @@
 
-function TopDownController(obj, ctrlName) {
-    var active = false;
+function TopDownController(obj, ctrlName, mouse) {
+    var active = false,
+        canRotate = true;
 
     var ctrl = new ControlScheme();
     var moveForceScalar = 3750;
-    var yawAngle = 0.0;
+    var yawAngle = 0.0,
+        yawIncr = 2.0;
 
     // Control object
     var keyName = "Keys: " + ctrlName;
@@ -30,6 +32,11 @@ function TopDownController(obj, ctrlName) {
         yawAngle = 0.0;
     };
 
+    this.SetCanRotate = function($canRotate) {
+        canRotate = $canRotate;
+    };
+
+
     this.Update = function() {
 
         if(active) {
@@ -49,14 +56,26 @@ function TopDownController(obj, ctrlName) {
                 dir = obj.trfmGlobal.GetFwd();
                 obj.rigidBody.AddForce(dir.SetScaleByNum(-moveForceScalar));
             }
-            if(ctrl.yawLeft.pressed) {
-                yawAngle++;
-                obj.trfmBase.SetUpdatedRot(VEC3_UP, yawAngle);
+            if(canRotate) {
+                if (mouse.dir.x < -2 || mouse.dir.x > 2) {
+                    yawAngle += -mouse.dir.x * 0.3;
+                    //console.log("mouseDirX: " + -mouse.dir.x * 0.3 + ", yawAngle: " + yawAngle);
+                    obj.trfmBase.SetUpdatedRot(VEC3_UP, yawAngle);
+                }
             }
-            else if(ctrl.yawRight.pressed) {
-                yawAngle--;
-                obj.trfmBase.SetUpdatedRot(VEC3_UP, yawAngle);
+
+            /*
+            if(canRotate) {
+                if (mouse.dir.x < -2) {
+                    yawAngle += yawIncr;
+                    obj.trfmBase.SetUpdatedRot(VEC3_UP, yawAngle);
+                }
+                else if (mouse.dir.x > 2) {
+                    yawAngle -= yawIncr;
+                    obj.trfmBase.SetUpdatedRot(VEC3_UP, yawAngle);
+                }
             }
+            */
         }
     }
 }

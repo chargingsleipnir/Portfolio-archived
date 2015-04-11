@@ -2,7 +2,7 @@
  * Created by Devin on 2015-03-27.
  */
 
-function BuildLvl01(game, scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
+function BuildLvl01(game, scene, player, barn, cows, hud, mouse, lvlCompMsg) {
 
     scene.light.amb.bright = 0.5;
     scene.light.dir.bright = 0.25;
@@ -21,7 +21,7 @@ function BuildLvl01(game, scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
         NUM_COWS_PHASE_2 = 3;
     var phase1CowPos = [
         [3.0, 0.0, -1.0],
-        [0.0, 0.0, 0.0]
+        [-3.0, 0.0, 1.0]
     ];
     var phase2CowPos = [
         [-7.0, 0.0, 7.0],
@@ -58,10 +58,10 @@ function BuildLvl01(game, scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
         "My cattle have all been scared straight, and they just won't budge anymore!",
         "Think you can help me rustle them up into my barn? Be careful using those powerful winds of yours!",
         "Use W, S, A, D to move around the field",
-        "Use the left and right arrow keys to rotate yourself around.",
+        "Move the mouse left and right to rotate yourself around.",
         "Alright, you got one! Be a pal, and bring it into the barn for me?",
         "Objects you've captured are shown in the bottom-left corner.",
-        "Press SHIFT to shoot directly ahead!",
+        "Click to shoot directly ahead!",
         "Thanks so much! It looks like a few more got out, can you grab'em up?",
         "...Somethin' ain't sittin' right with me. Grab as many as you can, quick!",
         "Check the top-right to see how many cows have been saved."
@@ -130,9 +130,9 @@ function BuildLvl01(game, scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
     function MsgUpdate() {
         CommonUpdate();
         if(InGameMsgr.FadeMsgsWithinLimit(msgLimit)) {
-            if (nextBtn.pressed) {
+            if (mouse.leftPressed) {
                 InGameMsgr.NextMsg();
-                nextBtn.Release();
+                mouse.LeftRelease();
             }
         }
         else {
@@ -204,11 +204,11 @@ function BuildLvl01(game, scene, player, barn, cows, hud, nextBtn, lvlCompMsg) {
                 }
                 break;
             case 3:
-                if (nextBtn.pressed) {
+                if (mouse.leftPressed) {
                     lvlCompMsg.SetActive(false);
                     player.SetControlActive(true);
                     SceneMngr.SetActive("Level 02");
-                    nextBtn.Release();
+                    mouse.LeftRelease();
                 }
                 break;
         }

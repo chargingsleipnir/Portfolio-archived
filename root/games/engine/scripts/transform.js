@@ -308,6 +308,13 @@ TransformAxes.prototype = {
         this.up.SetRotated(thetaDeg, this.right);
         this.active = true;
     },
+    SetRotatedLocalViewX: function(thetaDeg) {
+        this.fwd.SetCopy(VEC3_FWD);
+        this.fwd.SetRotated(thetaDeg, VEC3_RIGHT);
+        this.up.SetCopy(VEC3_UP);
+        this.up.SetRotated(thetaDeg, VEC3_RIGHT);
+        this.active = true;
+    },
     RotateLocalViewY: function(thetaDeg) {
         this.fwd.SetRotated(thetaDeg, this.up);
         this.right.SetRotated(thetaDeg, this.up);

@@ -31,12 +31,10 @@ function BuildGame() {
     var gameMouseCtrlName = "GameMouse";
     Input.RegisterControlScheme(gameMouseCtrlName, true, InputTypes.mouse);
     var gameMouse = Input.CreateInputController(gameMouseCtrlName);
-    gameMouse.SetCursor(CursorTypes.none);
 
     var gameKeyCtrlName = "SceneAndMenuNav";
     Input.RegisterControlScheme(gameKeyCtrlName, true, InputTypes.keyboard);
-    var menuBtn = Input.CreateInputController(gameKeyCtrlName, KeyMap.Esc);
-    var nextBtn = Input.CreateInputController(gameKeyCtrlName, KeyMap.Enter);
+    var menuBtn = Input.CreateInputController(gameKeyCtrlName, KeyMap.P);
 
 
     /********************************** In-Game GUI Systems **********************************/
@@ -82,6 +80,22 @@ function BuildGame() {
     barn.obj.trfmBase.SetPosByAxes(0.0, 0.0, -20.0);
     barn.obj.trfmBase.SetUpdatedRot(VEC3_UP, -45);
 
+    var alienBarrier = new GameObject('alien barrier', Labels.none);
+    alienBarrier.SetModel(new Primitives.AlienBarrier(0.15, 8, 8));
+    alienBarrier.trfmBase.TranslateByAxes(0.0, 999.0, 0.0);
+    alienBarrier.mdlHdlr.SetTintAlpha(0.0);
+
+    var cows = [];
+    var MAX_COWS = 10;
+    for (var i = 0; i < MAX_COWS; i++)
+        cows[i] = new Cow();
+
+    var haybales = [];
+    var MAX_BALES = 10;
+    for (var i = 0; i < MAX_BALES; i++)
+        haybales[i] = new HayBale();
+
+    // Decorative Objects ------------------------------------------------------------------
     var skyBoxTextures = [
         GameMngr.assets.textures['skyTexXPos'],
         GameMngr.assets.textures['skyTexXNeg'],
@@ -102,38 +116,71 @@ function BuildGame() {
     hillyHorizon.SetModel(GameMngr.assets.models['horizon']);
     hillyHorizon.mdlHdlr.SetTexture(GameMngr.assets.textures['groundTex'], TextureFilters.mipmap);
 
+    var shrub = new GameObject('shrub', Labels.none);
+    shrub.SetModel(GameMngr.assets.models['brownShrub']);
+    shrub.mdlHdlr.SetTexture(GameMngr.assets.textures['brownShrubTex'], TextureFilters.mipmap);
+
+    var wagonPos = [
+        [],
+        [],
+        []
+    ];
+    var wagons = [];
     var wagon = new GameObject('wagon', Labels.none);
     wagon.SetModel(GameMngr.assets.models['wagon']);
     wagon.mdlHdlr.SetTexture(GameMngr.assets.textures['wagonTex'], TextureFilters.mipmap);
 
-    var alienBarrier = new GameObject('alien barrier', Labels.none);
-    alienBarrier.SetModel(new Primitives.AlienBarrier(0.15, 8, 8));
-    alienBarrier.trfmBase.TranslateByAxes(0.0, 999.0, 0.0);
-    alienBarrier.mdlHdlr.SetTintAlpha(0.0);
+    var chickenPos = [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+    ];
+    var chickens = [];
+    var chicken = new GameObject('chicken', Labels.none);
+    chicken.SetModel(GameMngr.assets.models['chicken']);
+    chicken.mdlHdlr.SetTexture(GameMngr.assets.textures['chickenTex'], TextureFilters.mipmap);
 
-    var cows = [];
-    var MAX_COWS = 10;
-    for (var i = 0; i < MAX_COWS; i++)
-        cows[i] = new Cow();
+    var sheepPos = [
+        [],
+        [],
+        [],
+        []
+    ];
+    var sheeps = [];
+    var sheep = new GameObject('sheep', Labels.none);
+    sheep.SetModel(GameMngr.assets.models['sheep']);
 
-    var haybales = [];
-    var MAX_BALES = 10;
-    for (var i = 0; i < MAX_BALES; i++)
-        haybales[i] = new HayBale();
+    var chickenPen = new GameObject('chicken pen', Labels.none);
+    chickenPen.SetModel(GameMngr.assets.models['chickenPen']);
+    chickenPen.mdlHdlr.SetTintRGB(0.3, 0.225, 0.0);
+    // -------------------------------------------------------------------------
 
     /********************************** Helper functions **********************************/
 
     function Init() {
         that.RaiseToGroundLevel(barn.obj);
         that.RaiseToGroundLevel(hillyHorizon);
-        hillyHorizon.trfmBase.TranslateByAxes(0.0, -0.125, 0.0);
+        hillyHorizon.trfmBase.TranslateByAxes(0.0, -0.14, 0.0);
         that.RaiseToGroundLevel(wagon);
         wagon.trfmBase.SetPosXZ(10.0, -10.0);
+        that.RaiseToGroundLevel(chicken);
+        that.RaiseToGroundLevel(sheep);
+        sheep.trfmBase.SetPosXZ(1.0, -1.0);
+        that.RaiseToGroundLevel(shrub);
+        shrub.trfmBase.SetPosXZ(-1.0, 1.0);
+        that.RaiseToGroundLevel(chickenPen);
     }
     function GameUpdate() {
         if (SceneMngr.GetActiveScene().type == SceneTypes.gameplay) {
 
             inGameMenu.Update();
+
             if (menuBtn.pressed) {
                 inGameMenu.ToggleActive();
                 menuBtn.Release();
@@ -143,6 +190,11 @@ function BuildGame() {
                 if(alienBarrier.mdlHdlr.active)
                     if(alienBarrier.mdlHdlr.FadeTintAlpha(fadeRate) < INFINITESIMAL)
                         alienBarrier.mdlHdlr.active = false;
+
+                //GameMngr.canvas.requestPointerLock;
+            }
+            else {
+                //document.exitPointerLock;
             }
         }
     }
@@ -284,7 +336,7 @@ function BuildGame() {
 
     // Title screen just has gui elements
     var title = new Scene("Title Screen", SceneTypes.menu);
-    BuildSceneTitle(title, nextBtn);
+    BuildSceneTitle(title, gameMouse);
     SceneMngr.AddScene(title, false);
 
     this.test = function() {
@@ -296,11 +348,10 @@ function BuildGame() {
     var lvl01 = new Scene("Level 01", SceneTypes.gameplay);
     lvl01.Add(player.obj);
     lvl01.Add(barn.obj);
+    lvl01.Add(alienBarrier);
     lvl01.Add(skyBox);
     lvl01.Add(hillyHorizon);
-    lvl01.Add(alienBarrier);
-    //lvl01.Add(wagon);
-    BuildLvl01(this, lvl01, player, barn, cows.slice(0, 3), hud, nextBtn, lvlCompMsg);
+    BuildLvl01(this, lvl01, player, barn, cows.slice(0, 3), hud, gameMouse, lvlCompMsg);
     SceneMngr.AddScene(lvl01, false);
 
     // Teach player how to shoot a hay bale vertically
@@ -309,16 +360,23 @@ function BuildGame() {
     lvl02.Add(player.obj);
     lvl02.Add(barn.obj);
     lvl02.Add(ufo.obj);
+    lvl02.Add(alienBarrier);
     lvl02.Add(skyBox);
     lvl02.Add(hillyHorizon);
-    lvl02.Add(alienBarrier);
-    BuildLvl02(this, lvl02, player, barn, cows.slice(0, 7), haybales.slice(0, 5), ufo, hud, nextBtn, lvlCompMsg);
+    /*
+    lvl02.Add(wagon);
+    lvl02.Add(chicken);
+    lvl02.Add(sheep);
+    lvl02.Add(chickenPen);
+    lvl02.Add(shrub);
+    */
+    BuildLvl02(this, lvl02, player, barn, cows.slice(0, 7), haybales.slice(0, 5), ufo, hud, gameMouse, lvlCompMsg);
     SceneMngr.AddScene(lvl02, false);
 
     // End screens just have gui elements
     var endWin = new Scene("End Screen Win", SceneTypes.menu);
     var endLose = new Scene("End Screen Lose", SceneTypes.menu);
-    BuildSceneEndBoth(endWin, endLose, nextBtn, ResetGame);
+    BuildSceneEndBoth(endWin, endLose, gameMouse, ResetGame);
     SceneMngr.AddScene(endWin, false);
     SceneMngr.AddScene(endLose, false);
 
