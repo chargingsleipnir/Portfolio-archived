@@ -14,6 +14,41 @@ var GameMngr = {
         this.canvas = canvas.cloneNode(true);
         var ctx2D = canvas.getContext("2d");
 
+        // 9 in the engine
+        var numAssets = 15 +
+            textureNamesFilepaths.length +
+            modelNamesFilepaths.length +
+            audioNamesFilepaths.length,
+            itemPrct = 0,
+            totalPrct = 0;
+        function CheckProgress(event) {
+            if(event.lengthComputable) {
+                itemPrct = event.loaded / event.total;
+                DrawLoadMsg(itemPrct, totalPrct);
+            }
+            else {
+                // cannot compute because size is unknown
+            }
+        }
+
+        var assetIdx = 0;
+        function LoadComplete() {
+            assetIdx++;
+            totalPrct = assetIdx / numAssets;
+            DrawLoadMsg(1.0, totalPrct);
+        }
+        function DrawLoadMsg(itemPrct, totalPrct) {
+            ctx2D.clearRect(0, 0, 800, 800);
+            ctx2D.fillStyle = "#FFFFFF";
+            ctx2D.fillText("Loading " + Math.round(totalPrct * 100), 500, 650);
+            ctx2D.fillStyle = "#191919";
+            ctx2D.fillRect(500, 680, 200, 10);
+            ctx2D.fillRect(500, 700, 200, 10);
+            ctx2D.fillStyle = "#CC8033";
+            ctx2D.fillRect(500, 680, itemPrct*200, 10);
+            ctx2D.fillRect(500, 700, totalPrct*200, 10);
+        }
+
         function UserContentLoadComplete() {
             ctx2D.fillRect(0, 0, 800, 800);
 
@@ -32,7 +67,7 @@ var GameMngr = {
         }
 
         function LoadModels() {
-            FileUtils.LoadModels(modelNamesFilepaths, that.assets.models, UserContentLoadComplete);
+            FileUtils.LoadModels(modelNamesFilepaths, that.assets.models, UserContentLoadComplete, CheckProgress, LoadComplete);
         }
         function EngineLoadComplete() {
             console.log("LOADING GAME CONTENT");
@@ -40,10 +75,11 @@ var GameMngr = {
             // Load up audio quick and easy first
             for(var i = 0; i < audioNamesFilepaths.length; i++) {
                 that.assets.sounds[audioNamesFilepaths[i][0]] = new Audio(audioNamesFilepaths[i][1]);
+                LoadComplete();
             }
             console.log("Loading Audio Complete");
 
-            FileUtils.LoadTextures(textureNamesFilepaths, that.assets.textures, LoadModels);
+            FileUtils.LoadTextures(textureNamesFilepaths, that.assets.textures, LoadModels, CheckProgress, LoadComplete);
         }
 
         // Show loading animation components
@@ -52,7 +88,7 @@ var GameMngr = {
             ctx2D.clearRect(0, 0, 800, 800);
             ctx2D.fillText("Loading...", 500, 650);
 
-            EL.PreLoad(EngineLoadComplete);
+            EL.PreLoad(EngineLoadComplete, CheckProgress, LoadComplete);
         }
         function ShowTornadoomTitle() {
             ctx2D.font = "30px Arial";

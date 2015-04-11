@@ -6,7 +6,7 @@ var EL = {
         textures: {},
         models: {}
     },
-    PreLoad: function (Callback) {
+    PreLoad: function (CompletionCallback, ProgressCallback, LoadedCallback) {
         console.log("LOADING ENGINE CONTENT");
 
         /********* Load other components *********/
@@ -14,7 +14,7 @@ var EL = {
 
             // The font map is not dynamic - very specific to spritesheet I made.
             FontMap.Initialize();
-            Callback();
+            CompletionCallback();
         }
 
         /********* Load external files *********/
@@ -41,13 +41,13 @@ var EL = {
 
         var that = this;
         function LoadModels() {
-            FileUtils.LoadModels(modelNamesFilepaths, that.assets.models, InitEngineComponents);
+            FileUtils.LoadModels(modelNamesFilepaths, that.assets.models, InitEngineComponents, ProgressCallback, LoadedCallback);
         }
         function LoadTextures() {
-            FileUtils.LoadTextures(textureNamesFilepaths, that.assets.textures, LoadModels);
+            FileUtils.LoadTextures(textureNamesFilepaths, that.assets.textures, LoadModels, ProgressCallback, LoadedCallback);
         }
 
         // Load up everything first
-        FileUtils.LoadShaders(shaderNamesFilepaths, this.assets.shaderStrings, LoadTextures);
+        FileUtils.LoadShaders(shaderNamesFilepaths, this.assets.shaderStrings, LoadTextures, ProgressCallback, LoadedCallback);
     }
 };

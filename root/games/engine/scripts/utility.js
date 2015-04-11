@@ -11,7 +11,7 @@ window.onresize = function(event) {
 
 var FileUtils = {
     // Load external assets
-    LoadFile: function(file, Callback, noCache, isJSON) {
+    LoadFile: function(file, CompletionCallback, ProgressCallback, LoadedCallback, noCache, isJSON) {
         var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
             if (request.readyState == 1) {
@@ -24,7 +24,8 @@ var FileUtils = {
             }
             else if (request.readyState == 4) {
                 if (request.status == 200) {
-                    Callback(request.responseText);
+                    LoadedCallback();
+                    CompletionCallback(request.responseText);
                 }
                 else if (request.status == 404) {
                     throw 'In loadFile(), File "' + file + '" does not exist.';
@@ -40,9 +41,10 @@ var FileUtils = {
         if (noCache)
             url += '?' + (new Date()).getTime();
 
+        request.addEventListener('progress', ProgressCallback, false);
         request.open('GET', url, true);
     },
-    LoadShaders: function(nameFilePathSets, container, Callback) {
+    LoadShaders: function(nameFilePathSets, container, CompletionCallback, ProgressCallback, LoadedCallback) {
         /// <signature>
         ///  <summary>Load and map sets of two shader files</summary>
         ///  <param name="filePathSets" type="array2D [n][3]">name, vert, and frag filepath strings</param>
@@ -78,15 +80,15 @@ var FileUtils = {
             }
             shaderIndex++;
             if (shaderIndex < nameFilePathSets.length)
-                FileUtils.LoadFile(nameFilePathSets[shaderIndex][fileIndex], LoadRecursion, true, false);
+                FileUtils.LoadFile(nameFilePathSets[shaderIndex][fileIndex], LoadRecursion, ProgressCallback, LoadedCallback, true, false);
             else {
                 console.log(msg_LoadFinished);
-                Callback();
+                CompletionCallback();
             }
         }
         LoadRecursion('Loading Shaders Complete');
     },
-    LoadTextures: function(nameFilePathPairs, containerObj, Callback) {
+    LoadTextures: function(nameFilePathPairs, containerObj, CompletionCallback, ProgressCallback, LoadedCallback) {
         /// <signature>
         ///  <summary>Load and map sets of two shader files</summary>
         ///  <param name="nameFilePathPairs" type="array2D" [n][2]>string names and filepaths</param>
@@ -110,19 +112,24 @@ var FileUtils = {
             textureIndex++;
             if (textureIndex < nameFilePathPairs.length) {
                 var image = new Image();
+                // Check progress
+                image.onprogress = ProgressCallback;
                 // function required to be inside this function call to act as a true callback
-                image.onload = function() { LoadRecursion(image) };
+                image.onload = function() {
+                    LoadedCallback();
+                    LoadRecursion(image)
+                };
                 // Image dimensions must be power of 2 (32x32, 128x128, etc.)
                 image.src = nameFilePathPairs[textureIndex][FILEPATH];
             }
             else {
                 console.log(msg_LoadFinished);
-                Callback();
+                CompletionCallback();
             }
         }
         LoadRecursion('Loading Textures Complete');
     },
-    LoadModels: function(nameFilePathPairs, containerObj, Callback) {
+    LoadModels: function(nameFilePathPairs, containerObj, CompletionCallback, ProgressCallback, LoadedCallback) {
         /// <signature>
         ///  <summary>Load and map sets of two shader files</summary>
         ///  <param name="nameFilePathPairs" type="array2D [n][2]">string names and filepaths</param>
@@ -145,11 +152,11 @@ var FileUtils = {
 
             modelIndex++;
             if (modelIndex < nameFilePathPairs.length) {
-                FileUtils.LoadFile(nameFilePathPairs[modelIndex][FILEPATH], LoadRecursion, true, true);
+                FileUtils.LoadFile(nameFilePathPairs[modelIndex][FILEPATH], LoadRecursion, ProgressCallback, LoadedCallback, true, true);
             }
             else {
                 console.log(msg_LoadFinished);
-                Callback();
+                CompletionCallback();
             }
         }
         LoadRecursion('Loading Models Complete');
