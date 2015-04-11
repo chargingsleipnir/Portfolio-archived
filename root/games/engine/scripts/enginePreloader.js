@@ -7,7 +7,7 @@ var EL = {
         models: {}
     },
     PreLoad: function (Callback) {
-        console.log("ENGINE STARTUP");
+        console.log("LOADING ENGINE CONTENT");
 
         /********* Load other components *********/
         function InitEngineComponents() {
