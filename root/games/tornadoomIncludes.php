@@ -12,6 +12,7 @@
 <script type="text/javascript" src="games/tornadoom/scripts/objects/probe.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/objects/barn.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/objects/ammoObject.js"></script>
+<script type="text/javascript" src="games/tornadoom/scripts/objects/tree.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/behaviours/ObjectControllers.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/game.js"></script>
 <script type="text/javascript" src="games/tornadoom/scripts/messageSystems/hud.js"></script>

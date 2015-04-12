@@ -116,53 +116,74 @@ function BuildGame() {
     hillyHorizon.SetModel(GameMngr.assets.models['horizon']);
     hillyHorizon.mdlHdlr.SetTexture(GameMngr.assets.textures['groundTex'], TextureFilters.mipmap);
 
-    /*
-    var shrub = new GameObject('shrub', Labels.none);
-    shrub.SetModel(GameMngr.assets.models['brownShrub']);
-    shrub.mdlHdlr.SetTexture(GameMngr.assets.textures['brownShrubTex'], TextureFilters.mipmap);
-    */
-
-    var wagonPos = [
-        [],
-        [],
-        []
+    var NUM_BUSHY_TREES = 12,
+        NUM_TALL_TREES = 15;
+    var bushyTreeXZPos = [
+        [-48.0, -40.0], [-46.0, -41.0], [-45.0, -42.0],
+        [-44.5, 61.0], [54.5, -68.0], [0.0, 70.0],
+        [50.0, 20.0], [50.5, 21.0], [49.0, 23.0],
+        [52.0, 20.5], [52.5, 22.0], [52.0, 23.5]
+    ],
+        tallTreeXZPos = [
+        [-47.0, -44.0], [-48.5, -42.0], [-44, -40.0],
+        [-45.0, 60.0], [-49.0, 59.0], [-46.5, 58.0],
+        [-48.0, 57.0], [-45.0, 57.0], [-46.5, 56.0],
+        [-48.5, 60.0], [-45.5, 59.0], [-47.0, 58.0],
+        [49.5, 21.5], [50.0, 24.0], [2.0, 71.5]
     ];
-    var wagons = [];
-    var wagon = new GameObject('wagon', Labels.none);
-    wagon.SetModel(GameMngr.assets.models['wagon']);
-    wagon.mdlHdlr.SetTexture(GameMngr.assets.textures['wagonTex'], TextureFilters.mipmap);
+    var bushyTrees = [],
+        tallTrees = [];
+    for(var i = 0; i < NUM_BUSHY_TREES; i++) {
+        bushyTrees[i] = new Tree(GameMngr.assets.models['treeBranches2'], GameMngr.assets.textures['foliageTexBright']);
+        bushyTrees[i].trfmBase.SetPosXZ(bushyTreeXZPos[i][0], bushyTreeXZPos[i][1]);
+    }
+    for(var i = 0; i < NUM_TALL_TREES; i++) {
+        tallTrees[i] = new Tree(GameMngr.assets.models['treeBranches'], GameMngr.assets.textures['foliageTexDark']);
+        tallTrees[i].trfmBase.SetPosXZ(tallTreeXZPos[i][0], tallTreeXZPos[i][1]);
+    }
 
-    /*
-    var chickenPos = [
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        []
-    ];
-    var chickens = [];
-    var chicken = new GameObject('chicken', Labels.none);
-    chicken.SetModel(GameMngr.assets.models['chicken']);
-    chicken.mdlHdlr.SetTexture(GameMngr.assets.textures['chickenTex'], TextureFilters.mipmap);
+    var pen = new GameObject('pen', Labels.none);
+    pen.SetModel(GameMngr.assets.models['pen']);
+    var penRadii = pen.shapeData.radii;
+    pen.mdlHdlr.SetTintRGB(0.3, 0.225, 0.0);
+    pen.trfmBase.SetPosXZ(38.0 + penRadii.x, -15.0);
 
-    var sheepPos = [
-        [],
-        [],
-        [],
-        []
-    ];
-    var sheeps = [];
-    var sheep = new GameObject('sheep', Labels.none);
-    sheep.SetModel(GameMngr.assets.models['sheep']);
-    */
+    var NUM_WAGONS = 3,
+        NUM_CHICKENS = 6,
+        NUM_SHEEP = 3;
 
-    var chickenPen = new GameObject('chicken pen', Labels.none);
-    chickenPen.SetModel(GameMngr.assets.models['chickenPen']);
-    chickenPen.mdlHdlr.SetTintRGB(0.3, 0.225, 0.0);
+    var wagons = [],
+        chickens = [],
+        sheep = [];
+
+    var wagonPos = [[10.0, -40.0], [12.0, -40.0], [40.0, -15.0 + penRadii.z * 1.5]],
+        chickenPos = [[-1.25, -1.0], [0.25, 0.0], [1.5, -1.5], [-1.5, 0.5], [0.0, 2.0], [2.0, 1.0]],
+        sheepPos = [[0.0, -1.5], [-1.0, 1.0], [1.0, 1.5]];
+
+    for(var i = 0; i < NUM_WAGONS; i++) {
+        wagons[i] = new GameObject('wagon', Labels.none);
+        wagons[i].SetModel(GameMngr.assets.models['wagon']);
+        wagons[i].mdlHdlr.SetTexture(GameMngr.assets.textures['wagonTex'], TextureFilters.mipmap);
+        wagons[i].trfmBase.SetPosXZ(wagonPos[i][0], wagonPos[i][1]);
+        wagons[i].trfmBase.SetUpdatedRot(VEC3_UP, Math.random() * 360.0);
+    }
+
+    for(var i = 0; i < NUM_CHICKENS; i++) {
+        chickens[i] = new GameObject('chicken', Labels.none);
+        pen.AddChild(chickens[i]);
+        chickens[i].SetModel(GameMngr.assets.models['chicken']);
+        chickens[i].mdlHdlr.SetTexture(GameMngr.assets.textures['chickenTex'], TextureFilters.mipmap);
+        chickens[i].trfmBase.SetPosByAxes(chickenPos[i][0], -penRadii.y, chickenPos[i][1]);
+        chickens[i].trfmBase.SetUpdatedRot(VEC3_UP, Math.random() * 360.0);
+    }
+    for(var i = 0; i < NUM_SHEEP; i++) {
+        sheep[i] = new GameObject('chicken', Labels.none);
+        pen.AddChild(sheep[i]);
+        sheep[i].SetModel(GameMngr.assets.models['sheep']);
+        sheep[i].trfmBase.SetPosByAxes(sheepPos[i][0], -penRadii.y, sheepPos[i][1]);
+        sheep[i].trfmBase.SetUpdatedRot(VEC3_UP, Math.random() * 360.0);
+    }
+
     // -------------------------------------------------------------------------
 
     /********************************** Helper functions **********************************/
@@ -171,16 +192,21 @@ function BuildGame() {
         that.RaiseToGroundLevel(barn.obj);
         that.RaiseToGroundLevel(hillyHorizon);
         hillyHorizon.trfmBase.TranslateByAxes(0.0, -0.14, 0.0);
-        that.RaiseToGroundLevel(wagon);
-        wagon.trfmBase.SetPosXZ(10.0, -10.0);
-        /*
-        that.RaiseToGroundLevel(chicken);
-        that.RaiseToGroundLevel(sheep);
-        sheep.trfmBase.SetPosXZ(1.0, -1.0);
-        that.RaiseToGroundLevel(shrub);
-        shrub.trfmBase.SetPosXZ(-1.0, 1.0);
-        */
-        that.RaiseToGroundLevel(chickenPen);
+
+        that.RaiseToGroundLevel(pen);
+        // Make sure all children have appropriate global positions before adjusting
+        pen.Update();
+
+        for(var i = 0; i < NUM_CHICKENS; i++)
+            that.RaiseToGroundLevel(chickens[i]);
+        for(var i = 0; i < NUM_SHEEP; i++)
+            that.RaiseToGroundLevel(sheep[i]);
+        for(var i = 0; i < NUM_WAGONS; i++)
+            that.RaiseToGroundLevel(wagons[i]);
+        for(var i = 0; i < NUM_BUSHY_TREES; i++)
+            that.RaiseToGroundLevel(bushyTrees[i]);
+        for(var i = 0; i < NUM_TALL_TREES; i++)
+            that.RaiseToGroundLevel(tallTrees[i]);
     }
     function GameUpdate() {
         if (SceneMngr.GetActiveScene().type == SceneTypes.gameplay) {
@@ -357,6 +383,13 @@ function BuildGame() {
     lvl01.Add(alienBarrier);
     lvl01.Add(skyBox);
     lvl01.Add(hillyHorizon);
+    lvl01.Add(pen);
+    for(var i = 0; i < NUM_WAGONS; i++)
+        lvl01.Add(wagons[i]);
+    for(var i = 0; i < NUM_BUSHY_TREES; i++)
+        lvl01.Add(bushyTrees[i]);
+    for(var i = 0; i < NUM_TALL_TREES; i++)
+        lvl01.Add(tallTrees[i]);
     BuildLvl01(this, lvl01, player, barn, cows.slice(0, 3), hud, gameMouse, lvlCompMsg);
     SceneMngr.AddScene(lvl01, false);
 
@@ -369,13 +402,14 @@ function BuildGame() {
     lvl02.Add(alienBarrier);
     lvl02.Add(skyBox);
     lvl02.Add(hillyHorizon);
-    /*
-    lvl02.Add(wagon);
-    lvl02.Add(chicken);
-    lvl02.Add(sheep);
-    lvl02.Add(chickenPen);
-    lvl02.Add(shrub);
-    */
+
+    lvl02.Add(pen);
+    for(var i = 0; i < NUM_WAGONS; i++)
+        lvl02.Add(wagons[i]);
+    for(var i = 0; i < NUM_BUSHY_TREES; i++)
+        lvl02.Add(bushyTrees[i]);
+    for(var i = 0; i < NUM_TALL_TREES; i++)
+        lvl02.Add(tallTrees[i]);
     BuildLvl02(this, lvl02, player, barn, cows.slice(0, 7), haybales.slice(0, 5), ufo, hud, gameMouse, lvlCompMsg);
     SceneMngr.AddScene(lvl02, false);
 

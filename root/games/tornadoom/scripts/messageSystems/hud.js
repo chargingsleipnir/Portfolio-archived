@@ -64,7 +64,7 @@ function CreateHUD() {
     hudSys.AddTextObject("menuAccessMsg", new GUITextObject(new WndRect(0, 0, 200, 20), "P: Pause/Menu", style));
 
     // CountDownTimer
-    barRect = new WndRect( 0, 230, 50, -200);
+    barRect = new WndRect( 0, hudSys.sysRect.h/2 + 200, 30, -400);
     powerBarStyle.bgColour.SetValues(1.0, 1.0, 1.0);
     powerBarStyle.bgAlpha = 0.25;
     hudSys.AddProgressObject("countdownBar", new GUIProgressBar(barRect, Axes.y, powerBarStyle));

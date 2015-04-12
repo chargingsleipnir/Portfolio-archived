@@ -41,13 +41,13 @@ function BuildLvl02(game, scene, player, barn, cows, haybales, ufo, hud, mouse, 
         [20.0, 0.0, -10.0]
     ];
     var phase2CowPos = [
-        [14.0, 0.0, -29.0],
-        [-23.0, 0.0, -23.0],
+        [19.0, 0.0, -29.0],
+        [-27.0, 0.0, 19.0],
         [27.0, 0.0, 21.0],
-        [-31.0, 0.0, 7.0],
-        [-12.0, 0.0, -10.0],
-        [12.0, 0.0, 30.0],
-        [-5.0, 0.0, 17.0]
+        [-31.0, 0.0, -30.0],
+        [-16.0, 0.0, -3.0],
+        [8.0, 0.0, -15.0],
+        [0.0, 0.0, 0.0]
     ];
     var balePos = [
         [23.0, 0.0, 8.0],
@@ -206,8 +206,7 @@ function BuildLvl02(game, scene, player, barn, cows, haybales, ufo, hud, mouse, 
 
         for(var i = 0; i < cows.length; i++ ) {
             cows[i].SetVisible(false);
-            var random = Math.random();
-            cows[i].trfmBase.SetUpdatedRot(VEC3_UP, random * 360.0);
+            cows[i].trfmBase.SetUpdatedRot(VEC3_UP, Math.random() * 360.0);
         }
         // Start off with just three cows.
         for(var i = 0; i < NUM_COWS_PHASE_1; i++ ) {
