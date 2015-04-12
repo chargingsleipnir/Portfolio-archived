@@ -223,7 +223,7 @@ function Player() {
     // Shoot when released
     var aimDir = new Vector3();
     function ShotReleased() {
-        if(ammoCont[ammoIdx])
+        if(ammoCont[ammoIdx] && controlActive)
             Shoot(aimDir);
     }
 

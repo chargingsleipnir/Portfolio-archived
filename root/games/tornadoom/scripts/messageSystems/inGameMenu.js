@@ -8,6 +8,10 @@ function InGameMenu(gameMouse, player, ResetCallback) {
     var pages = { main: 0, devContol: 1 };
     var ActivePageUpdate; // Function holder
 
+    var mouseLeftDownLastFrame = false,
+        mouseLeftDownThisFrame = false,
+        mouseLeftUp = false;
+
     var camToggle = true;
     var menuToggle = false;
     var menuSysName = "Main Menu";
@@ -55,18 +59,15 @@ function InGameMenu(gameMouse, player, ResetCallback) {
 
     // Callbacks
     function ResumeCallback() {
-        gameMouse.LeftRelease();
         that.SetActive(false);
         GameMngr.assets.sounds['tick'].play();
     }
     function QuitCallback() {
-        gameMouse.LeftRelease();
         that.SetActive(false);
         GameMngr.assets.sounds['tick'].play();
         ResetCallback();
     }
     function ToDevPageCallback() {
-        gameMouse.LeftRelease();
         GameMngr.assets.sounds['tick'].play();
         ActivatePage(pages.devContol);
     }
@@ -128,7 +129,6 @@ function InGameMenu(gameMouse, player, ResetCallback) {
     // Callbacks
     function ToMainPageCallback() {
         ActivatePage(pages.main);
-        gameMouse.LeftRelease();
         GameMngr.assets.sounds['tick'].play();
     }
     function CamChangeCallback() {
@@ -144,7 +144,6 @@ function InGameMenu(gameMouse, player, ResetCallback) {
             ViewMngr.SetActiveCamera();
             devPageDiodes['freeCam'].UseTexture(1);
         }
-        gameMouse.LeftRelease();
         GameMngr.assets.sounds['tick'].play();
     }
     function DispOrientAxesCallback() {
@@ -180,27 +179,23 @@ function InGameMenu(gameMouse, player, ResetCallback) {
     function DispWorldAxesCallback() {
         DebugMngr.dispAxes = !DebugMngr.dispAxes;
         DebugMngr.dispAxes ? devPageDiodes['worldAxes'].UseTexture(1) : devPageDiodes['worldAxes'].UseTexture(0);
-        gameMouse.LeftRelease();
         GameMngr.assets.sounds['tick'].play();
     }
     function DispGridCallback() {
         DebugMngr.dispGrid = !DebugMngr.dispGrid;
         DebugMngr.dispGrid ? devPageDiodes['grid'].UseTexture(1) : devPageDiodes['grid'].UseTexture(0);
-        gameMouse.LeftRelease();
         GameMngr.assets.sounds['tick'].play();
     }
     function DispGameDataCallback() {
         DebugMngr.dispInfo = !DebugMngr.dispInfo;
         DebugMngr.dispInfo ? devPageDiodes['gameData'].UseTexture(1) : devPageDiodes['gameData'].UseTexture(0);
         GUINetwork.SetActive("Performance Data", DebugMngr.dispInfo);
-        gameMouse.LeftRelease();
         GameMngr.assets.sounds['tick'].play();
     }
     // Not a callback, helper function
     function MenuDebugUpdate() {
         var scene = SceneMngr.GetActiveScene();
         scene.debug.UpdateActiveDispObjs();
-        gameMouse.LeftRelease();
         GameMngr.assets.sounds['tick'].play();
     }
 
@@ -216,22 +211,22 @@ function InGameMenu(gameMouse, player, ResetCallback) {
     GUINetwork.AddSystem(mainMenu, false);
 
     function UpdatePageMain() {
-        mainPageObjs[0].AsButton(gameMouse.pos, gameMouse.leftPressed, ResumeCallback);
-        mainPageObjs[1].AsButton(gameMouse.pos, gameMouse.leftPressed, QuitCallback);
-        mainPageObjs[2].AsButton(gameMouse.pos, gameMouse.leftPressed, ToDevPageCallback);
+        mainPageObjs[0].AsButton(gameMouse.pos, mouseLeftUp, ResumeCallback);
+        mainPageObjs[1].AsButton(gameMouse.pos, mouseLeftUp, QuitCallback);
+        mainPageObjs[2].AsButton(gameMouse.pos, mouseLeftUp, ToDevPageCallback);
     }
     function UpdatePageDevControl() {
-        devPageObjs[0].AsButton(gameMouse.pos, gameMouse.leftPressed, ToMainPageCallback);
-        devPageObjs[1].AsButton(gameMouse.pos, gameMouse.leftPressed, CamChangeCallback);
-        devPageObjs[2].AsButton(gameMouse.pos, gameMouse.leftPressed, DispOrientAxesCallback);
-        devPageObjs[3].AsButton(gameMouse.pos, gameMouse.leftPressed, DispCollSpheresCallback);
-        devPageObjs[4].AsButton(gameMouse.pos, gameMouse.leftPressed, DispCollCapsulesCallback);
-        devPageObjs[5].AsButton(gameMouse.pos, gameMouse.leftPressed, DispCollDonutsCallback);
-        devPageObjs[6].AsButton(gameMouse.pos, gameMouse.leftPressed, DispCollBoxesCallback);
-        devPageObjs[7].AsButton(gameMouse.pos, gameMouse.leftPressed, DispVelocityRaysCallback);
-        devPageObjs[8].AsButton(gameMouse.pos, gameMouse.leftPressed, DispWorldAxesCallback);
-        devPageObjs[9].AsButton(gameMouse.pos, gameMouse.leftPressed, DispGridCallback);
-        devPageObjs[10].AsButton(gameMouse.pos, gameMouse.leftPressed, DispGameDataCallback);
+        devPageObjs[0].AsButton(gameMouse.pos, mouseLeftUp, ToMainPageCallback);
+        devPageObjs[1].AsButton(gameMouse.pos, mouseLeftUp, CamChangeCallback);
+        devPageObjs[2].AsButton(gameMouse.pos, mouseLeftUp, DispOrientAxesCallback);
+        devPageObjs[3].AsButton(gameMouse.pos, mouseLeftUp, DispCollSpheresCallback);
+        devPageObjs[4].AsButton(gameMouse.pos, mouseLeftUp, DispCollCapsulesCallback);
+        devPageObjs[5].AsButton(gameMouse.pos, mouseLeftUp, DispCollDonutsCallback);
+        devPageObjs[6].AsButton(gameMouse.pos, mouseLeftUp, DispCollBoxesCallback);
+        devPageObjs[7].AsButton(gameMouse.pos, mouseLeftUp, DispVelocityRaysCallback);
+        devPageObjs[8].AsButton(gameMouse.pos, mouseLeftUp, DispWorldAxesCallback);
+        devPageObjs[9].AsButton(gameMouse.pos, mouseLeftUp, DispGridCallback);
+        devPageObjs[10].AsButton(gameMouse.pos, mouseLeftUp, DispGameDataCallback);
     }
 
     function ActivatePage(page) {
@@ -255,6 +250,10 @@ function InGameMenu(gameMouse, player, ResetCallback) {
     }
     ActivatePage(pages.main);
 
+    function CheckMouseLeftUp() {
+        mouseLeftUp = mouseLeftDownLastFrame && !mouseLeftDownThisFrame;
+    }
+
     this.CheckActive = function() {
         return GUINetwork.CheckActive(menuSysName);
     };
@@ -263,11 +262,13 @@ function InGameMenu(gameMouse, player, ResetCallback) {
         GameMngr.SetPaused(beActive);
         menuToggle = beActive;
         if (beActive) {
+            player.SetControlActive(false);
             if(!GUINetwork.CheckActive(menuSysName))
                 GUINetwork.SetActive(menuSysName, beActive);
             Input.SetPointerLock(false);
         }
         else {
+            player.SetControlActive(true);
             if(GUINetwork.CheckActive(menuSysName))
                 GUINetwork.SetActive(menuSysName, beActive);
 
@@ -281,5 +282,9 @@ function InGameMenu(gameMouse, player, ResetCallback) {
     this.Update = function() {
         if(GUINetwork.CheckActive(menuSysName))
             ActivePageUpdate();
+
+        mouseLeftDownLastFrame = mouseLeftDownThisFrame;
+        mouseLeftDownThisFrame = gameMouse.leftPressed;
+        CheckMouseLeftUp();
     };
 }
