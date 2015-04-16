@@ -386,8 +386,6 @@ var ModelUtils = {
         ///  <summary>Examines the model's data and build the appropriate shader program strings. Only for 3D GameObject models</summary>
         ///  <param name="vertData" type="object">Vertex data from model, either from entire mesh, or per face</param>
         ///  <param name="materials" type="object">Material from model</param>
-        ///  <param name="outVshdrStr" type="string">Empty string container to contain the vertex shader</param>
-        ///  <param name="outFshdrStr" type="string">Empty string container to contain the fragment shader</param>
         ///  <param name="usesFragLighting" type="bool">If false, light data will be calculated in the vertex shader</param>
         ///  <returns type="void" />
         /// </signature>

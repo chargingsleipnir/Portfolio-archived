@@ -12,7 +12,7 @@ function InGameMenu(gameMouse, player, ResetCallback) {
         mouseLeftDownThisFrame = false,
         mouseLeftUp = false;
 
-    var camToggle = true;
+    var camToggle = false;
     var menuToggle = false;
     var menuSysName = "Main Menu";
     var mainMenu = new GUISystem(new WndRect(ViewMngr.wndWidth/2 - 200, ViewMngr.wndHeight/2 - 300, 400, 600), menuSysName );
@@ -135,14 +135,14 @@ function InGameMenu(gameMouse, player, ResetCallback) {
         // CONTROL SHIFTED TO SEPARATE CAMERA
         camToggle = !camToggle;
         if(camToggle) {
-            player.SetControlActive(true);
-            ViewMngr.SetActiveCamera(player.obj.camera);
-            devPageDiodes['freeCam'].UseTexture(0);
-        }
-        else {
             player.SetControlActive(false);
             ViewMngr.SetActiveCamera();
             devPageDiodes['freeCam'].UseTexture(1);
+        }
+        else {
+            player.SetControlActive(true);
+            ViewMngr.SetActiveCamera(player.obj.camera);
+            devPageDiodes['freeCam'].UseTexture(0);
         }
         GameMngr.assets.sounds['tick'].play();
     }
@@ -268,7 +268,9 @@ function InGameMenu(gameMouse, player, ResetCallback) {
             Input.SetPointerLock(false);
         }
         else {
-            player.SetControlActive(true);
+            if(!camToggle)
+                player.SetControlActive(true);
+
             if(GUINetwork.CheckActive(menuSysName))
                 GUINetwork.SetActive(menuSysName, beActive);
 

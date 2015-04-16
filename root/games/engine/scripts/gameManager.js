@@ -40,13 +40,15 @@ var GameMngr = {
         function DrawLoadMsg(itemPrct, totalPrct) {
             ctx2D.clearRect(0, 0, 800, 800);
             ctx2D.fillStyle = "#FFFFFF";
-            ctx2D.fillText("Loading " + Math.round(totalPrct * 100), 500, 650);
+            ctx2D.fillText("Loading " + Math.round(totalPrct * 100), 500, 700);
+            ctx2D.fillRect(495, 725, 210, 20);
+            ctx2D.fillRect(495, 755, 210, 20);
             ctx2D.fillStyle = "#191919";
-            ctx2D.fillRect(500, 680, 200, 10);
-            ctx2D.fillRect(500, 700, 200, 10);
+            ctx2D.fillRect(500, 730, 200, 10);
+            ctx2D.fillRect(500, 760, 200, 10);
             ctx2D.fillStyle = "#CC8033";
-            ctx2D.fillRect(500, 680, itemPrct*200, 10);
-            ctx2D.fillRect(500, 700, totalPrct*200, 10);
+            ctx2D.fillRect(500, 730, itemPrct*200, 10);
+            ctx2D.fillRect(500, 760, totalPrct*200, 10);
         }
 
         function UserContentLoadComplete() {
@@ -86,14 +88,14 @@ var GameMngr = {
         function RunLoadScreen() {
             canvas.removeEventListener("click", RunLoadScreen);
             ctx2D.clearRect(0, 0, 800, 800);
-            ctx2D.fillText("Loading...", 500, 650);
+            ctx2D.fillText("Loading...", 500, 700);
 
             EL.PreLoad(EngineLoadComplete, CheckProgress, LoadComplete);
         }
         function ShowTornadoomTitle() {
             ctx2D.font = "30px Arial";
             ctx2D.fillStyle = "#FFFFFF";
-            ctx2D.fillText("Click to load", 500, 650);
+            ctx2D.fillText("Click to load", 500, 700);
         }
 
         canvas.addEventListener("click", RunLoadScreen);

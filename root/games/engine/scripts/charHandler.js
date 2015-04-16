@@ -10,7 +10,6 @@ function StaticCharBlock(strBlock, charW, charH, marginW, marginH, maxW, maxH, l
 
     var posCoords = [];
     var texCoords = [];
-
     var greatestWidth = 0.0;
     var blockHeight = strBlock.length * (charH + lineSpace);
 

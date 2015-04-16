@@ -181,7 +181,8 @@ var SceneMngr = (function() {
 
     return {
         AddScene: function(scene, setActive) {
-            // Do a preliminary Update() to get everything in it's place before running collisions, physics, etc.
+            // Preliminary Update() to get everything in it's place
+            // before running collisions, physics, etc.
             scene.rootObj.Update();
 
             scenes[scene.name] = scene;

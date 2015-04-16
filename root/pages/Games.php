@@ -12,6 +12,8 @@ $pgStyleSheet = '<link rel="stylesheet" type="text/css" href="styleSheets/pgGame
 
 require 'globals.php';
 require 'templates/templateData.php';
+
+$xml = simplexml_load_file('externalFiles/EngineComponents.xml');
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +28,9 @@ require 'templates/templateData.php';
     require 'games/engineIncludes.php';
     require 'games/tornadoomIncludes.php';
     ?>
+    <script type="text/javascript" src="javaScripts/elementAnimation.js"></script>
+    <script type="text/javascript" src="javaScripts/pgGames.js"></script>
+    <script type="text/javascript" src="javaScripts/imageMultiLoader.js"></script>
 </head>
 <body>
     <?php require 'templates/titleBanner.php'; ?>
@@ -111,27 +116,49 @@ require 'templates/templateData.php';
             </div>
         </div>
         <p>
+            <strong>About Tornadoom:</strong><br>
+            Tornadoom is more-or-less a tech demo, meant to show off some of the features of Engine von Doom.
+            It's a fun little cow-chuckin' romp that'll give you a good laugh if you're sense of humour is as twisted as mine!
+        </p>
+        <p>
             <strong>About the Engine:</strong><br>
             Tornadoom is built with Engine von Doom, a webGL engine of my own design and build.<br>
             Notable features include:
         </p>
-        <ul>
-            <li>JSON model imports (Python export script made for Blender)</li>
-            <li>GUI system (built-in, not HTML overlay)</li>
-            <li>Particles</li>
-            <li>Various lighting options</li>
-            <li>Flexible key & mouse input system</li>
-            <li>Scene management</li>
-            <li>Mostly Sphere-Swept Volumes for collisions</li>
-            <li>Flexible physics options</li>
-            <li>Comprehensive & flexible API for everything above</li>
+        <ul class="sliderList">
+            <?php for($i = 0; $i < count($xml->Component); $i++) { ?>
+            <li id="slideLaunchElem<?= $i ?>">
+                <script>
+                    var imgCount = 0,
+                        imgElems = [],
+                        imgSrcs = [];
+                </script>
+                <?= $xml->Component[$i]['title']; ?>
+                <div class="engineDescWindow" id="slidingElem<?= $i ?>">
+                    <?php for($j = 0; $j < count($xml->Component[$i]->Block); $j++) {
+                        echo $xml->Component[$i]->Block[$j];
+                        if (isset($xml->Component[$i]->Block[$j]['imgSrc'])) { ?>
+                            <img src="#" id="slidingElemImg<?= $i . $j ?>" />
+                            <script>
+                                imgElems[imgCount] = document.getElementById("slidingElemImg<?= $i . $j ?>");
+                                imgSrcs[imgCount] = "<?php echo $xml->Component[$i]->Block[$j]['imgSrc']; ?>";
+                                imgCount++;
+                            </script>
+                        <?php }
+                    } ?>
+                </div>
+            </li>
+            <script>
+                function ImagesLoaded() {
+                    SetSlideCall(
+                        document.getElementById("slideLaunchElem<?= $i ?>"),
+                        document.getElementById("slidingElem<?= $i ?>")
+                    );
+                }
+                LoadImages(imgElems, imgSrcs, imgCount, ImagesLoaded);
+            </script>
+            <?php } ?>
         </ul>
-        <p>
-            <strong>About Tornadoom:</strong><br>
-            Tornadoom is more-or-less meant to simply show off some of the features of Engine von Doom.
-            It's a fun little cow-chuckin' romp that'll give you a good laugh if you're sense of humour is as twisted as mine!
-        </p>
-
         <div id="gameDescContainer">
 
         </div>

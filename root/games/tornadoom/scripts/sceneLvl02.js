@@ -171,7 +171,7 @@ function BuildLvl02(game, scene, player, barn, cows, haybales, ufo, hud, mouse, 
         "I'll bet those crazy lookin' probe things put that wall up. Maybe if you shoot'em down, we can get my cows in here!",
         "Press the Q or E keys to switch what you want to shoot.",
         "Not sure how to get them up that high? You'll have to put some extra power behind it!",
-        "Hold the right mouse button to get ready for a power-shot.",
+        "Click the right mouse button to get ready for a power-shot.",
         "In this view, move the mouse to aim, hold the left mouse button to build extra power, and release to fire!",
         // Part 2
         "Uh-oh, here she comes, the Mother Ship... Don't let it take my cattle!!",

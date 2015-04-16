@@ -686,7 +686,10 @@
         /******************* GameObject Particle Systems *************************/
         for (var i = 0; i < scene.ptclSystems.length; i++)
         {
-            this.RenderParticleFields(scene.ptclSystems[i].GetSimpleFields(), scene.ptclSystems[i].objGlobalTrfm, mtxVP);
+            this.RenderParticleFields(
+                scene.ptclSystems[i].GetSimpleFields(),
+                scene.ptclSystems[i].objGlobalTrfm,
+                mtxVP);
             this.RenderParticleTails(scene.ptclSystems[i].GetTails(), mtxVP);
         }
     },

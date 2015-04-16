@@ -57,11 +57,13 @@ nav a:hover, nav a.current {
     padding: 10px;
     font-size: 20px;
 }
+/*
 .content ul {
     list-style: square;
     padding-left: 35px;
     font-size: 15px;
 }
+*/
 
 .standoutLink:link, .standoutLink:active, .standoutLink:visited {
     color: white;

@@ -39,6 +39,8 @@ CaughtObj.prototype = {
 
 function Player() {
 
+    var that = this;
+
     // Player characteristics -------------------------------------------------
 
     var windspeed = 10.0;
@@ -76,6 +78,7 @@ function Player() {
 
     // The X and Y are just the mouses screen coords, assuming (0,0) at the centre
     // The Z and scalar are values used to try to control how steep the new direction becomes
+    var isOverShoulderAiming = false;
     var mouseAimX = 0;
     var mouseAimY = 0;
     var AIM_INCR = 10.0;
@@ -83,8 +86,6 @@ function Player() {
     var mouseAimZ = -25;
     var mouseAimScalar = 0.1;
     var crosshairLength = 5.0;
-
-    var that = this;
 
     // Basic player obj visual -------------------------------------------------
 
@@ -186,9 +187,9 @@ function Player() {
     that.obj.camera.trfmAxes.SetRotatedLocalViewX(-15);
     ViewMngr.SetActiveCamera(this.obj.camera);
 
+    // Key controls
     var playerCtrlName = "PlayerCtrl";
     Input.RegisterControlScheme(playerCtrlName, true, InputTypes.keyboard);
-
     var btnAmmoScrollLeft = Input.CreateInputController(playerCtrlName, KeyMap.Q);
     var btnAmmoScrollRight = Input.CreateInputController(playerCtrlName, KeyMap.E);
 
@@ -201,23 +202,26 @@ function Player() {
     ctrl.SetActive(true);
     var controlActive = true;
 
-    // Allow player to hold right mouse button to go into a view where they use the mouse
+    // Allow player to press the right mouse button to go into a view where they use the mouse
     // to aim within a given window around the direction they are facing.
-    function AimTogglePressed() {
-        that.obj.camera.trfmAxes.SetPosAxes(0.85, 0.75, 5.0);
-        that.obj.camera.trfmAxes.SetRotatedLocalViewX(10);
-        ctrl.SetCanRotate(false);
-        aimDirVisual.Run();
-    }
-    function AimToggleReleased() {
-        that.obj.camera.trfmAxes.SetPosAxes(0.0, 4.0, 8.0);
-        that.obj.camera.trfmAxes.SetRotatedLocalViewX(-15);
-        ctrl.SetCanRotate(true);
-        aimDirVisual.Stop();
-        DropLaunchPower();
+    function AimToggle() {
+        isOverShoulderAiming = !isOverShoulderAiming;
+        if(isOverShoulderAiming) {
+            that.obj.camera.trfmAxes.SetPosAxes(0.85, 0.75, 5.0);
+            that.obj.camera.trfmAxes.SetRotatedLocalViewX(10);
+            ctrl.SetCanRotate(false);
+            aimDirVisual.Run();
+        }
+        else {
+            that.obj.camera.trfmAxes.SetPosAxes(0.0, 4.0, 8.0);
+            that.obj.camera.trfmAxes.SetRotatedLocalViewX(-15);
+            ctrl.SetCanRotate(true);
+            aimDirVisual.Stop();
+            DropLaunchPower();
+        }
     }
     playerMouse.SetLeftBtnCalls(null, ShotReleased);
-    playerMouse.SetRightBtnCalls(AimTogglePressed, AimToggleReleased);
+    playerMouse.SetRightBtnCalls(AimToggle, null);
 
     // When in this mode, the left mouse button can also be held to charge up the shot.
     // Shoot when released
@@ -296,7 +300,7 @@ function Player() {
     };
     this.GetAimToggleHeld = function() {
         if(controlActive)
-            return playerMouse.rightPressed;
+            return isOverShoulderAiming;
 
         return false;
     };
@@ -397,7 +401,7 @@ function Player() {
 
             // Shooting mechanics
             // Trade-off here, more difficult control, but power can be built
-            if (playerMouse.rightPressed) {
+            if (isOverShoulderAiming) {
                 if(playerMouse.dir.x < -1 || playerMouse.dir.x > 1)
                     mouseAimX = MathUtils.Clamp(mouseAimX+playerMouse.dir.x * 2, -AIM_XY_MAX, AIM_XY_MAX);
                 if(playerMouse.dir.y < -1 || playerMouse.dir.y > 1)

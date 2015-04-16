@@ -86,11 +86,9 @@ function CollisionDonut(obj) {
         planeNorm = new Vector3(1.0, 0.0, 0.0);
         radius = obj.shapeData.radii.x;
         switch(longAxis) {
-            case Axes.y:
-                planarRadius = obj.shapeData.radii.y - radius;
+            case Axes.y: planarRadius = obj.shapeData.radii.y - radius;
                 break;
-            case Axes.z:
-                planarRadius = obj.shapeData.radii.z - radius;
+            case Axes.z: planarRadius = obj.shapeData.radii.z - radius;
                 break;
         }
     }
@@ -98,11 +96,9 @@ function CollisionDonut(obj) {
         planeNorm = new Vector3(0.0, 1.0, 0.0);
         radius = obj.shapeData.radii.y;
         switch(longAxis) {
-            case Axes.x:
-                planarRadius = obj.shapeData.radii.x - radius;
+            case Axes.x: planarRadius = obj.shapeData.radii.x - radius;
                 break;
-            case Axes.z:
-                planarRadius = obj.shapeData.radii.z - radius;
+            case Axes.z: planarRadius = obj.shapeData.radii.z - radius;
                 break;
         }
     }
@@ -110,11 +106,9 @@ function CollisionDonut(obj) {
         planeNorm = new Vector3(0.0, 0.0, -1.0);
         radius = obj.shapeData.radii.z;
         switch(longAxis) {
-            case Axes.x:
-                planarRadius = obj.shapeData.radii.x - radius;
+            case Axes.x: planarRadius = obj.shapeData.radii.x - radius;
                 break;
-            case Axes.y:
-                planarRadius = obj.shapeData.radii.y - radius;
+            case Axes.y: planarRadius = obj.shapeData.radii.y - radius;
                 break;
         }
     }

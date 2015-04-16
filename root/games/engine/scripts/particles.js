@@ -161,7 +161,9 @@ function ParticleFieldAutomated(ptclCount, willStagger, fieldLife, effects) {
                 effects.travelTime,
                 this.stagger * (i),
                 randDir.GetScaleByNum(effects.startDist),
-                effects.conicalDispersion ? randDir.GetScaleByNum(effects.speed) : dir.GetScaleByNum(effects.speed),
+                effects.conicalDispersion ?
+                    randDir.GetScaleByNum(effects.speed) :
+                    dir.GetScaleByNum(effects.speed),
                 effects.acc,
                 effects.dampening,
                 new Vector3(
