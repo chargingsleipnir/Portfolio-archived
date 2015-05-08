@@ -17,9 +17,9 @@ function SetSlideCall(launchElem, slideElem) {
     launchElem.addEventListener('click', function() {
         if(currH <= 0) {
             slideElem.style.display = 'block';
-            AnimateElement.Slide(slideElem, 10, 16, maxHeight, currH, SlideComplete);
+            AnimateElement.Slide(slideElem, 20, 16, maxHeight, currH, SlideComplete);
         }
         else if(currH >= maxHeight)
-            AnimateElement.Slide(slideElem, 10, 16, 0, currH, SlideComplete);
+            AnimateElement.Slide(slideElem, 20, 16, 0, currH, SlideComplete);
     }, false);
 }

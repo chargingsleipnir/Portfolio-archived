@@ -14,3 +14,13 @@ ul {
 div {
     box-sizing: border-box;
 }
+
+.centered {
+    text-align: center;
+}
+
+.subHeaderDispElem {
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px;
+}
