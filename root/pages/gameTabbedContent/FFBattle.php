@@ -8,7 +8,7 @@
 
 <div>
     <h3 class="centered">Final Fantasy Battle</h3>
-    <embed class="subHeaderDispElem" src="externalFiles/FFBattle.swf" width="800" height="600" ></embed>
+    <embed class="subHeaderDispElem" src="externalFiles/ExternalPreloader.swf" width="800" height="600" ></embed>
 </div>
 <br><strong>About Final Fantasy Battle:</strong><br>
 <p>
