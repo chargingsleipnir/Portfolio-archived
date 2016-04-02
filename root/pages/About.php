@@ -20,7 +20,7 @@ require 'templates/templateData.php';
 <body>
     <?php require 'templates/titleBanner.php'; ?>
     <div class="content widthControl">
-    	Work in progress...
+    	Putting awesome stuff out there. :)
     </div>
 </body>
 <?php require 'templates/footer.php'; ?>
