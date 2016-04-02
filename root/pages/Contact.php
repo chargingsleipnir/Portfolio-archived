@@ -20,7 +20,7 @@ require 'templates/templateData.php';
     <?php require 'templates/titleBanner.php'; ?>
     <div class="content widthControl">
         <h3>Reach out anytime!</h3>
-        <a href="odin@doompire.com">Email</a>
+        <a class="standoutLink" href="odin@doompire.com">Email</a>
     </div>
 </body>
 <?php require 'templates/footer.php'; ?>
