@@ -13,8 +13,9 @@ $pgStyleSheet = '<link rel="stylesheet" type="text/css" href="styleSheets/pgGame
 require 'globals.php';
 require 'templates/templateData.php';
 
-$games = ['Metroid', 'FFBattle', 'FrostByte', 'Tornadoom'];
-$gameTabNames = ['Metroid Hunted', 'FF Battle', 'Frost Byte', 'Tornadoom'];
+/* Tornadoom must be the last page to load, to the content loop will stop short and not create the content panels that come after. */
+$games = ['Metroid', 'FFBattle', 'FrostByte', 'FlippinTables', 'Tornadoom'];
+$gameTabNames = ['Metroid Hunted', 'FF Battle', 'Frost Byte', 'Flippin\' Tables', 'Tornadoom'];
 
 $xml = simplexml_load_file('externalFiles/EngineComponents.xml');
 ?>
@@ -52,7 +53,7 @@ $xml = simplexml_load_file('externalFiles/EngineComponents.xml');
         <?php } ?>
     </div>
     <script>
-        // Must activate Tornadoom element/tab and hide the rest. Tornadoom has to come first because it has to fully load
+        // Must activate Tornadoom element/tab and hide the rest. Tornadoom has to come first to show because it has to fully load
         // its images in order to get the correct div heights for the sliding panels
         TabSwitch(<?= array_search('Tornadoom', $games); ?>, <?= count($games) ?>, 'gameTab', 'game');
     </script>
