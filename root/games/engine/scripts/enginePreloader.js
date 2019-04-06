@@ -27,7 +27,8 @@ var EL = {
             ['guiBoxTintTex', 'games/engine/assets/shaders/guiBoxTintTex.vshdr', 'games/engine/assets/shaders/guiBoxTintTex.fshdr'],
             ['guiText', 'games/engine/assets/shaders/guiText.vshdr', 'games/engine/assets/shaders/guiText.fshdr'],
             ['pntCol', 'games/engine/assets/shaders/pntCol.vshdr', 'games/engine/assets/shaders/pntCol.fshdr'],
-            ['pntColTex', 'games/engine/assets/shaders/pntColTex.vshdr', 'games/engine/assets/shaders/pntColTex.fshdr'] // Special for textured particles
+            ['pntColTex', 'games/engine/assets/shaders/pntColTex.vshdr', 'games/engine/assets/shaders/pntColTex.fshdr'], // Special for textured particles
+            ['cubeTex', 'games/engine/assets/shaders/cubeTex.vshdr', 'games/engine/assets/shaders/cubeTex.fshdr'] // Special for cube texture
         ];
         // TEXTURE ASSETS
         var textureNamesFilepaths = [

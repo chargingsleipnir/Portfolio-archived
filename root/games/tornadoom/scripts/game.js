@@ -107,8 +107,18 @@ function BuildGame() {
     var skyBox = new GameObject('skyBox', Labels.none);
     var skyBoxModel = new Primitives.Cube(new Vector3(1.0, 1.0, 1.0), false);
     skyBoxModel.SetForCubeTexturing();
-    skyBox.SetModel(skyBoxModel);
+    skyBox.SetModel(skyBoxModel, false, EL.assets.shaderPrograms['cubeTex']);
     skyBox.mdlHdlr.SetCubeTextures(skyBoxTextures);
+
+    // var newWindow = window.open("about:blank", "", "_blank");
+    // if(newWindow)
+    //     newWindow.document.write(skyBox.mdlHdlr.shdrFilePair.vert);
+
+    // var newWindow2 = window.open("about:blank", "", "_blank");
+    // if(newWindow2)
+    //     newWindow2.document.write(skyBox.mdlHdlr.shdrFilePair.frag);
+
+
     skyBox.trfmBase.SetScaleAxes(150.0, 150.0, 150.0);
     skyBox.trfmBase.TranslateByAxes(0.0, 25.0, 0.0);
 

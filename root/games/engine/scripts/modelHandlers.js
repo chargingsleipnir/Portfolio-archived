@@ -1,7 +1,7 @@
 ﻿
 /******************* MODELS *************************/
 
-function ModelHandler(model, trfmGlobal, radius) {
+function ModelHandler(model, trfmGlobal, radius, showShdrStr = false, shaderData = null) {
     //console.log("\n*****" + model.name + "*****\n");
 
     // Decide whether to draw with Elements or not
@@ -11,7 +11,8 @@ function ModelHandler(model, trfmGlobal, radius) {
     this.bufferData = new BufferData();
     GL.CreateBufferObjects(this.vertData, this.bufferData, false);
 
-    this.shaderData = ModelUtils.BuildShaderProgram(this.vertData, model.materials, true);
+    this.shdrFilePair = {};
+    this.shaderData = shaderData || ModelUtils.BuildShaderProgram(this.vertData, model.materials, true, this.shdrFilePair, showShdrStr);
 
     if(model.materials[0]) {
         this.mat = model.materials[0];

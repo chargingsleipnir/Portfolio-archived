@@ -96,7 +96,7 @@ GameObject.prototype = {
     RemoveLoopCall: function(index) {
         this.loopCalls.splice(index, 1);
     },
-    SetModel: function(model) {
+    SetModel: function(model, showShdrStr = false, shaderData = null) {
         /// <signature>
         ///  <summary>Add model to gameobject. Required before several components can be added</summary>
         ///  <param name="model" type="object">JSON import or Primitive model</param>
@@ -107,7 +107,7 @@ GameObject.prototype = {
         var vertData = ModelUtils.SelectVAOData(this.model.vertices);
         this.shapeData = GeomUtils.GetShapeData3D(vertData.posCoords, true);
 
-        this.mdlHdlr = new ModelHandler(this.model, this.trfmGlobal, this.shapeData.radius);
+        this.mdlHdlr = new ModelHandler(this.model, this.trfmGlobal, this.shapeData.radius, showShdrStr, shaderData);
         /*
         if(this.model.materials[0]) {
             if(this.model.materials[0].mirr.refl > 0.0) {

@@ -381,7 +381,7 @@ var ModelUtils = {
         // Return the last match, for now.
         return matches[matches.length - 1];
     },
-    BuildShaderProgram: function(vertData, materials, usesFragLighting) {
+    BuildShaderProgram: function(vertData, materials, usesFragLighting, outShdrFilePair, dispShdrStr = false) {
         /// <signature>
         ///  <summary>Examines the model's data and build the appropriate shader program strings. Only for 3D GameObject models</summary>
         ///  <param name="vertData" type="object">Vertex data from model, either from entire mesh, or per face</param>
@@ -473,8 +473,14 @@ var ModelUtils = {
         mainFunc += ShdrLines.main.end;
 
         vshdrStr = '' + declaration + mainFunc;
-        //console.log("////////////////////////////////////////////////////////////");
-        //console.log(vshdrStr);
+
+        if(dispShdrStr) {
+            console.log("Vertex shader ==================================");
+            console.log(vshdrStr);
+            let vShdrWindow = window.open("about:blank", "", "_blank");
+            if(vShdrWindow)
+                vShdrWindow.document.write(vshdrStr);
+        }
 
         /******************** FRAGMENT SHADER ********************/
 
@@ -536,10 +542,19 @@ var ModelUtils = {
         mainFunc += ShdrLines.main.end;
 
         fshdrStr = '' + declaration + mainFunc;
-        //console.log("---------------------");
-        //console.log(fshdrStr);
 
-        return GL.CreateShaderPrograms(new ShaderFilePair('', vshdrStr, fshdrStr));
+        if(dispShdrStr) {
+            console.log("Fragment shader ==================================");
+            console.log(fshdrStr);
+            let fShdrWindow = window.open("about:blank", "", "_blank");
+            if(fShdrWindow)
+                fShdrWindow.document.write(fshdrStr);
+        }
+        
+
+        outShdrFilePair = new ShaderFilePair('', vshdrStr, fshdrStr);
+
+        return GL.CreateShaderPrograms(outShdrFilePair);
     }
 };
 

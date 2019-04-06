@@ -2,9 +2,9 @@
     <Component title="JSON model imports (Python export script made for Blender)">
         <Block imgSrc="games/engine/codeSampleImages/code_JSONExporter.jpg">
             <![CDATA[ <p> ]]>
-                I discovered early on that eac vertex could have several different sets of uv coordinates or associated colours
+                I discovered early on that each vertex could have several different sets of uv coordinates or associated colours
                 based on which face was being drawn, so I set up the exporter to capture all of the data (hence getting vertices
-                "byMesh" and "beFaces"), which is later reduced by the engine when it parses the JSON model object. I would certainly
+                "byMesh" and "byFaces"), which is later reduced by the engine when it parses the JSON model object. I would certainly
                 have prefered to hold the data for each vertex only once, but it just wasn't meant to be!
             <![CDATA[ </p> ]]>
         </Block>

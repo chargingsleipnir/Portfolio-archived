@@ -1,5 +1,4 @@
-﻿
-/***** STRUCTS *****/
+﻿/***** STRUCTS *****/
 function ShaderFilePair(name, vshdr, fshder) {
     /// <signature>
     ///  <summary>Structure for string vert and frag shaders</summary>

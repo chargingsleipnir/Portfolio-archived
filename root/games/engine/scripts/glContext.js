@@ -196,8 +196,10 @@
         }*/
     },
     CreateTextureCube: function(faceTextures) {
+
         var texCubeID = this.ctx.createTexture();
         this.ctx.bindTexture(this.ctx.TEXTURE_CUBE_MAP, texCubeID);
+
         this.ctx.texParameteri(this.ctx.TEXTURE_CUBE_MAP, this.ctx.TEXTURE_WRAP_S, this.ctx.CLAMP_TO_EDGE);
         this.ctx.texParameteri(this.ctx.TEXTURE_CUBE_MAP, this.ctx.TEXTURE_WRAP_T, this.ctx.CLAMP_TO_EDGE);
         this.ctx.texParameteri(this.ctx.TEXTURE_CUBE_MAP, this.ctx.TEXTURE_MIN_FILTER, this.ctx.LINEAR);
@@ -219,7 +221,7 @@
             this.ctx.texImage2D(faces[i], 0, this.ctx.RGBA, this.ctx.RGBA, this.ctx.UNSIGNED_BYTE, faceTextures[i]);
         }
 
-        this.ctx.bindTexture(this.ctx.TEXTURE_CUBE_MAP, null);
+        // this.ctx.bindTexture(this.ctx.TEXTURE_CUBE_MAP, null);
         return texCubeID;
     },
     CreateFrameBuffers: function() {

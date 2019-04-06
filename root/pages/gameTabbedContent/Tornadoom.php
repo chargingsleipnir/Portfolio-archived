@@ -60,7 +60,8 @@
                 ['horizon', 'games/tornadoom/assets/models/min_Environment_Horizon.json'],
                 ['treeTrunk', 'games/tornadoom/assets/models/min_Environment_TreeTruck.json'],
                 ['treeBranches', 'games/tornadoom/assets/models/min_Environment_TreeBranches.json'],
-                ['treeBranches2', 'games/tornadoom/assets/models/min_Environment_TreeBranches2.json']
+                ['treeBranches2', 'games/tornadoom/assets/models/min_Environment_TreeBranches2.json'],
+                ['testCube', 'games/engine/assets/models/DimensionTest_PositiveCube.json']
             ];
             var audioNamesFilepaths = [
                 ['tick', "games/tornadoom/assets/sounds/Tick.ogg"],
