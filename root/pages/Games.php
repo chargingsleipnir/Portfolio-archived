@@ -36,6 +36,8 @@ $xml = simplexml_load_file('externalFiles/EngineComponents.xml');
     <script type="text/javascript" src="javaScripts/elementAnimation.js"></script>
     <script type="text/javascript" src="javaScripts/pgGames.js"></script>
     <script type="text/javascript" src="javaScripts/imageMultiLoader.js"></script>
+
+    <style>/* For Fippin' Tables Web version --> a style sheet needs to be present for cursor hiding and custom cursors to work. */</style>
 </head>
 <body>
     <?php require 'templates/titleBanner.php'; ?>
