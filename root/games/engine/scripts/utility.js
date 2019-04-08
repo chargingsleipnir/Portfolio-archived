@@ -5,7 +5,7 @@ window.onerror = function(msg, url, lineno) {
 };
 
 window.onresize = function(event) {
-    //GL.ReshapeWindow(event.currentTarget.outerWidth, event.currentTarget.outerHeight);
+    //wGL.ReshapeWindow(event.currentTarget.outerWidth, event.currentTarget.outerHeight);
     ViewMngr.Resize(event);
 };
 
@@ -554,7 +554,7 @@ var ModelUtils = {
 
         outShdrFilePair = new ShaderFilePair('', vshdrStr, fshdrStr);
 
-        return GL.CreateShaderPrograms(outShdrFilePair);
+        return wGL.CreateShaderPrograms(outShdrFilePair);
     }
 };
 

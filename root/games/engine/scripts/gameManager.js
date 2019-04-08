@@ -60,7 +60,7 @@ var GameMngr = {
             that.canvas.style.backgroundColor = "white";
 
             console.log("GAME STARTUP");
-            GL.Initialize(that.canvas.getContext('webgl'));
+            wGL.Initialize(that.canvas.getContext('webgl'));
             ViewMngr.Initialize();
             Input.Initialize();
             DebugMngr.Initialize();
@@ -129,8 +129,8 @@ var GameMngr = {
             }
 
             that.UserUpdate();
-            GL.RenderScene(ViewMngr.activeCam.mtxCam);
-            GL.RenderGUI();
+            wGL.RenderScene(ViewMngr.activeCam.mtxCam);
+            wGL.RenderGUI();
         }
         LoopGame();
         //window.setInterval(function() {LoopGame()}, 16);

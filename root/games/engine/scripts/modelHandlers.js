@@ -9,7 +9,7 @@ function ModelHandler(model, trfmGlobal, radius, showShdrStr = false, shaderData
 
     // Create Buffer
     this.bufferData = new BufferData();
-    GL.CreateBufferObjects(this.vertData, this.bufferData, false);
+    wGL.CreateBufferObjects(this.vertData, this.bufferData, false);
 
     this.shdrFilePair = {};
     this.shaderData = shaderData || ModelUtils.BuildShaderProgram(this.vertData, model.materials, true, this.shdrFilePair, showShdrStr);
@@ -24,9 +24,9 @@ function ModelHandler(model, trfmGlobal, radius, showShdrStr = false, shaderData
 
     // Get draw method.
     if(model.hasOwnProperty('drawMethod'))
-        this.drawMethod = GL.GetDrawMethod(model.drawMethod);
+        this.drawMethod = wGL.GetDrawMethod(model.drawMethod);
     else
-        this.drawMethod = GL.GetDrawMethod(DrawMethods.triangles);
+        this.drawMethod = wGL.GetDrawMethod(DrawMethods.triangles);
 
     this.active = true;
     this.trfm = trfmGlobal;
@@ -48,10 +48,10 @@ ModelHandler.prototype = {
         return this.tint.w;
     },
     SetTexture: function(texture, texFilter) {
-        this.bufferData.texID = GL.CreateTextureObject(texture, texFilter);
+        this.bufferData.texID = wGL.CreateTextureObject(texture, texFilter);
     },
     SetCubeTextures: function(cubeTextures) {
-        this.bufferData.texCubeID = GL.CreateTextureCube(cubeTextures);
+        this.bufferData.texCubeID = wGL.CreateTextureCube(cubeTextures);
     },
     /*
     SetReflectionCams: function(cams) {
@@ -59,9 +59,9 @@ ModelHandler.prototype = {
         for(var i = 0; i < 6; i++) {
             this.reflCamsMatrices[i] = cams[i].mtxCam;
         }
-        this.bufferData.FBOs[0] = GL.CreateFrameBuffers();
+        this.bufferData.FBOs[0] = wGL.CreateFrameBuffers();
         //for(var i = 0; i < 6; i++) {
-        //    this.bufferData.FBOs[i] = GL.CreateFrameBuffers();
+        //    this.bufferData.FBOs[i] = wGL.CreateFrameBuffers();
         //}
         // These are just texture holding the place of the camera on the cubemap.
         var cubeTextures = [
@@ -72,12 +72,12 @@ ModelHandler.prototype = {
             GameMngr.assets.textures['blueFace'],
             GameMngr.assets.textures['purpleFace']
         ];
-        this.bufferData.texCubeID = GL.CreateTextureCube(cubeTextures);
+        this.bufferData.texCubeID = wGL.CreateTextureCube(cubeTextures);
     },
     */
     MakeWireFrame: function() {
         // Change draw type
-        this.drawMethod = GL.GetDrawMethod(DrawMethods.lines);
+        this.drawMethod = wGL.GetDrawMethod(DrawMethods.lines);
         // provide new list of indices that are essentially just duplicated
         var newIndices = [];
         for(var i = 0; i < this.indices.length; i+=3) {
@@ -89,14 +89,14 @@ ModelHandler.prototype = {
             newIndices.push(this.indices[i]);
         }
         // Change buffer to reflect new set
-        GL.RewriteIndexBuffer(this.bufferData.EABO, newIndices);
+        wGL.RewriteIndexBuffer(this.bufferData.EABO, newIndices);
         this.bufferData.numVerts = newIndices.length;
     },
     MakePointSet: function() {
-        this.drawMethod = GL.GetDrawMethod(DrawMethods.points);
+        this.drawMethod = wGL.GetDrawMethod(DrawMethods.points);
     },
     RewriteVerts: function(vertArray) {
-        GL.RewriteVAO(this.bufferData.VBO, new Float32Array(vertArray));
+        wGL.RewriteVAO(this.bufferData.VBO, new Float32Array(vertArray));
     }
 };
 
@@ -106,9 +106,9 @@ ModelHandler.prototype = {
 function PtclFieldHandler(pntVerts, drawMethod) {
     // Create Buffer
     this.bufferData = new BufferData();
-    GL.CreateBufferObjects(pntVerts, this.bufferData, true);
+    wGL.CreateBufferObjects(pntVerts, this.bufferData, true);
 
-    this.drawMethod = GL.GetDrawMethod(drawMethod);
+    this.drawMethod = wGL.GetDrawMethod(drawMethod);
 
     this.shaderData = EL.assets.shaderPrograms['pntCol'];
 
@@ -116,11 +116,11 @@ function PtclFieldHandler(pntVerts, drawMethod) {
 }
 PtclFieldHandler.prototype = {
     SetTexture: function(texture, texFilter) {
-        this.bufferData.texID = GL.CreateTextureObject(texture, texFilter);
+        this.bufferData.texID = wGL.CreateTextureObject(texture, texFilter);
         this.shaderData = EL.assets.shaderPrograms['pntColTex'];
     },
     RewriteVerts: function(vertArray) {
-        GL.RewriteVAO(this.bufferData.VBO, new Float32Array(vertArray));
+        wGL.RewriteVAO(this.bufferData.VBO, new Float32Array(vertArray));
     }
 };
 
@@ -129,13 +129,13 @@ PtclFieldHandler.prototype = {
 function RayCastHandler(rayVerts) {
     // Create Buffer
     this.bufferData = new BufferData();
-    GL.CreateBufferObjects(rayVerts, this.bufferData, true);
+    wGL.CreateBufferObjects(rayVerts, this.bufferData, true);
 
     this.active = true;
 }
 RayCastHandler.prototype = {
     RewriteVerts: function(vertArray) {
-        GL.RewriteVAO(this.bufferData.VBO, new Float32Array(vertArray));
+        wGL.RewriteVAO(this.bufferData.VBO, new Float32Array(vertArray));
     }
 };
 
@@ -145,7 +145,7 @@ RayCastHandler.prototype = {
 
 function GUIBoxHandler(boxVerts) {
     this.bufferData = new BufferData();
-    GL.CreateBufferObjects(boxVerts, this.bufferData, false);
+    wGL.CreateBufferObjects(boxVerts, this.bufferData, false);
 
     this.shaderData = EL.assets.shaderPrograms['guiBoxTint'];
     this.tint = new Vector4(0.0, 0.0, 0.0, 1.0);
@@ -162,11 +162,11 @@ GUIBoxHandler.prototype = {
         this.tint.w = a;
     },
     RewriteVerts: function(vertArray) {
-        GL.RewriteVAO(this.bufferData.VBO, new Float32Array(vertArray));
+        wGL.RewriteVAO(this.bufferData.VBO, new Float32Array(vertArray));
     },
     SetTextures: function(textures, texFilter) {
         for(var i = 0; i < textures.length; i++)
-            this.texIDs[i] = GL.CreateTextureObject(textures[i], texFilter);
+            this.texIDs[i] = wGL.CreateTextureObject(textures[i], texFilter);
 
         this.bufferData.texID = this.texIDs[0];
         this.shaderData = EL.assets.shaderPrograms['guiBoxTintTex'];
@@ -179,10 +179,10 @@ GUIBoxHandler.prototype = {
 function StringDisplayHandler(stringLine) {
     this.bufferData = new BufferData();
 
-    GL.CreateBufferObjects(stringLine, this.bufferData, true);
+    wGL.CreateBufferObjects(stringLine, this.bufferData, true);
 
     this.tint = new Vector4(0.0, 0.0, 0.0, 1.0);
-    this.bufferData.texID = GL.CreateTextureObject(EL.assets.textures['fontMapBasic'], TextureFilters.nearest);
+    this.bufferData.texID = wGL.CreateTextureObject(EL.assets.textures['fontMapBasic'], TextureFilters.nearest);
 }
 StringDisplayHandler.prototype = {
     SetTintRGB: function(RGBvec3) {
@@ -194,9 +194,9 @@ StringDisplayHandler.prototype = {
         this.tint.w = a;
     },
     RewriteVerts: function(vertArray) {
-        GL.RewriteVAO(this.bufferData.VBO, new Float32Array(vertArray));
+        wGL.RewriteVAO(this.bufferData.VBO, new Float32Array(vertArray));
     },
     UseBoldTexture: function() {
-        GL.CreateTextureObject(EL.assets.textures['fontMapBasicBold'], TextureFilters.nearest, this.bufferData.texID);
+        wGL.CreateTextureObject(EL.assets.textures['fontMapBasicBold'], TextureFilters.nearest, this.bufferData.texID);
     }
 };

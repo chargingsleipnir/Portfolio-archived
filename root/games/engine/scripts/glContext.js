@@ -1,4 +1,4 @@
-﻿var GL = {
+﻿var wGL = {
     ctx: null,
     Initialize: function(contextWebGL) {
         /// <signature>

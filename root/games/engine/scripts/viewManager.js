@@ -22,7 +22,7 @@ var ViewMngr = {
         this.lightProps.model = lightModel;
     },
     Initialize: function() {
-        // Get and use GL canvas window sizing
+        // Get and use wGL canvas window sizing
         var canvasStyles = window.getComputedStyle(GameMngr.canvas, null);
         this.wndWidth = parseFloat(canvasStyles.width);
         this.wndHeight = parseFloat(canvasStyles.height);
@@ -72,7 +72,7 @@ var ViewMngr = {
         this.activeCam = this.camera;
         this.SetActiveCamera(this.camera);
 
-        //GL.ReshapeWindow(this.wndWidth, this.wndHeight);
+        //wGL.ReshapeWindow(this.wndWidth, this.wndHeight);
     },
     Resize: function(event) {
         if(GameMngr.canvas) {
