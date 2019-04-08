@@ -19,6 +19,10 @@ div {
     text-align: center;
 }
 
+.fontSmaller {
+    font-size: smaller;
+}
+
 .subHeaderDispElem {
     display: block;
     margin: 0 auto;
