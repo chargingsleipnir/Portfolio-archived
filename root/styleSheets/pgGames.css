@@ -6,12 +6,12 @@
     height: 800px;
     border: 1px solid black;
 }
-    #gameCanvas {
+    #TornadoomCanvas {
         background-image: url('../images/TornadoomLogo.jpg');
         background-size: cover;
         background-repeat: no-repeat;
     }
-    #gameCanvas:-webkit-full-screen {
+    #TornadoomCanvas:-webkit-full-screen {
         /*
         position: fixed;
         width: 100%;
@@ -19,7 +19,7 @@
         height: 100%;
         */
     }
-    #gameCanvas:-ms-fullscreen {
+    #TornadoomCanvas:-ms-fullscreen {
         /* To go to centre, as webkit naturally does */
         /*
         width: auto;

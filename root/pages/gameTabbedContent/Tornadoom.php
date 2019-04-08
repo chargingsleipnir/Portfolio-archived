@@ -9,7 +9,7 @@
 <div>
     <h3 class="centered">Tornadoom</h3>
     <div id="canvasContainer">
-        <canvas id="gameCanvas" width="800" height="800"></canvas>
+        <canvas id="TornadoomCanvas" width="800" height="800"></canvas>
         <script>
             var textureNamesFilepaths = [
                 ['title', 'games/tornadoom/assets/images/title.png'],
@@ -81,7 +81,7 @@
             DebugMngr.active = true;
             ViewMngr.SetLightProperties(true, LightModels.phong);
 
-            GameMngr.Begin("gameCanvas", BuildGame, textureNamesFilepaths, modelNamesFilepaths, audioNamesFilepaths);
+            GameMngr.Begin("TornadoomCanvas", BuildGame, textureNamesFilepaths, modelNamesFilepaths, audioNamesFilepaths);
         </script>
     </div>
     <iframe class="subHeaderDispElem" src="https://www.youtube.com/embed/yxV5FFod7A8" width="800" height="480" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
