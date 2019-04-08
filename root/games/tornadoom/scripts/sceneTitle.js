@@ -12,8 +12,9 @@ function BuildSceneTitle(scene, gameMouse) {
     style.margin = 10.0;
     style.bgAlpha = 1.0;
     style.bold = true;
+
     var title = new GUITextObject(
-        new WndRect(titleScreen.sysRect.w/2, titleScreen.sysRect.h/2 + 100, 300, 80),
+        new WndRect(titleScreen.sysRect.w/2 + 25, titleScreen.sysRect.h/2 + 125, 300, 80),
         "TORNADOOM",
         style
     );
@@ -43,7 +44,9 @@ function BuildSceneTitle(scene, gameMouse) {
     );
 
     titleScreen.AddTextObject("background", background);
-    titleScreen.AddTextObject("title", title);
+
+    //* Leaving this out for now
+    // titleScreen.AddTextObject("title", title);
     titleScreen.AddTextObject("catchPhrase", catchPhraseMsg);
     titleScreen.AddTextObject("nextSceneMsg", nextSceneMsg);
 

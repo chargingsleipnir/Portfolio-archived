@@ -9,6 +9,7 @@
 <head>
     <title><?php echo $title; ?></title>
     <?php
+    echo $gblIcon;
     echo $gblStylesheet;
     echo $templateStylesheet;
     if(isset($pgStyleSheet))

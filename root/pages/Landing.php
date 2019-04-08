@@ -15,7 +15,10 @@ require 'globals.php';
 <html>
 <head>
     <title><?php echo $title; ?></title>
-    <?php echo $gblStylesheet; ?>
+    <?php 
+    echo $gblIcon;
+    echo $gblStylesheet;
+    ?>
     <link rel="stylesheet" type="text/css" href="styleSheets/landing.css"/>
 </head>
 <body>

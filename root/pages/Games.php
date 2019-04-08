@@ -25,12 +25,11 @@ $xml = simplexml_load_file('externalFiles/EngineComponents.xml');
 <head>
     <title><?php echo $title; ?></title>
     <?php
+    echo $gblIcon;
     echo $gblStylesheet;
     echo $templateStylesheet;
     if(isset($pgStyleSheet))
         echo $pgStyleSheet;
-    require 'games/engineIncludes.php';
-    require 'games/tornadoomIncludes.php';
     ?>
     <script type="text/javascript" src="javaScripts/tabSwitch.js"></script>
     <script type="text/javascript" src="javaScripts/elementAnimation.js"></script>

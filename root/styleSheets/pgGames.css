@@ -1,33 +1,3 @@
-#canvasContainer {
-    display: block;
-    margin: 0 auto;
-    margin-top: 50px;
-    width: 800px;
-    height: 800px;
-    border: 1px solid black;
-}
-    #TornadoomCanvas {
-        background-image: url('../images/TornadoomLogo.jpg');
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
-    #TornadoomCanvas:-webkit-full-screen {
-        /*
-        position: fixed;
-        width: 100%;
-        top: 0;
-        height: 100%;
-        */
-    }
-    #TornadoomCanvas:-ms-fullscreen {
-        /* To go to centre, as webkit naturally does */
-        /*
-        width: auto;
-        height: auto;
-        margin: auto;
-        */
-    }
-
 .sliderList li {
     /* display: inline-block;
     float: left;
