@@ -26,6 +26,7 @@ $xml = simplexml_load_file('externalFiles/EngineComponents.xml');
     <title><?php echo $title; ?></title>
     <?php
     echo $gblIcon;
+    echo $fontAwesome;
     echo $gblStylesheet;
     echo $templateStylesheet;
     if(isset($pgStyleSheet))

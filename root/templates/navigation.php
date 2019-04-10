@@ -8,11 +8,29 @@
 
 <nav>
     <ul>
-        <?php foreach ($pages as $pageId): ?>
         <li>
-            <a <?=(($_GET['pg'] == $pageId) ? 'class="current"' : '')?>
-                href="?pg=<?=$pageId?>"><?=$pageId?></a>
+            <a href="?pg=About" <?=(($_GET['pg'] == "About") ? 'class="current"' : '')?>>
+                <i class="far fa-2x fa-user"></i>
+                <div>About</div>
+            </a>
         </li>
-        <?php endforeach;?>
+        <li>
+            <a href="?pg=Games" <?=(($_GET['pg'] == "Games") ? 'class="current"' : '')?>>
+                <i class="fas fa-2x fa-gamepad"></i>
+                <div>Games</div>
+            </a>
+        </li>
+        <li>
+            <a href="?pg=Anims" <?=(($_GET['pg'] == "Anims") ? 'class="current"' : '')?>>
+                <i class="fas fa-2x fa-film"></i>
+                <div>Animations</div>
+            </a>
+        </li>
+        <li>
+            <a href="?pg=Contact" <?=(($_GET['pg'] == "Contact") ? 'class="current"' : '')?>>
+                <i class="far fa-2x fa-envelope"></i>
+                <div>Contact</div>
+            </a>
+        </li>
     </ul>
 </nav>

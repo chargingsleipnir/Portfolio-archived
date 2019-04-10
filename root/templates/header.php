@@ -10,6 +10,7 @@
     <title><?php echo $title; ?></title>
     <?php
     echo $gblIcon;
+    echo $fontAwesome;
     echo $gblStylesheet;
     echo $templateStylesheet;
     if(isset($pgStyleSheet))

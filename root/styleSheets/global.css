@@ -1,8 +1,16 @@
+html {
+    min-height: 100vh;
+}
+
 body {
+    min-height: 100vh;
     margin: 0 auto;
     text-align: center;
     background-color: #333;
     font-family: lucida grande, tahoma, verdana, arial, sans-serif;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
 }
 
 ul {
@@ -19,6 +27,10 @@ div {
     text-align: center;
 }
 
+.floatR {
+    float: right;
+}
+
 .fontSmaller {
     font-size: smaller;
 }
@@ -27,6 +39,12 @@ div {
     display: block;
     margin: 0 auto;
     margin-top: 25px;
+}
+
+.flexRowVertAlign {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
 }
 
 iframe {

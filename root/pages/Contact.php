@@ -19,8 +19,8 @@ require 'templates/templateData.php';
 <body>
     <?php require 'templates/titleBanner.php'; ?>
     <div class="content widthControl">
+        <a class="standoutLink floatR" href="mailto:devinodin@gmail.com">Email</a>
         <h3>Reach out anytime!</h3>
-        <a class="standoutLink" href="mailto:odin@doompire.com">Email</a>
     </div>
 </body>
 <?php require 'templates/footer.php'; ?>

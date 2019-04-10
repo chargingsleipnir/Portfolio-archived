@@ -20,7 +20,7 @@ require 'templates/templateData.php';
 <body>
     <?php require 'templates/titleBanner.php'; ?>
     <div class="content widthControl">
-        <a class="standoutLink" id="resumeDownload" href="downloads/ProgResume.pdf">Resume</a>
+        <a class="standoutLink floatR" id="resumeDownload" href="downloads/ProgResume.pdf">Resume</a>
         <h3>My career history in a nutshell:</h3>
 
         <p>Emergency Service worker => Game Developer.</p>

@@ -12,7 +12,7 @@
 </div>
 <br><strong>About Metroid Hunted:</strong><br>
 <p>
-    My first big game! This was made by myself and my great friend, <a class="inlineLink" href="http://deedeekaka.com/" target="_blank">Deanna Sowa</a>.
+    My first big game! This was made by myself and my great friend, <a class="inlineLink" href="https://www.linkedin.com/in/deannasowa/?originalSubdomain=ca" target="_blank">Deanna Sowa</a>.
     We had just learned how to implement and animate 2D artwork using XNA, and this was the result. We shared all responsibilities of the game, with my
     greatest focus being on animations.
 </p>

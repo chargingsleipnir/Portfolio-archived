@@ -2,32 +2,33 @@ body {
     background-image: url("../images/valknut3.png");
     background-repeat: no-repeat;
     background-size: cover;
-}
-
-#logoBlock {
-    color: #ffffff;
-    display: block;
-    margin: 50px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* NAVIGATION  */
 nav {
     display: inline-block;
     width: 400px;
+
+}
+
+nav a {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
 }
 
 nav a:link, nav a:active, nav a:visited {
-    display: inline-block;
     width: 100px;
     height: 100px;
     margin: 30px;
     color: white;
-    border-radius: 66px;
-    border: 4px double darkorange;
     line-height: 100px;
     text-decoration: none;
     text-shadow: 0.1em 0.1em #333;
-    font-size: 24px;
+    font-size: 3em;
 }
 nav a:hover {
     color: darkorange;

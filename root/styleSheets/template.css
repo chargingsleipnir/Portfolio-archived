@@ -5,8 +5,8 @@
 }
 #titleBanner {
     width: auto;
-    margin-bottom: 50px;
     padding: 10px 0;
+    margin-bottom: 50px;
     background-color: black;
     color: white;
     text-shadow: 0.1em 0.1em #333;
@@ -21,23 +21,23 @@
 /* NAVIGATION */
 nav {
     height: 100%;
+    display: flex;
+    align-items: center;
 }
 nav ul li {
     float: left;
 }
-nav a:link, nav a:active, nav a:visited {
+nav a {
 
     display: inline-block;
-    width: 60px;
-    height: 60px;
-    margin-left: 20px;
+    margin-left: 40px;
     color: white;
-    border-radius: 66px;
-    border: 4px double darkorange;
-    line-height: 60px;
     text-decoration: none;
     text-shadow: 0.1em 0.1em #333;
-    font-size: 14px;
+    font-size: 1em;
+}
+nav a div {
+    margin-top: 5px;
 }
 nav a:hover, nav a.current {
     color: darkorange;
@@ -52,8 +52,8 @@ nav a:hover, nav a.current {
     text-align: left;
     color: aliceblue;
     width: 100%;
-    min-height: 1000px;
-    margin: 0 auto 50px auto;
+    flex: 1 1 auto;
+    margin: 0px auto 0 auto;
     padding: 10px;
     font-size: 20px;
 }
@@ -89,9 +89,9 @@ nav a:hover, nav a.current {
 footer {
     background-color: #666666;
     width: auto;
-    height: 40px;
+    height: 30px;
     padding: 15px;
-    margin-top: 15px;
+    margin-top: 50px;
     font-size: 14pt;
     color: #fff;
     text-shadow: 0.1em 0.1em #333;

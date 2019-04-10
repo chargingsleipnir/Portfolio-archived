@@ -17,23 +17,34 @@ require 'globals.php';
     <title><?php echo $title; ?></title>
     <?php 
     echo $gblIcon;
+    echo $fontAwesome;
     echo $gblStylesheet;
     ?>
     <link rel="stylesheet" type="text/css" href="styleSheets/landing.css"/>
 </head>
 <body>
-    <div id="logoBlock">
-        <a href="<?=$pageLanding?>"><img width="128px" height="128px" src="<?=$images['logo']?>"></a>
-        <br> Odin von Doom
-    </div>
     <nav>
         <ul>
-            <?php for($i = 0; $i < sizeof($pages); $i+=2 ) {?>
             <li>
-                <?php if(isset($pages[$i])) {?> <a href="?pg=<?=$pages[$i]?>"><?=$pages[$i]?></a><?php }?>
-                <?php if(isset($pages[$i+1])) {?> <a href="?pg=<?=$pages[$i+1]?>"><?=$pages[$i+1]?></a><?php }?>
+                <a href="?pg=About">
+                    <i class="far fa-2x fa-user"></i>&nbsp;&nbsp;About
+                </a>
             </li>
-            <?php }?>
+            <li>
+                <a href="?pg=Games">
+                    <i class="fas fa-2x fa-gamepad"></i>&nbsp;&nbsp;Games
+                </a>
+            </li>
+            <li>
+                <a href="?pg=Anims">
+                    <i class="fas fa-2x fa-film"></i>&nbsp;&nbsp;Animations
+                </a>
+            </li>
+            <li>
+                <a href="?pg=Contact">
+                    <i class="far fa-2x fa-envelope"></i>&nbsp;&nbsp;Contact
+                </a>
+            </li>
         </ul>
     </nav>
 </body>
