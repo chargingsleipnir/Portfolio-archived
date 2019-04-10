@@ -39,7 +39,7 @@ $xml = simplexml_load_file('externalFiles/EngineComponents.xml');
 </head>
 <body>
     <?php require 'templates/titleBanner.php'; ?>
-    <ul class="tabs">
+    <ul class="tabs noStyle">
         <!-- The id names in the TabSwitch function call are the only things that are more-or-less hard coded -->
         <?php for($i = 0; $i < count($games); $i++) { ?>
             <li><a href="javascript:TabSwitch(<?= $i ?>, <?= count($games) ?>, 'gameTab', 'game')" id="gameTab<?= $i ?>"><?= $gameTabNames[$i] ?></a></li>

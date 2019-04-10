@@ -9,7 +9,7 @@
 <div id="titleBanner">
     <div class="widthControl flexRowVertAlign">
         <div id="logoBlock">
-            <a href="<?=$pageLanding?>"><img width="50px" height="50px" src="<?=$images['logo']?>"></a>
+            <a href="?pg=Landing"><img width="50px" height="50px" src="images/logo.png"></a>
         <br> Odin von Doom
         </div>
         <?php require 'templates/navigation.php'; ?>

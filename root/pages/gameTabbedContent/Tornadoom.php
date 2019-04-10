@@ -22,10 +22,10 @@
 
 <br><strong>About the Engine:</strong><br>
 <p>
-    Tornadoom is built with Engine von Doom, a webGL engine of my own design and build.<br>
-    Notable features include:
+    Tornadoom is built with a webGL engine of my own design and build.<br>
+    Notable features include (click section to expand):
 </p>
-<ul class="sliderList">
+<ul class="sliderList noStyle">
     <?php for($i = 0; $i < count($xml->Component); $i++) { ?>
         <li id="slideLaunchElem<?= $i ?>">
             <script>

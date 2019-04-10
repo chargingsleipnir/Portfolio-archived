@@ -24,7 +24,7 @@ require 'globals.php';
 </head>
 <body>
     <nav>
-        <ul>
+        <ul class="noStyle">
             <li>
                 <a href="?pg=About">
                     <i class="far fa-2x fa-user"></i>&nbsp;&nbsp;About
@@ -33,6 +33,11 @@ require 'globals.php';
             <li>
                 <a href="?pg=Games">
                     <i class="fas fa-2x fa-gamepad"></i>&nbsp;&nbsp;Games
+                </a>
+            </li>
+            <li>
+                <a href="?pg=Web">
+                    <i class="fas fa-2x fa-globe-americas"></i>&nbsp;&nbsp;Web&nbsp;apps
                 </a>
             </li>
             <li>

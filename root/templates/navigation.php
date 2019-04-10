@@ -7,7 +7,7 @@
 ?>
 
 <nav>
-    <ul>
+    <ul class="noStyle">
         <li>
             <a href="?pg=About" <?=(($_GET['pg'] == "About") ? 'class="current"' : '')?>>
                 <i class="far fa-2x fa-user"></i>
@@ -18,6 +18,12 @@
             <a href="?pg=Games" <?=(($_GET['pg'] == "Games") ? 'class="current"' : '')?>>
                 <i class="fas fa-2x fa-gamepad"></i>
                 <div>Games</div>
+            </a>
+        </li>
+        <li>
+            <a href="?pg=Web" <?=(($_GET['pg'] == "Web") ? 'class="current"' : '')?>>
+                <i class="fas fa-2x fa-globe-americas"></i>
+                <div>Web&nbsp;apps</div>
             </a>
         </li>
         <li>
