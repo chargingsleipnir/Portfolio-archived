@@ -24,8 +24,14 @@ require 'templates/templateData.php';
             <ul>
                 <li>Various access levels based on registration status and permissions set</li>
                 <li>Smooth transitions/animations</li>
-                <li>Variety of search options for both debates & users</li>
                 <li>Social tools – follow, unfollow, block, bookmark, messaging (IM &amp; mail), etc.</li>
+                <li>Wide range of search tools:
+                    <ul>
+                        <li>Search users to connect with</li>
+                        <li>Search debates by text or tags</li>
+                        <li>The most popular debates are readily listed</li>
+                    </ul>
+                </li>
                 <li>First-principle based rating system; ratings of lower-level arguments override parent argument ratings</li>
                 <li>Favourability display (results of rating averages from the bottom, up)</li>
                 <li>Multiple overview options:
