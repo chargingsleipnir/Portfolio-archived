@@ -6,8 +6,7 @@
  */
 
 if(isset($_GET['pg'])) {
-    $page = $_GET['pg'] . '.php';
-    require_once 'pages/' . $page;
+    require_once 'pages/' . $_GET['pg'] . '.php';
 }
 else {
     require_once 'pages/Landing.php';

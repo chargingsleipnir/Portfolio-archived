@@ -58,3 +58,8 @@ ul.tabs li a.active
 {
     background-color:#666666;
 }
+
+.gameIcon {
+    width: 64px;
+    height: 64px;
+}

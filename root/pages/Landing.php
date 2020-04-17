@@ -25,13 +25,13 @@ require 'globals.php';
 <body>
     <nav>
         <ul class="noStyle">
-            <li>
+            <!-- <li>
                 <a href="?pg=About">
                     <i class="far fa-2x fa-user"></i>&nbsp;&nbsp;About
                 </a>
-            </li>
+            </li> -->
             <li>
-                <a href="?pg=Games">
+                <a href="?pg=Games&gm=DoomLagoon">
                     <i class="fas fa-2x fa-gamepad"></i>&nbsp;&nbsp;Games
                 </a>
             </li>

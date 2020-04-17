@@ -18,7 +18,7 @@ require 'templates/templateData.php';
 <body>
     <?php require 'templates/titleBanner.php'; ?>
     <div class="content widthControl">
-        <h3><a href="https://debatabase.herokuapp.com/" target="_blank">Debatabase</a></h3>
+        <h3><a href="https://debatabase.herokuapp.com/" class="inlineLink" target="_blank">Debatabase</a></h3>
         <p>This is a personal project I built in order to learn Node.js and mongoDB.</p>
         <p>It’s a social, debate-facilitation tool, offering:</p>
             <ul>

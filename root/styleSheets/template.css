@@ -14,9 +14,6 @@
 #titleBanner #logoBlock {
     float: left;
 }
-#titleBanner img {
-    margin: 0 auto;
-}
 
 /* NAVIGATION */
 nav {
@@ -43,6 +40,17 @@ nav a:hover, nav a.current {
     color: darkorange;
     border-color: white;
 }
+
+.innerNav:link, .innerNav:active, .innerNav:visited {
+    color: white;
+    text-decoration: none;
+    text-shadow: 0.1em 0.1em #333;
+    font-weight: bold;
+}
+.innerNav:link:hover, .innerNav:active:hover, .innerNav:visited:hover, .innerNav.current {
+    color: darkorange;
+}
+
 /*-----------------*/
 
 /* CONTENT PANE */
@@ -67,14 +75,15 @@ nav a:hover, nav a.current {
 
 .standoutLink:link, .standoutLink:active, .standoutLink:visited {
     color: white;
-    border: 4px double darkorange;
+    background-color: darkorange;
     padding: 10px;
     text-decoration: none;
-    text-shadow: 0.1em 0.1em #333;
+    font-weight: bold;
+    box-shadow: 2px 2px 2px #333;
 }
 .standoutLink:hover {
     color: darkorange;
-    border-color: #ffffff;
+    background-color: white;
 }
 
 .inlineLink:link, .inlineLink:active, .inlineLink:visited {

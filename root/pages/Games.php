@@ -7,15 +7,23 @@
  * Purpose: Show off work
  */
 
-$title = "Games made by OvD";
 $pgStyleSheet = '<link rel="stylesheet" type="text/css" href="styleSheets/pgGames.css">';
 
 require 'globals.php';
 require 'templates/templateData.php';
 
 /* Tornadoom must be the last page to load, to the content loop will stop short and not create the content panels that come after. */
-$games = ['Metroid', 'FFBattle', 'FrostByte', 'FlippinTables', 'Tornadoom'];
-$gameTabNames = ['Metroid Hunted', 'FF Battle', 'Frost Byte', 'Flippin\' Tables', 'Tornadoom'];
+$games = ['Metroid', 'FFBattle', 'FrostByte', 'FlippinTables', 'Tornadoom', 'DoomLagoon'];
+$gameTabNames = ['Metroid Hunted', 'FF Battle', 'Frost Byte', 'Flippin\' Tables', 'Tornadoom', 'Doom Lagoon'];
+$gameIcons = ['Metroid', 'Umaro', 'Robot', 'Flipper', 'Cow', 'Dragon'];
+
+$game = "DoomLagoon";
+if(isset($_GET['gm'])) {
+    $game = $_GET['gm'];
+}
+
+$index = array_search($game, $gameTabNames, true);
+$title = "Games by Odin: " . $gameTabNames[$index];
 
 $xml = simplexml_load_file('externalFiles/EngineComponents.xml');
 ?>
@@ -25,12 +33,12 @@ $xml = simplexml_load_file('externalFiles/EngineComponents.xml');
 <head>
     <title><?php echo $title; ?></title>
     <?php
-    echo $gblIcon;
-    echo $fontAwesome;
-    echo $gblStylesheet;
-    echo $templateStylesheet;
-    if(isset($pgStyleSheet))
-        echo $pgStyleSheet;
+        echo $gblIcon;
+        echo $fontAwesome;
+        echo $gblStylesheet;
+        echo $templateStylesheet;
+        if(isset($pgStyleSheet))
+            echo $pgStyleSheet;
     ?>
     <script type="text/javascript" src="javaScripts/tabSwitch.js"></script>
     <script type="text/javascript" src="javaScripts/elementAnimation.js"></script>
@@ -39,24 +47,23 @@ $xml = simplexml_load_file('externalFiles/EngineComponents.xml');
 </head>
 <body>
     <?php require 'templates/titleBanner.php'; ?>
-    <ul class="tabs noStyle">
-        <!-- The id names in the TabSwitch function call are the only things that are more-or-less hard coded -->
-        <?php for($i = 0; $i < count($games); $i++) { ?>
-            <li><a href="javascript:TabSwitch(<?= $i ?>, <?= count($games) ?>, 'gameTab', 'game')" id="gameTab<?= $i ?>"><?= $gameTabNames[$i] ?></a></li>
-        <?php } ?>
-    </ul>
-    <div class="content widthControl">
-        <?php for($i = 0; $i < count($games); $i++) { ?>
-        <div id="game<?= $i ?>">
-            <?php require 'pages/gameTabbedContent/' . $games[$i] . '.php'; ?>
+
+    <div id="GamePageColumns" class="flexRowTopAlignSpaced">
+        <ul class="flexColLeftAlign noStyle flex100">
+            <?php for($i = count($games) - 1; $i > -1; $i--) { ?>
+                <li class="margTop10 margLeft25">
+                    <a href="?pg=Games&gm=<?= $games[$i] ?>" class="innerNav flexRowVertAlign <?= $games[$i] == $game ? "current" : "" ?>">
+                        <span class="gameIcon"><img src="images/icons/<?= $gameIcons[$i] ?>.png" /></span>
+                        <span class="margLeft15"><?= $gameTabNames[$i] ?></span>
+                    </a>
+                </li>
+            <?php } ?>
+        </ul>
+        <div class="content widthControl flex10Auto">
+            <?php require 'pages/Games/' . $game . '.php'; ?>
         </div>
-        <?php } ?>
+        <div class="flex100"></div>
     </div>
-    <script>
-        // Must activate Tornadoom element/tab and hide the rest. Tornadoom has to come first to show because it has to fully load
-        // its images in order to get the correct div heights for the sliding panels
-        TabSwitch(<?= array_search('Tornadoom', $games); ?>, <?= count($games) ?>, 'gameTab', 'game');
-    </script>
 </body>
     <?php require 'templates/footer.php'; ?>
 </html>

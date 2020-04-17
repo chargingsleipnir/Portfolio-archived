@@ -7,8 +7,7 @@
 ?>
 
 <div>
-    <h3 class="centered">Final Fantasy Battle</h3>
-    <div class="fontSmaller">Note: If you're using firefox and nothing appears below, you likely need to download the <a href="https://www.adobe.com/products/flashplayer/distribution.html" target="_blank">adobe flash player</a></div>
+    <div class="fontSmaller">Note: If you're using firefox and nothing appears below, you likely need to download the <a href="https://www.adobe.com/products/flashplayer/distribution.html" class="inlineLink" target="_blank">adobe flash player</a></div>
     <embed class="subHeaderDispElem centered" src="externalFiles/ExternalPreloader.swf" width="800" height="600" >
 </div>
 <br><strong>About Final Fantasy Battle:</strong><br>

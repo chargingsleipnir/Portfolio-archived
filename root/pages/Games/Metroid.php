@@ -7,7 +7,6 @@
 ?>
 
 <div>
-    <h3 class="centered">Metroid Hunted</h3>
     <iframe class="subHeaderDispElem" src="https://www.youtube.com/embed/w-79-bWJSWI" width="800" height="480" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
 </div>
 <br><strong>About Metroid Hunted:</strong><br>

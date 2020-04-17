@@ -7,7 +7,6 @@
 ?>
 
 <div>
-    <h3 class="centered">Tornadoom</h3>
     <div class="centred">
         <iframe class="subHeaderDispElem" src="./games/tornadoom/index.php" width="800" height="800" frameborder="0" scrolling="no" allowfullscreen="allowfullscreen"></iframe>
     </div>

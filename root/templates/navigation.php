@@ -8,14 +8,14 @@
 
 <nav>
     <ul class="noStyle">
-        <li>
+        <!-- <li>
             <a href="?pg=About" <?=(($_GET['pg'] == "About") ? 'class="current"' : '')?>>
                 <i class="far fa-2x fa-user"></i>
                 <div>About</div>
             </a>
-        </li>
+        </li> -->
         <li>
-            <a href="?pg=Games" <?=(($_GET['pg'] == "Games") ? 'class="current"' : '')?>>
+            <a href="?pg=Games&gm=DoomLagoon" <?=(($_GET['pg'] == "Games") ? 'class="current"' : '')?>>
                 <i class="fas fa-2x fa-gamepad"></i>
                 <div>Games</div>
             </a>

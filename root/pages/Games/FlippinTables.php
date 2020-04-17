@@ -6,11 +6,9 @@
  */
 ?>
 
-<h3 class="centered">Flippin' Tables</h3>
-
 <p>Just a quick-made game to test the android and ios publishing processes. Android version Includes achievements and leaderboards!</p>
 
-<p>Get it through the <a href="https://play.google.com/store/apps/details?id=com.GVD.FlipnTables" target="_blank">Google Play Store</a>, or download the .apk file directly:&nbsp;&nbsp;&nbsp;<a class="standoutLink" href="downloads/FlippinTables.apk">apk</a></p>
+<p>Get it through the <a href="https://play.google.com/store/apps/details?id=com.GVD.FlipnTables" class="inlineLink" target="_blank">Google Play Store</a>, or download the .apk file directly:&nbsp;&nbsp;&nbsp;<a class="standoutLink" href="downloads/FlippinTables.apk">apk</a></p>
 
 <p>WebGL version:</p>
 <div class="centred">

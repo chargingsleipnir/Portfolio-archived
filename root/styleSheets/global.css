@@ -19,6 +19,10 @@ ul.noStyle {
     margin: 0;
 }
 
+a:visited {
+    color: unset;
+}
+
 div {
     box-sizing: border-box;
 }
@@ -45,8 +49,49 @@ div {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+    justify-content: center;
+}
+
+.flexRowTopAlignSpaced {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}
+
+.flexColLeftAlign {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.flex100 {
+    flex: 1 0 0;
+}
+.flex10Auto {
+    flex: 1 0 auto;
 }
 
 iframe {
     overflow: hidden;
+}
+
+.margCenter {
+    margin: 0 auto !important;
+}
+.margTop10 {
+    margin-top: 10px;
+}
+.margTop20 {
+    margin-top: 20px;
+}
+.margTop40 {
+    margin-top: 40px;
+}
+.margLeft15 {
+    margin-left: 15px;
+}
+.margLeft25 {
+    margin-left: 25px;
 }

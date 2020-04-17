@@ -7,7 +7,6 @@
 ?>
 
 <div>
-    <h3 class="centered">FrostByte</h3>
     <iframe class="subHeaderDispElem" src="https://www.youtube.com/embed/y9ggeiSbCmQ" width="800" height="480" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
 </div>
 
