@@ -7,8 +7,9 @@
 ?>
 
 <p>
-    An MMO ("mini"-multiplayer online) game I built to dabble in server-authoratative gaming.<br />
-    Dev console logs left active for your interest. (Cells/tiles can be clicked or keys I, J, K, L used to get data)
+    An MMO ("mini"-multiplayer online) RPG game I built to dabble in server-authoratative gaming.<br />
+    Up to 3 players can drop into & out-of battles at any time! (Use multiple browsers to try it out!)<br />
+    Allows for local storage or SQL game saves.
 </p>
 
 <p>Play directly here: <a href="https://doomlagoon.herokuapp.com/" class="inlineLink" target="_blank">Doom Lagoon</a></p>
@@ -17,3 +18,5 @@
 <div class="centred">
     <iframe class="subHeaderDispElem" src="https://doomlagoon.herokuapp.com/" width="970" height="610" frameborder="0" scrolling="no" allowfullscreen="allowfullscreen"></iframe>
 </div>
+<p>Dev console logs are still active for your interest. (Click a tile, or use the I, J, K, L keys to get data of neighboring cells/tiles)</p>
+<p>(Not yet optimized for IE/Edge)</p>
