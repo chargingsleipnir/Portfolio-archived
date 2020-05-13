@@ -63,3 +63,27 @@ ul.tabs li a.active
     width: 64px;
     height: 64px;
 }
+
+/* Copy of chat log */
+#ChatLogCopy {
+    width: 960px;
+    height: 200px;
+    padding: 5px 10px;
+    background-color: rgba(255, 255, 255, 0.66);
+    color: black;
+    overflow-y: scroll;
+}
+#ChatLogCopy > li {
+    font-family: monospace;
+    font-size: large;
+}
+#ChatLogCopy > li .chatLogNameSelf {
+    font-size: large;
+    font-weight: bold;
+    color: darkred;
+}
+#ChatLogCopy > li .chatLogName {
+    font-size: large;
+    font-weight: bold;
+    color: darkblue;
+}

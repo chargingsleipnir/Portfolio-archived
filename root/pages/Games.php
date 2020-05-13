@@ -45,7 +45,8 @@ $xml = simplexml_load_file('externalFiles/EngineComponents.xml');
     <script type="text/javascript" src="javaScripts/pgGames.js"></script>
     <script type="text/javascript" src="javaScripts/imageMultiLoader.js"></script>
 </head>
-<body>
+<!-- Only need to run the Chat copy functionality if on the DoomLagoon page. -->
+<body <?php if($game == "DoomLagoon") { ?> onload="CopyChat.Init();"<?php } ?>>
     <?php require 'templates/titleBanner.php'; ?>
 
     <div id="GamePageColumns" class="flexRowTopAlignSpaced">
