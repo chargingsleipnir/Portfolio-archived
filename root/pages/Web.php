@@ -49,7 +49,7 @@ require 'templates/templateData.php';
                 <li>Password: 1234</li>
             </ul>
         </div>
-        <div>
+        <div class="margTop40">
             <h3><a href="https://ovd-messenger.herokuapp.com/" class="inlineLink" target="_blank">Messenger</a></h3>
             <p>Another personal project I built to prototype some ideas I had about gamifying a chat application, and learning React.js, Bootstrap css, and mobile responsive design along the way.</p>
             <p>It’s <i>very</i> basic chat application, in which all active users are immediately displayed to chat with, and one-on-one conversations can take place with those who mutually "like" each other.</p>
