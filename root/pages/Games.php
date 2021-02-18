@@ -22,7 +22,7 @@ if(isset($_GET['gm'])) {
     $game = $_GET['gm'];
 }
 
-$index = array_search($game, $gameTabNames, true);
+$index = array_search($game, $games, true);
 $title = "Games by Odin: " . $gameTabNames[$index];
 
 $xml = simplexml_load_file('externalFiles/EngineComponents.xml');
@@ -30,41 +30,56 @@ $xml = simplexml_load_file('externalFiles/EngineComponents.xml');
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title><?php echo $title; ?></title>
-    <?php
-        echo $gblIcon;
-        echo $fontAwesome;
-        echo $gblStylesheet;
-        echo $templateStylesheet;
-        if(isset($pgStyleSheet))
-            echo $pgStyleSheet;
-    ?>
-    <script type="text/javascript" src="javaScripts/tabSwitch.js"></script>
-    <script type="text/javascript" src="javaScripts/elementAnimation.js"></script>
-    <script type="text/javascript" src="javaScripts/pgGames.js"></script>
-    <script type="text/javascript" src="javaScripts/imageMultiLoader.js"></script>
-</head>
-<!-- Only need to run the Chat copy functionality if on the DoomLagoon page. -->
-<body <?php if($game == "DoomLagoon") { ?> onload="CopyChat.Init();"<?php } ?>>
-    <?php require 'templates/titleBanner.php'; ?>
+    <head>
+        <title><?php echo $title; ?></title>
+        <?php
+            echo $gblIcon;
+            echo $fontAwesome;
+            echo $gblStylesheet;
+            echo $templateStylesheet;
+            if(isset($pgStyleSheet))
+                echo $pgStyleSheet;
+        ?>
+        <script type="text/javascript" src="javaScripts/tabSwitch.js"></script>
+        <script type="text/javascript" src="javaScripts/elementAnimation.js"></script>
+        <script type="text/javascript" src="javaScripts/pgGames.js"></script>
+        <script type="text/javascript" src="javaScripts/imageMultiLoader.js"></script>
+    </head>
+    <!-- Only need to run the Chat copy functionality if on the DoomLagoon page. -->
+    <body <?php if($game == "DoomLagoon") { ?> onload="CopyChat.Init();"<?php } ?>>
+        <?php require 'templates/titleBanner.php'; ?>
 
-    <div id="GamePageColumns" class="flexRowTopAlignSpaced">
-        <ul class="flexColLeftAlign noStyle flex100">
-            <?php for($i = count($games) - 1; $i > -1; $i--) { ?>
-                <li class="margTop10 margLeft25">
-                    <a href="?pg=Games&gm=<?= $games[$i] ?>" class="innerNav flexRowVertAlign <?= $games[$i] == $game ? "current" : "" ?>">
-                        <span class="gameIcon"><img src="images/icons/<?= $gameIcons[$i] ?>.png" /></span>
-                        <span class="margLeft15"><?= $gameTabNames[$i] ?></span>
-                    </a>
-                </li>
-            <?php } ?>
-        </ul>
-        <div class="content widthControl flex10Auto">
-            <?php require 'pages/Games/' . $game . '.php'; ?>
+        <div id="GamePageColumns" class="flexRowTopAlignSpaced">
+            <ul class="flexColLeftAlign noStyle flex100">
+                <?php for($i = count($games) - 1; $i > -1; $i--) { ?>
+                    <li class="margTop10 margLeft25">
+                        <a href="?pg=Games&gm=<?= $games[$i] ?>" class="innerNav flexRowVertAlign <?= $games[$i] == $game ? "current" : "" ?>">
+                            <span class="gameIcon"><img src="images/icons/<?= $gameIcons[$i] ?>.png" /></span>
+                            <span class="margLeft15"><?= $gameTabNames[$i] ?></span>
+                        </a>
+                    </li>
+                <?php } ?>
+            </ul>
+            <div class="content widthControl flex10Auto">
+                <?php require 'pages/Games/' . $game . '.php'; ?>
+            </div>
+            <div class="flex100"></div>
         </div>
-        <div class="flex100"></div>
-    </div>
-</body>
+
+
+        <!-- // TODO: Return to this when ruffle supports action script 3 -->
+        <!-- <script>
+            window.RufflePlayer = window.RufflePlayer || {};
+            window.addEventListener("load", (event) => {
+                const ruffle = window.RufflePlayer.newest();
+                const player = ruffle.createPlayer();
+                const container = document.getElementById("SwfPlayerContainer");
+                container.appendChild(player);
+                player.load("externalFiles/ExternalPreloader.swf");
+                //player.load("Assignment 2.swf");
+            });
+        </script>
+        <script type="text/javascript" src="includes/ruffle/ruffle.js"></script> -->
+    </body>
     <?php require 'templates/footer.php'; ?>
 </html>

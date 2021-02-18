@@ -35,9 +35,7 @@ require 'templates/templateData.php';
         <p>So, I'm on a new path now, building toward a strong career in game development, first by learning computer programming.
          I mostly focus on the programming, but do also take the time to develop my artistic skills as the need & opportunities arise.</p>
 
-        <p>You can find more on my
-            <a class="inlineLink" href="https://www.linkedin.com/pub/odin-von-doom/b1/a58/33?domainCountryName=&csrfToken=ajax%3A0362827175781380255">Linkedin</a>
-            profile!</p>
+        <p>You can find more on my <a class="inlineLink" href="https://www.linkedin.com/pub/odin-von-doom/b1/a58/33?domainCountryName=&csrfToken=ajax%3A0362827175781380255">Linkedin</a> profile!</p>
     </div>
 </body>
 <?php require 'templates/footer.php'; ?>
