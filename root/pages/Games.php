@@ -13,8 +13,8 @@ require 'globals.php';
 require 'templates/templateData.php';
 
 /* Tornadoom must be the last page to load, to the content loop will stop short and not create the content panels that come after. */
-$games = ['Metroid', 'FFBattle', 'FrostByte', 'FlippinTables', 'Tornadoom', 'DoomLagoon'];
-$gameTabNames = ['Metroid Hunted', 'FF Battle', 'Frost Byte', 'Flippin\' Tables', 'Tornadoom', 'Doom Lagoon'];
+$games = ['Metroid', 'FFBattle', 'FrostByte', 'FlippinOut', 'Tornadoom', 'DoomLagoon'];
+$gameTabNames = ['Metroid Hunted', 'FF Battle', 'Frost Byte', 'Flippin\' Out', 'Tornadoom', 'Doom Lagoon'];
 $gameIcons = ['Metroid', 'Umaro', 'Robot', 'Flipper', 'Cow', 'Dragon'];
 
 $game = "DoomLagoon";
